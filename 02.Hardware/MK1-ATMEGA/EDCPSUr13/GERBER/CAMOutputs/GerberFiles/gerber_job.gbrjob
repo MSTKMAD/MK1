@@ -1,0 +1,24 @@
+{
+    "Header": {
+        "Comment": "All values are metric (mm)",
+        "CreationDate": "2020-08-26T15:41:30Z",
+        "GenerationSoftware": {
+            "Application": "EAGLE",
+            "Vendor": "Autodesk",
+            "Version": "9.5.2"
+        },
+        "Part": "Single"
+    },
+    "Overall": {
+        "BoardThickness": 0.805,
+        "LayerNumber": 4,
+        "Name": {
+            "ProjectId": "EDCPSU"
+        },
+        "Owner": "David Garrido <reozen@gmail.com>",
+        "Size": {
+            "X": 96,
+            "Y": 52.9972
+        }
+    }
+}
