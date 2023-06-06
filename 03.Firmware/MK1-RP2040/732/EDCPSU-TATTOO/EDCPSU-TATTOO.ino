@@ -1,11 +1,11 @@
 
 //******************************
-//   VERSION r15.0-31
+//   VERSION r15.0-32
 //*****************************
-#define VERSION 731
+#define VERSION 732
 /*********************************************************************
 EDCPSU Tattoo edition HW r15.0
-22 Marzo 2022
+05 Junio 2023
 IDE Version: 1.8.13
 VERSION: see above
 
@@ -35,11 +35,11 @@ VERSION: see above
 //--------------------------------------------------------------------------------------------------------------
 
 // EDCPSU Configuration
-#define OLED_DC 12
-#define OLED_CS 10
-#define OLED_CLK 13
-#define OLED_MOSI 11
-#define OLED_RESET 8
+#define OLED_DC 16
+#define OLED_CS 17
+#define OLED_CLK 18
+#define OLED_MOSI 19
+#define OLED_RESET 7
 
 #define SDA_PORT PORTC
 #define SDA_PIN 4
@@ -49,7 +49,9 @@ VERSION: see above
 #define I2C_TIMEOUT 1
 #define I2C_NOINTERRUPT 1
 #define I2C_SLOWMODE 1
-#include <SoftI2CMaster.h>
+#include <SlowSoftI2CMaster.h>
+
+SlowSoftI2CMaster si = SlowSoftI2CMaster(SDA_PIN, SCL_PIN, false);
 
 Adafruit_SSD1306 display(128, 64, OLED_MOSI, OLED_CLK, OLED_DC, OLED_RESET, OLED_CS); // Screen size definition needed for new version of GFX Library
 
@@ -156,19 +158,19 @@ const byte TLG_RX_BYTES = 3;              // Bytes compounding a Serial telegram
 const byte ALARM_FLAG = 0; // Flag to report that OVC_ALARM sensor is activated. This is set in ReportFlags report byte in the Test Mode
 const byte PEDAL_FLAG = 1; // Flag to report that PEDAL input is activated. This is set in ReportFlags report byte in the Test Mode
 // ------------------------------------------------- PIN DEFINITION r7,r6 -------------------------------------------
-const int DCDC_EN = A1;  //
+const int DCDC_EN = 2;   //
 const int LED_FRONT = 9; // Arduino 7 (pin 11 in ATMEGA368)
 const int CHG_POL = 7;   // Arduino 9 (pin 13 in ATMEGA368)
-const int ISEN = A7;
-const int VOSEN = A6;
-const int PUSHBUTTON_IP = A2; // HIGH = OFF; LOW = ON
-const int ROTPUSH_IP = A3;    // HIGH = OFF; LOW = ON
-const int ROTA = 4;
-const int OVC_ALARM = 5; // New in r8.0 (before pin 2)
-const int ROTB = 3;
-const int BUZZ = 6;
-const int PEDAL_IP = 2;      // New in r8.0 (before pin 5)
-const int ANALOG_PEDAL = A0; // New in r8.0 (before LED)
+const int ISEN = A1;
+const int VOSEN = A2;
+const int PUSHBUTTON_IP = 3; // HIGH = OFF; LOW = ON
+const int ROTPUSH_IP = 6;    // HIGH = OFF; LOW = ON
+const int ROTA = 24;
+const int OVC_ALARM = 9; // New in r8.0 (before pin 2)
+const int ROTB = 12;
+const int BUZZ = 21;
+const int PEDAL_IP = 8; // New in r8.0 (before pin 5)
+// const int ANALOG_PEDAL = A0; // New in r8.0 (before LED)
 
 //-------------------------- PROGMEM DEFINITION -----------------------------------------------------------------
 
@@ -589,17 +591,18 @@ void setup()
   //Serial.println(VERSION);
 
   // by default, we'll generate the high voltage from the 3.3v line internally! (neat!)
+  Wire.begin();
   display.begin(SSD1306_SWITCHCAPVCC);
-  //Wire.begin();
-  i2c_init();
-
+  EEPROM.begin(512);
+  // i2c_init();
+  analogReadResolution(12);
   // ------ VAR INITIALIZATION ------
 
   RunMode = RUNMODE_NORMAL;
 
   digitalWrite(LED_FRONT, LOW);
   pinMode(LED_FRONT, OUTPUT);
-  pinMode(ANALOG_PEDAL, INPUT);
+  // pinMode(ANALOG_PEDAL, INPUT);
   pinMode(PUSHBUTTON_IP, INPUT);
   pinMode(ROTPUSH_IP, INPUT);
   pinMode(ROTA, INPUT);
@@ -788,9 +791,12 @@ void setup()
 
   //------------ EEPROM RECORDED?? --------
   EEPROMaux = EEPROM[EEPROM_RECORD_STAT];
+  Serial.println(EEPROMaux);
   if (EEPROMaux != EEPROM_RECORDED_DONE)
-
   {
+
+    Serial.println("HI, NON RECORDED");
+
     EEPROM[(MACHINE1_OFFSET + MACHINE_EEPROM_POS0)] = 10; // RECORDS the 1st position of Machine1 memory with default value
     EEPROM[(MACHINE1_OFFSET + MACHINE_EEPROM_POS1)] = 20; // RECORDS the 2nd position of Machine1 memory with default value
     EEPROM[(MACHINE1_OFFSET + MACHINE_EEPROM_POS2)] = 40; // RECORDS the 3rd position of Machine1 memory with default value
@@ -809,8 +815,9 @@ void setup()
     EEPROM[EEPROM_NITRO_STATUS] = NITRO_CFG_NO;        // NITRO configuration
     EEPROM[EEPROM_POLARITY_STATUS] = POL_NORMAL;       // Polarity set to normal by default (relay in resting mode)
     EEPROM[EEPROM_RECORD_STAT] = EEPROM_RECORDED_DONE; // Now signature is set to indicate that EEPROM is recorded
+    EEPROM.commit();
   }
-
+  Serial.println("HI, DUMPED");
   //------- DUMP EEPROM VALUES INTO RAM ARRAY -------
 
   MachinesMemory[0] = EEPROM[(MACHINE1_OFFSET + MACHINE_EEPROM_POS0)];
@@ -900,7 +907,7 @@ void loop()
 
     TPICvalue = pgm_read_byte_near(TPICLookupTable + encoderPos);
     Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);
-
+    Serial.println(TPICvalue);
     DisplayValue = pgm_read_byte_near(DisplayValues + encoderPos);
     VoutTarget = int(DisplayValue * DISP_TO_VTARGET_CONV);
 
@@ -921,6 +928,7 @@ void loop()
       MachinesMemory[(MachineOffset + MachineMemPos)] = encoderPos;
       EEPROMaux = MachineMemPos + MACHINE1_OFFSET;
       EEPROM[EEPROMaux] = (byte)encoderPos;
+      EEPROM.commit();
       RotaryChangedFlag = FLAG_OFF;
       DisplayMessage(RunMode, WRITE_MESSG, "REC", INFO_MESSG, DisplayValue);
       delay(300);
@@ -1119,6 +1127,7 @@ void loop()
         updateDisplayVoltsFLAG = FLAG_ON; // For refreshing the Normal display view
         updateMenuDisplayFLAG = FLAG_OFF; // Disable the Menu display view
         EEPROM[EEPROM_NITRO_STATUS] = NitroStartGrade;
+        EEPROM.commit();
       }
 
       else if (RunMode == RUNMODE_MENU_TIMER)
@@ -1134,6 +1143,7 @@ void loop()
         updateDisplayVoltsFLAG = FLAG_ON; // For refreshing the Normal display view
         updateMenuDisplayFLAG = FLAG_OFF; // Disable the Menu display view
         EEPROM[EEPROM_NITRO_STATUS] = NitroStartGrade;
+        EEPROM.commit();
       }
 
       else if (RunMode == RUNMODE_CHANGE_POL)
@@ -1159,6 +1169,7 @@ void loop()
         updateDisplayVoltsFLAG = FLAG_ON; // For refreshing the Normal display view
         updateMenuDisplayFLAG = FLAG_OFF; // Disable the Menu display view
         EEPROM[EEPROM_POLARITY_STATUS] = PolarityStatus;
+        EEPROM.commit();
       }
       else
       {
@@ -1402,9 +1413,9 @@ void loop()
   if ((PedalNow == PEDAL_ON) || (OutLatchState == true))
   {
     Time = millis();
-    IoutSense = Read_Analog(ISEN);
-    VoutSense = Read_Analog(VOSEN);
-    //Serial.println(VoutSense);
+    IoutSense = Read_Analog(ISEN) / 4;
+    VoutSense = Read_Analog(VOSEN) / 4;
+    // Serial.println(VoutSense);
   }
 
   //------UNDERVOLTAGE LIMIT----------
@@ -1417,8 +1428,8 @@ void loop()
       boolean OVCerror = true;
       while ((OVCerror == true) && ((Time - OVCsenseTime) < OVC_UVOLT_MAX_TIME))
       {
-        //Serial.print('.');
-        VoutSense = Read_Analog(VOSEN);
+        // Serial.print('.');
+        VoutSense = Read_Analog(VOSEN) / 4;
         if ((VoutTarget - VoutSense) < UNDERVOLT_1V5)
         {
           OVCerror = false;
@@ -1427,7 +1438,7 @@ void loop()
       }
       if (OVCerror == true)
       {
-        //Serial.println("UNDERVOLTAGE");
+        Serial.println("UNDERVOLTAGE");
         OVCerrorsConsecutive++;
         Mitigate_OVChazard(&OVCerrorsConsecutive);
         PedalNow = PEDAL_OFF; // After mitigate_ovcHazard the pedal is OFF. It is updated to prevent the following
@@ -1463,8 +1474,8 @@ void loop()
         digitalWrite(CHG_POL, LOW);
         delay(50);
       
-        //Serial.print('-');
-        IoutSense = Read_Analog(ISEN);
+        // Serial.print('-');
+        IoutSense = Read_Analog(ISEN) / 4;
         if (IoutSense < OVC_SENSE_LIMIT_INF)
         {
           OVCerror = false;
@@ -1501,91 +1512,91 @@ void loop()
 //
 //==================================================================================================================
 
+// void Write_TPIC2810(byte address, byte data)
+// {
+//   int result;
+//   int loops;
+//   int danger;
+
+//   i2c_stop();
+//   delay(1);
+//   i2c_stop();
+//   delay(1);
+
+//   result = 0;
+//   loops = 0;
+//   danger = 1;
+//   while ((result == 0) && (loops < 10))
+//   {
+//     result = 1;
+//     loops++;
+
+//     if (!i2c_start(192 | I2C_WRITE))
+//     {
+//       //Serial.print("I2Cerr_1");
+//       result = 0;
+//       danger = 0;
+//     }
+//     if (!i2c_write(68))
+//     {
+//       //Serial.print("I2Cerr_2");
+//       result = 0;
+//       danger = 0;
+//     }
+//     if (!i2c_write(data))
+//     {
+//       //Serial.println("I2Cerr_3");
+//       result = 0;
+//     }
+//     i2c_stop();
+//     delay(1);
+//   }
+
+//   if (danger == 0)
+//   {
+//     //Serial.println("Retry I2C");
+
+//     result = 0;
+//     loops = 0;
+//     while ((result == 0) && (loops < 10))
+//     {
+//       result = 1;
+//       danger = 1;
+//       loops++;
+
+//       if (!i2c_start(192 | I2C_WRITE))
+//       {
+//         //Serial.print("I2Cerr_1+");
+//         result = 0;
+//         danger = 0;
+//       }
+//       if (!i2c_write(68))
+//       {
+//         //Serial.print("I2Cerr_2+");
+//         result = 0;
+//         danger = 0;
+//       }
+//       if (!i2c_write(data))
+//       {
+//         //Serial.println("I2Cerr_3+");
+//         result = 0;
+//       }
+//       i2c_stop();
+//       delay(1);
+//     }
+//   }
+//   else
+//   {
+//     //Serial.println("------");
+//   }
+// }
 void Write_TPIC2810(byte address, byte data)
-{
-  int result;
-  int loops;
-  int danger;
-
-  i2c_stop();
-  delay(1);
-  i2c_stop();
-  delay(1);
-
-  result = 0;
-  loops = 0;
-  danger = 1;
-  while ((result == 0) && (loops < 10))
   {
-    result = 1;
-    loops++;
-
-    if (!i2c_start(192 | I2C_WRITE))
-    {
-      //Serial.print("I2Cerr_1");
-      result = 0;
-      danger = 0;
-    }
-    if (!i2c_write(68))
-    {
-      //Serial.print("I2Cerr_2");
-      result = 0;
-      danger = 0;
-    }
-    if (!i2c_write(data))
-    {
-      //Serial.println("I2Cerr_3");
-      result = 0;
-    }
-    i2c_stop();
-    delay(1);
+  Wire.beginTransmission(byte(96)); // transmit command to device TPIC2810
+  Wire.write(byte(68));             // Command to transfer next value to output register
+  Wire.write(byte(data));
+  Wire.endTransmission(); // stop transmitting
   }
-
-  if (danger == 0)
-  {
-    //Serial.println("Retry I2C");
-
-    result = 0;
-    loops = 0;
-    while ((result == 0) && (loops < 10))
-    {
-      result = 1;
-      danger = 1;
-      loops++;
-
-      if (!i2c_start(192 | I2C_WRITE))
-      {
-        //Serial.print("I2Cerr_1+");
-        result = 0;
-        danger = 0;
-      }
-      if (!i2c_write(68))
-      {
-        //Serial.print("I2Cerr_2+");
-        result = 0;
-        danger = 0;
-      }
-      if (!i2c_write(data))
-      {
-        //Serial.println("I2Cerr_3+");
-        result = 0;
-      }
-      i2c_stop();
-      delay(1);
-    }
-  }
-  else
-  {
-    //Serial.println("------");
-  }
-}
-//void Write_TPIC2810(byte address, byte data)
-//{
-//  Wire.beginTransmission(byte(96)); // transmit command to device TPIC2810
-//  Wire.write(byte(68));             // Command to transfer next value to output register
-//  Wire.write(byte(data));
-//  Wire.endTransmission();     // stop transmitting
-//}
 
 void ShowDisplayValue(int value)
 {
