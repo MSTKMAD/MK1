@@ -1,11 +1,11 @@
 
 //******************************
-//   VERSION r15.0-32
+//   VERSION r15.0-31
 //*****************************
-#define VERSION 732
+#define VERSION 740
 /*********************************************************************
 EDCPSU Tattoo edition HW r15.0
-05 Junio 2023
+22 Marzo 2022
 IDE Version: 1.8.13
 VERSION: see above
 
@@ -41,9 +41,7 @@ VERSION: see above
 #define OLED_MOSI 19
 #define OLED_RESET 7
 
-#define SDA_PORT PORTC
 #define SDA_PIN 4
-#define SCL_PORT PORTC
 #define SCL_PIN 5
 
 #define I2C_TIMEOUT 1
@@ -53,7 +51,7 @@ VERSION: see above
 
 SlowSoftI2CMaster si = SlowSoftI2CMaster(SDA_PIN, SCL_PIN, false);
 
-Adafruit_SSD1306 display(128, 64, OLED_MOSI, OLED_CLK, OLED_DC, OLED_RESET, OLED_CS); // Screen size definition needed for new version of GFX Library
+Adafruit_SSD1306 display(128, 64, OLED_MOSI, OLED_CLK, OLED_DC, OLED_RESET, OLED_CS);
 
 #define XPOS 0
 #define YPOS 1
@@ -80,25 +78,26 @@ const int PUSHBUTTON_OFF = HIGH;
 const int FLAG_ON = true;
 const int FLAG_OFF = false;
 const int NUM_MEMORY = 4;
-const int SAVE_MEM_TIMER = 2000;         // Milliseconds
-const int EEPROM_RECORDED_DONE = 0xDA;   // THis signature indicates if the EEPROM is recorded or if it is brand new and not recorded
-const int EEPROM_POLARITY_STATUS = 0x19; // Initial value for the polarity
-const int EEPROM_NITRO_STATUS = 0X20;    // Position of EEPROM NITRO STATUS  --> INDICATES if NITRO is active or not
-const int EEPROM_RECORD_STAT = 0x21;     // Position of EEPROM RECORDED FLAG --> INDICATES if EEPROM is recorded (when value = EEPROM_RECORDED_DONE)
-const int EEPROM_MNF_YEAR = 0xF0;        // Position of EEPROM MANUFACTURED YEAR (Binary)
-const int EEPROM_MNF_MONTH = 0xF1;       // Position of EEPROM MANUFACTURED YEAR (Binary)
-const int EEPROM_SERIAL_NO = 0xF2;       // Position of EEPROM MANUFACTURED YEAR (Binary)
-const byte NITRO_CFG_NO = 1;             // Nitro Signature configured as NOT (menu selection 1)
-const byte NITRO_CFG_YES = 2;            // Nitro Signature configured as YES (menu selection 2)
-const int MACHINE_EEPROM_POS0 = 0;       // Position 1 of EEPROM --> Stores the position 0 of Machine 1 memory
-const int MACHINE_EEPROM_POS1 = 1;       // Position 1 of EEPROM --> Stores the position 0 of Machine 1 memory
-const int MACHINE_EEPROM_POS2 = 2;       // Position 1 of EEPROM --> Stores the position 0 of Machine 1 memory
-const int MACHINE_EEPROM_POS3 = 3;       // Position 1 of EEPROM --> Stores the position 0 of Machine 1 memory
-const int MACHINE1_OFFSET = 0;           // Offset for both MachinesMemory[] array and EEPROM corresponding to MACHINE_1 WorkingPoint Memories
-const int MACHINE2_OFFSET = 4;           // Offset for both MachinesMemory[] array and EEPROM corresponding to MACHINE_2 WorkingPoint Memories
-const int MACHINE3_OFFSET = 8;           // Offset for both MachinesMemory[] array and EEPROM corresponding to MACHINE_3 WorkingPoint Memories
-const byte NITRO_SETUP_OFF = 0;          // If Nitro setup is taking place
-const byte NITRO_SETUP_ON = 0xAA;        // If No Nitro setup is taking place
+const int SAVE_MEM_TIMER = 2000;       // Milliseconds
+const int EEPROM_RECORDED_DONE = 0xDA; // THis signature indicates if the EEPROM is recorded or if it is brand new and not recorded
+const int EEPROM_POLARITY_STATUS = 0x19;
+;                                     // Initial value for the polarity
+const int EEPROM_NITRO_STATUS = 0X20; // Position of EEPROM NITRO STATUS  --> INDICATES if NITRO is active or not
+const int EEPROM_RECORD_STAT = 0x21;  // Position of EEPROM RECORDED FLAG --> INDICATES if EEPROM is recorded (when value = EEPROM_RECORDED_DONE)
+const int EEPROM_MNF_YEAR = 0xF0;     // Position of EEPROM MANUFACTURED YEAR (Binary)
+const int EEPROM_MNF_MONTH = 0xF1;    // Position of EEPROM MANUFACTURED YEAR (Binary)
+const int EEPROM_SERIAL_NO = 0xF2;    // Position of EEPROM MANUFACTURED YEAR (Binary)
+const byte NITRO_CFG_NO = 1;          // Nitro Signature configured as NOT (menu selection 1)
+const byte NITRO_CFG_YES = 2;         // Nitro Signature configured as YES (menu selection 2)
+const int MACHINE_EEPROM_POS0 = 0;    // Position 1 of EEPROM --> Stores the position 0 of Machine 1 memory
+const int MACHINE_EEPROM_POS1 = 1;    // Position 1 of EEPROM --> Stores the position 0 of Machine 1 memory
+const int MACHINE_EEPROM_POS2 = 2;    // Position 1 of EEPROM --> Stores the position 0 of Machine 1 memory
+const int MACHINE_EEPROM_POS3 = 3;    // Position 1 of EEPROM --> Stores the position 0 of Machine 1 memory
+const int MACHINE1_OFFSET = 0;        // Offset for both MachinesMemory[] array and EEPROM corresponding to MACHINE_1 WorkingPoint Memories
+const int MACHINE2_OFFSET = 4;        // Offset for both MachinesMemory[] array and EEPROM corresponding to MACHINE_2 WorkingPoint Memories
+const int MACHINE3_OFFSET = 8;        // Offset for both MachinesMemory[] array and EEPROM corresponding to MACHINE_3 WorkingPoint Memories
+const byte NITRO_SETUP_OFF = 0;       // If Nitro setup is taking place
+const byte NITRO_SETUP_ON = 0xAA;     // If No Nitro setup is taking place
 const byte BEEP_IS_TRUE = true;
 const byte BEEP_IS_FALSE = false;
 const byte WRITE_MESSG = 1;
@@ -132,13 +131,15 @@ const unsigned long MEM_DISPLAY_TIME = 2000; // Milliseconds
 const int LenNITROLookupTable = 11;
 const int _12_3V_INDEX = 181; // This is the index position in TPIClookuptable corresponding to 12.3V which is the peak value in NITRO mode
 
-const int OVC_SENSE_MAX_TIME = 2000;          // Maximum time that can last the overcurrent with SENSE method (in Milliseconds)
-const int OVC_UVOLT_MAX_TIME = 1000;          // Maximum time that can last the overcurrent with the UNDERVOLTAGE method (Milliseconds)
-const unsigned int OVC_SENSE_LIMIT_INF = 760; // Current limit above which it is still considered an overcurrent sense situation 2.6A
-const unsigned int OVC_SENSE_LIMIT_SUP = 800; // Current limit above which it is Triggered the overcurrent sense situation 2.7A real (in theory this value should trigger at 3.1A but Rsense is contaminated by a trace track to the amplifier)
+const int OVC_SENSE_MAX_TIME = 2000; // Maximum time that can last the overcurrent with SENSE method (in Milliseconds)
+const int OVC_UVOLT_MAX_TIME = 500;  // Maximum time that can last the overcurrent with the UNDERVOLTAGE method (Milliseconds)
+const int OVC_UVOLT_MIN_TIME = 200;  // Maximum time that can last the overcurrent with the UNDERVOLTAGE method (Milliseconds)
+const int OVC_UVOLT_DELAY = 5;
+const unsigned int OVC_SENSE_LIMIT_INF = 554; // Current limit above which it is still considered an overcurrent sense situation 2.6A
+const unsigned int OVC_SENSE_LIMIT_SUP = 639; // Current limit above which it is Triggered the overcurrent sense situation 2.7A real (in theory this value should trigger at 3.1A but Rsense is contaminated by a trace track to the amplifier)
 const byte MAX_OVC_ERRORS = 5;                // Max number of OVC errors per session in order to request the release of the PEDAL to the user
-const int UNDERVOLT_1V5 = 100;                // Sensed voltage corresponding to 2V for undervoltage sensing
-const int UNDERVOLT_1V8 = 121;                // Sensed voltage corresponding to 1.8V for undervoltage sensing
+const int UNDERVOLT_1V5 = 93;                 // Sensed voltage corresponding to 2V for undervoltage sensing
+const int UNDERVOLT_1V8 = 104;                // Sensed voltage corresponding to 1.8V for undervoltage sensing
 const float DISP_TO_VTARGET_CONV = 5.2;       // Conversion factor to get display values into same scale as VoutSense values (1/19.6)*1023 = 52.2 --> to DISP 52/10=5.2
 const byte DISPLAY_MEM = 1;
 const byte NO_DISPLAY_MEM = 2;
@@ -149,7 +150,7 @@ const byte LONGPRESS_INFO_CONT = 1;
 const byte LONGPRESS_INFO_NO_CONT = 2;
 const byte LONGPRESS_INFO_TIMER_ON = 3;
 const byte LONGPRESS_INFO_TIMER_OFF = 4;
-const unsigned long SHOW_LONGPRESS_TIME = 1800; // Time that the longpress information is shown on display (Milliseconds)
+const unsigned long SHOW_LONGPRESS_TIME = 900; // Time that the longpress information is shown on display (Milliseconds)
 
 const unsigned long RX_CHAR_TIMEOUT = 10; // (ms) time allowed for an orphan char received via Serial
 const byte TLG_RX_BYTES = 3;              // Bytes compounding a Serial telegram of the Test mode
@@ -157,9 +158,9 @@ const byte TLG_RX_BYTES = 3;              // Bytes compounding a Serial telegram
 const byte ALARM_FLAG = 0; // Flag to report that OVC_ALARM sensor is activated. This is set in ReportFlags report byte in the Test Mode
 const byte PEDAL_FLAG = 1; // Flag to report that PEDAL input is activated. This is set in ReportFlags report byte in the Test Mode
 // ------------------------------------------------- PIN DEFINITION r7,r6 -------------------------------------------
-const int DCDC_EN = 2;   //
-const int LED_FRONT = 9; // Arduino 7 (pin 11 in ATMEGA368)
-const int CHG_POL = 7;   // Arduino 9 (pin 13 in ATMEGA368)
+const int DCDC_EN = 2; //
+// const int LED_FRONT = 9; // Arduino 7 (pin 11 in ATMEGA368)
+// const int LIFE_CHECK = 10;
 const int ISEN = A1;
 const int VOSEN = A2;
 const int PUSHBUTTON_IP = 3; // HIGH = OFF; LOW = ON
@@ -168,62 +169,62 @@ const int ROTA = 24;
 const int OVC_ALARM = 9; // New in r8.0 (before pin 2)
 const int ROTB = 12;
 const int BUZZ = 21;
-const int PEDAL_IP = 8; // New in r8.0 (before pin 5)
+const int PEDAL_IP = 8;    // New in r8.0 (before pin 5)
+const int VBUS_SENSE = A0; // New in r8.0 (before LED)
 // const int ANALOG_PEDAL = A0; // New in r8.0 (before LED)
 
 //-------------------------- PROGMEM DEFINITION -----------------------------------------------------------------
 
-const static unsigned char __attribute__((progmem)) MusotokuLogo[] = {
-    0xE0, 0x06, 0x30, 0x0C, 0x3F, 0x00, 0xFC, 0x00, // ###          ##   ##        ##    ######        ######
-    0xE0, 0x06, 0x30, 0x0C, 0x71, 0x81, 0xFE, 0x00, // ###          ##   ##        ##   ###   ##      ########
-    0xE0, 0x0E, 0x30, 0x0C, 0x60, 0xC3, 0x03, 0x00, // ###         ###   ##        ##   ##     ##    ##      ##
-    0xE0, 0x0E, 0x30, 0x0C, 0xC0, 0x62, 0x03, 0x00, // ###         ###   ##        ##  ##       ##   #       ##
-    0xA0, 0x0A, 0x30, 0x0C, 0xC0, 0x62, 0x01, 0x00, // # #         # #   ##        ##  ##       ##   #        #
-    0xB0, 0x0A, 0x30, 0x0C, 0xC0, 0x66, 0x01, 0x80, // # ##        # #   ##        ##  ##       ##  ##        ##
-    0xB0, 0x0A, 0x30, 0x0C, 0xC0, 0x66, 0x01, 0x80, // # ##        # #   ##        ##  ##       ##  ##        ##
-    0x90, 0x1A, 0x30, 0x0C, 0xC0, 0x06, 0x01, 0x80, // #  #       ## #   ##        ##  ##           ##        ##
-    0x90, 0x12, 0x30, 0x0C, 0xC0, 0x06, 0x01, 0x80, // #  #       #  #   ##        ##  ##           ##        ##
-    0x98, 0x12, 0x30, 0x0C, 0x60, 0x06, 0x01, 0x80, // #  ##      #  #   ##        ##   ##          ##        ##
-    0x98, 0x32, 0x30, 0x0C, 0x70, 0x06, 0x01, 0x80, // #  ##     ##  #   ##        ##   ###         ##        ##
-    0x98, 0x32, 0x30, 0x0C, 0x18, 0x06, 0x01, 0x80, // #  ##     ##  #   ##        ##     ##        ##        ##
-    0x88, 0x32, 0x30, 0x0C, 0x0E, 0x06, 0x01, 0x80, // #   #     ##  #   ##        ##      ###      ##        ##
-    0x8C, 0x22, 0x30, 0x0C, 0x07, 0x06, 0x01, 0x80, // #   ##    #   #   ##        ##       ###     ##        ##
-    0x8C, 0x62, 0x30, 0x0C, 0x03, 0x86, 0x01, 0x80, // #   ##   ##   #   ##        ##        ###    ##        ##
-    0x8C, 0x62, 0x30, 0x0C, 0x00, 0xC6, 0x01, 0x80, // #   ##   ##   #   ##        ##          ##   ##        ##
-    0x84, 0x62, 0x30, 0x0C, 0x00, 0xC6, 0x01, 0x80, // #    #   ##   #   ##        ##          ##   ##        ##
-    0x84, 0x42, 0x30, 0x0C, 0x00, 0x66, 0x01, 0x80, // #    #   #    #   ##        ##           ##  ##        ##
-    0x86, 0x42, 0x30, 0x0C, 0xC0, 0x66, 0x01, 0x80, // #    ##  #    #   ##        ##  ##       ##  ##        ##
-    0x86, 0xC2, 0x30, 0x0C, 0xC0, 0x66, 0x01, 0x80, // #    ## ##    #   ##        ##  ##       ##  ##        ##
-    0x82, 0xC2, 0x30, 0x1C, 0xC0, 0x66, 0x01, 0x00, // #     # ##    #   ##       ###  ##       ##  ##        #
-    0x82, 0x82, 0x30, 0x1C, 0xC0, 0x62, 0x01, 0x00, // #     # #     #   ##       ###  ##       ##   #        #
-    0x83, 0x82, 0x18, 0x18, 0xC0, 0xC3, 0x03, 0x00, // #     ###     #    ##      ##   ##      ##    ##      ##
-    0x83, 0x82, 0x1C, 0x30, 0x61, 0xC1, 0xFE, 0x00, // #     ###     #    ###    ##     ##    ###     ########
-    0x83, 0x82, 0x0F, 0xE0, 0x3F, 0x80, 0xFC, 0x00, // #     ###     #     #######       #######       ######
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, //
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, //
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, //
-    0x07, 0xFE, 0x0F, 0x84, 0x02, 0x20, 0x10, 0x00, //      ##########     #####    #        #   #        #
-    0x00, 0x20, 0x10, 0x84, 0x02, 0x20, 0x10, 0x00, //           #        #    #    #        #   #        #
-    0x00, 0x20, 0x20, 0x44, 0x04, 0x20, 0x10, 0x00, //           #       #      #   #       #    #        #
-    0x00, 0x20, 0x20, 0x44, 0x08, 0x20, 0x10, 0x00, //           #       #      #   #      #     #        #
-    0x00, 0x20, 0x40, 0x24, 0x00, 0x20, 0x10, 0x00, //           #      #        #  #            #        #
-    0x00, 0x20, 0x40, 0x24, 0x10, 0x20, 0x10, 0x00, //           #      #        #  #     #      #        #
-    0x00, 0x20, 0x40, 0x24, 0x20, 0x20, 0x10, 0x00, //           #      #        #  #    #       #        #
-    0x00, 0x20, 0x40, 0x24, 0x20, 0x20, 0x10, 0x00, //           #      #        #  #    #       #        #
-    0x00, 0x20, 0x40, 0x24, 0x40, 0x20, 0x10, 0x00, //           #      #        #  #   #        #        #
-    0x00, 0x20, 0x40, 0x24, 0x80, 0x20, 0x10, 0x00, //           #      #        #  #  #         #        #
-    0x00, 0x20, 0x40, 0x24, 0x80, 0x20, 0x10, 0x00, //           #      #        #  #  #         #        #
-    0x00, 0x20, 0x40, 0x25, 0x80, 0x20, 0x10, 0x00, //           #      #        #  # ##         #        #
-    0x00, 0x20, 0x40, 0x26, 0xC0, 0x20, 0x10, 0x00, //           #      #        #  ## ##        #        #
-    0x00, 0x20, 0x40, 0x26, 0x40, 0x20, 0x10, 0x00, //           #      #        #  ##  #        #        #
-    0x00, 0x20, 0x40, 0x24, 0x20, 0x20, 0x10, 0x00, //           #      #        #  #    #       #        #
-    0x00, 0x20, 0x40, 0x24, 0x10, 0x20, 0x10, 0x00, //           #      #        #  #     #      #        #
-    0x00, 0x20, 0x40, 0x24, 0x10, 0x20, 0x10, 0x00, //           #      #        #  #     #      #        #
-    0x00, 0x20, 0x40, 0x24, 0x08, 0x20, 0x10, 0x00, //           #      #        #  #      #     #        #
-    0x00, 0x20, 0x20, 0x44, 0x08, 0x30, 0x30, 0x00, //           #       #      #   #      #     ##      ##
-    0x00, 0x20, 0x20, 0x44, 0x04, 0x10, 0x20, 0x00, //           #       #      #   #       #     #      #
-    0x00, 0x20, 0x20, 0x44, 0x02, 0x10, 0x20, 0x00, //           #       #      #   #        #    #      #
-    0x00, 0x20, 0x1F, 0x84, 0x02, 0x0F, 0xC0, 0x00, //           #        ######    #        #     ######
+const static unsigned char __attribute__((progmem)) MusotokuLogo[] = { // NEW LOGO
+    0x03, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00,
+    0x06, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x80,
+    0x0c, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xc0,
+    0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x60,
+    0x30, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x30,
+    0x60, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x18,
+    0xc0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0c,
+    0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x04,
+    0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x04,
+    0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x04,
+    0x80, 0x00, 0x41, 0x10, 0x83, 0xc1, 0xe0, 0x00, 0x04,
+    0x80, 0x00, 0x63, 0x10, 0x84, 0x22, 0x10, 0x00, 0x04,
+    0x80, 0x00, 0x77, 0x10, 0x88, 0x12, 0x10, 0x00, 0x04,
+    0x80, 0x00, 0x5d, 0x10, 0x84, 0x02, 0x10, 0x00, 0x04,
+    0x80, 0x00, 0x49, 0x10, 0x83, 0xc2, 0x10, 0x00, 0x04,
+    0x80, 0x00, 0x41, 0x10, 0x80, 0x22, 0x10, 0x00, 0x04,
+    0x80, 0x00, 0x41, 0x10, 0x80, 0x12, 0x10, 0x00, 0x04,
+    0x80, 0x00, 0x41, 0x10, 0x88, 0x12, 0x10, 0x00, 0x04,
+    0x80, 0x00, 0x41, 0x10, 0x84, 0x22, 0x10, 0x00, 0x04,
+    0x80, 0x00, 0x41, 0x0f, 0x03, 0xc1, 0xa0, 0x00, 0x04,
+    0xe0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x1c,
+    0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10,
+    0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10,
+    0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10,
+    0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10,
+    0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10,
+    0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10,
+    0xe0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x1c,
+    0x80, 0x00, 0x7f, 0x0f, 0x04, 0x22, 0x10, 0x00, 0x04,
+    0x80, 0x00, 0x08, 0x10, 0x84, 0x42, 0x10, 0x00, 0x04,
+    0x80, 0x00, 0x08, 0x10, 0x84, 0x82, 0x10, 0x00, 0x04,
+    0x80, 0x00, 0x08, 0x10, 0x85, 0x02, 0x10, 0x00, 0x04,
+    0x80, 0x00, 0x08, 0x10, 0x86, 0x02, 0x10, 0x00, 0x04,
+    0x80, 0x00, 0x08, 0x10, 0x86, 0x02, 0x10, 0x00, 0x04,
+    0x80, 0x00, 0x08, 0x10, 0x85, 0x02, 0x10, 0x00, 0x04,
+    0x80, 0x00, 0x08, 0x10, 0x84, 0x82, 0x10, 0x00, 0x04,
+    0x80, 0x00, 0x08, 0x10, 0x84, 0x42, 0x10, 0x00, 0x04,
+    0x80, 0x00, 0x08, 0x0f, 0x04, 0x21, 0xe0, 0x00, 0x04,
+    0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x04,
+    0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x04,
+    0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x04,
+    0xc0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0c,
+    0x60, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x18,
+    0x30, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x30,
+    0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x60,
+    0x0c, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xc0,
+    0x06, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x80,
+    0x03, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00
+
 };
 
 const static unsigned char __attribute__((progmem)) NitroLogo[] = {
@@ -488,8 +489,8 @@ void DisplayTimer(int Hours, int Minutes);
 void DisplayMem(int MachinePosition);
 void RunTimer(unsigned long val, int *hours, int *minutes);
 void Handle_ConfigMenus(byte RunMode, int index, byte *NextRunMode, byte *NitroStartGrade, byte *ResetRunTimer, int *ChangePol, byte *RuntimerEnable);
-void StartupFrontLEDs();
-// ------------------------------------------ VARIABLES -----------------------------------------
+// void StartupFrontLEDs();
+//  ------------------------------------------ VARIABLES -----------------------------------------
 byte MachinesMemory[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; // Holds the 3 working points for each of the 3 Machines (9 values in total)
 int MachineOffset = MACHINE1_OFFSET;                          // Holds the actual value of the offset needed for indexing the MachinesMemory[]
 int i;
@@ -580,8 +581,8 @@ byte ReportFlags;               // Collection of flags that reports the status i
 
 void setup()
 {
-  digitalWrite(LED_FRONT, LOW);
-  pinMode(LED_FRONT, OUTPUT);
+  // digitalWrite(LED_FRONT, LOW);
+  // pinMode(LED_FRONT, OUTPUT);
 
   // Serial.begin(9600);
   // Serial.print("Initializing version: ");
@@ -589,17 +590,18 @@ void setup()
 
   // by default, we'll generate the high voltage from the 3.3v line internally! (neat!)
   Wire.begin();
-  display.begin(SSD1306_SWITCHCAPVCC);
   EEPROM.begin(512);
-  // i2c_init();
+  display.begin(SSD1306_SWITCHCAPVCC);
+  // si.i2c_init();
   analogReadResolution(12);
   // ------ VAR INITIALIZATION ------
 
   RunMode = RUNMODE_NORMAL;
 
-  digitalWrite(LED_FRONT, LOW);
-  pinMode(LED_FRONT, OUTPUT);
+  // digitalWrite(LED_FRONT, LOW);
+  // pinMode(LED_FRONT, OUTPUT);
   // pinMode(ANALOG_PEDAL, INPUT);
+  pinMode(VBUS_SENSE, INPUT);
   pinMode(PUSHBUTTON_IP, INPUT);
   pinMode(ROTPUSH_IP, INPUT);
   pinMode(ROTA, INPUT);
@@ -609,25 +611,25 @@ void setup()
   pinMode(ISEN, INPUT);
   pinMode(VOSEN, INPUT);
   pinMode(DCDC_EN, OUTPUT);
-  pinMode(CHG_POL, OUTPUT);
+  // pinMode(CHG_POL, OUTPUT);
   pinMode(OVC_ALARM, INPUT);
 
   //-----------------
 
-  digitalWrite(LED_FRONT, LOW);
-  digitalWrite(CHG_POL, POL_NORMAL);
+  //  digitalWrite(LED_FRONT, LOW);
+  //  digitalWrite(CHG_POL, POL_NORMAL);
   digitalWrite(BUZZ, LOW);
   digitalWrite(PEDAL_IP, HIGH); // Pullup
                                 //  digitalWrite(ROTA,    HIGH);  // Pullup
                                 //  digitalWrite(ROTB,    HIGH);  // Pullup
 
   display.clearDisplay();
-  display.drawRect(29, 0, 71, 64, WHITE);
-  display.drawBitmap(36, 7, MusotokuLogo, 57, 50, WHITE);
+  // display.drawRect(29, 0, 71, 64, WHITE);
+  display.drawBitmap(29, 10, MusotokuLogo, 70, 48, WHITE);
   display.display();
-  StartupFrontLEDs();
-  digitalWrite(LED_FRONT, HIGH);
-  delay(1000);
+  // StartupFrontLEDs();
+  // digitalWrite(LED_FRONT, HIGH);
+  delay(2000);
 
   //------------- TEST MODE -------
   // Evaluate RX Data::::::::::::
@@ -779,6 +781,7 @@ void setup()
     } //while(1)
   }
 */
+
   //-------------------------------
   display.clearDisplay(); // clears the screen and buffer
 
@@ -788,12 +791,9 @@ void setup()
 
   //------------ EEPROM RECORDED?? --------
   EEPROMaux = EEPROM[EEPROM_RECORD_STAT];
-  Serial.println(EEPROMaux);
   if (EEPROMaux != EEPROM_RECORDED_DONE)
+
   {
-
-    Serial.println("HI, NON RECORDED");
-
     EEPROM[(MACHINE1_OFFSET + MACHINE_EEPROM_POS0)] = 10; // RECORDS the 1st position of Machine1 memory with default value
     EEPROM[(MACHINE1_OFFSET + MACHINE_EEPROM_POS1)] = 20; // RECORDS the 2nd position of Machine1 memory with default value
     EEPROM[(MACHINE1_OFFSET + MACHINE_EEPROM_POS2)] = 40; // RECORDS the 3rd position of Machine1 memory with default value
@@ -814,7 +814,7 @@ void setup()
     EEPROM[EEPROM_RECORD_STAT] = EEPROM_RECORDED_DONE; // Now signature is set to indicate that EEPROM is recorded
     EEPROM.commit();
   }
-  Serial.println("HI, DUMPED");
+
   //------- DUMP EEPROM VALUES INTO RAM ARRAY -------
 
   MachinesMemory[0] = EEPROM[(MACHINE1_OFFSET + MACHINE_EEPROM_POS0)];
@@ -839,14 +839,14 @@ void setup()
   NitroStartGradePrev = NitroStartGrade;
 
   // Polarity configuration
-  if (PolarityStatus == POL_NORMAL)
-  {
-    digitalWrite(CHG_POL, POL_NORMAL);
-  }
-  else
-  {
-    digitalWrite(CHG_POL, POL_REVERSE);
-  }
+  //  if (PolarityStatus == POL_NORMAL)
+  //  {
+  //    digitalWrite(CHG_POL, POL_NORMAL);
+  //  }
+  //  else
+  //  {
+  //    digitalWrite(CHG_POL, POL_REVERSE);
+  //  }
 
   encoderPos = MachinesMemory[MachineOffset]; // Starts in the 1st memory position of the 1st machinef
   Time = millis();
@@ -865,6 +865,7 @@ void loop()
 
   if (RunMode == RUNMODE_NORMAL) // Only display if NOT in any configuration menu
   {
+
     if (RuntimerEnable == true) // PLAY
     {
       if ((Time - PartialRuntimer) > 10000)
@@ -897,14 +898,15 @@ void loop()
 
   //----- DCDC ADJUSTMENT TO ENCODER POSITION -----
   // This section of code does not execute while on MENU CONFIGURATION mode
-
   if (updateDisplayVoltsFLAG == FLAG_ON)
   {
     updateDisplayVoltsFLAG = FLAG_OFF;
 
     TPICvalue = pgm_read_byte_near(TPICLookupTable + encoderPos);
+
     Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);
-    Serial.println(TPICvalue);
+    // Serial.println(TPICvalue);
+
     DisplayValue = pgm_read_byte_near(DisplayValues + encoderPos);
     VoutTarget = int(DisplayValue * DISP_TO_VTARGET_CONV);
 
@@ -916,7 +918,6 @@ void loop()
     }
     DisplayTimer(runningHours, runningMinutes);
   }
-
   //----------------- UPDATE MEMORY ---------------------------
   if (RotaryChangedFlag == FLAG_ON)
   {
@@ -932,7 +933,6 @@ void loop()
       DisplayMessage(RunMode, DELETE_MESSG, "REC", INFO_MESSG, DisplayValue);
     }
   }
-
   //------------------ CLEAR THE MEMORY INFORMATION ON DISPLAY --------------
   if (showMem == CLEAR_DISPLAY_MEM)
   {
@@ -996,7 +996,7 @@ void loop()
     if ((Time - ShowLongPressTimer) > SHOW_LONGPRESS_TIME)
     {
       ShowLongpressInfo = NO_LONGPRESS_INFO;
-      //      Serial.println("timer");
+      // Serial.println("timer");
       updateDisplayVoltsFLAG = FLAG_ON; // To refresh the display with the output value
     }
   }
@@ -1075,7 +1075,6 @@ void loop()
         updateDisplayVoltsFLAG = FLAG_OFF; // Disable the Normal display view
         MenuSelection = 1;                 // Forces the Config Menu to start indexing the 1st element
       }
-
       else if (RunMode == RUNMODE_CONFIG_TOP)
       {
         switch (NextRunMode)
@@ -1145,28 +1144,27 @@ void loop()
 
       else if (RunMode == RUNMODE_CHANGE_POL)
       {
-        RunMode = RUNMODE_NORMAL; // Next mode
-        if (ChangePol == true)
-        {
-          ChangePol = false;
-          digitalWrite(DCDC_EN, DCDC_DISABLED);
-          delay(333);
-
-          if (PolarityStatus == POL_NORMAL)
-          {
-            PolarityStatus = POL_REVERSE;
-            digitalWrite(CHG_POL, POL_REVERSE);
-          }
-          else
-          {
-            PolarityStatus = POL_NORMAL;
-            digitalWrite(CHG_POL, POL_NORMAL);
-          }
-        }
-        updateDisplayVoltsFLAG = FLAG_ON; // For refreshing the Normal display view
-        updateMenuDisplayFLAG = FLAG_OFF; // Disable the Menu display view
-        EEPROM[EEPROM_POLARITY_STATUS] = PolarityStatus;
-        EEPROM.commit();
+        //        RunMode = RUNMODE_NORMAL; // Next mode
+        //        if (ChangePol == true)
+        //        {
+        //          ChangePol = false;
+        //          digitalWrite(DCDC_EN, DCDC_DISABLED);
+        //          delay(333);
+        //
+        //          if (PolarityStatus == POL_NORMAL)
+        //          {
+        //            PolarityStatus = POL_REVERSE;
+        //            digitalWrite(CHG_POL, POL_REVERSE);
+        //          }
+        //          else
+        //          {
+        //            PolarityStatus = POL_NORMAL;
+        //            digitalWrite(CHG_POL, POL_NORMAL);
+        //          }
+        //        }
+        //        updateDisplayVoltsFLAG = FLAG_ON; // For refreshing the Normal display view
+        //        updateMenuDisplayFLAG = FLAG_OFF; // Disable the Menu display view
+        //        EEPROM[EEPROM_POLARITY_STATUS] = PolarityStatus;
       }
       else
       {
@@ -1362,6 +1360,7 @@ void loop()
   {
     digitalWrite(DCDC_EN, DCDC_DISABLED);
   }
+  //============================= PROTECCTIONS======================================//
 
   //----------- OVC ALARM MANAGEMENT --------------
 
@@ -1412,7 +1411,7 @@ void loop()
     Time = millis();
     IoutSense = Read_Analog(ISEN) / 4;
     VoutSense = Read_Analog(VOSEN) / 4;
-    // Serial.println(VoutSense);
+    Serial.println(IoutSense);
   }
 
   //------UNDERVOLTAGE LIMIT----------
@@ -1423,23 +1422,35 @@ void loop()
       OVCsenseTime = Time;
 
       boolean OVCerror = true;
-      while ((OVCerror == true) && ((Time - OVCsenseTime) < OVC_UVOLT_MAX_TIME))
+      int undervoltage_count = 0;
+      for (int i = 0; i < (OVC_UVOLT_MAX_TIME / OVC_UVOLT_DELAY); i++)
       {
-        // Serial.print('.');
+        delay(OVC_UVOLT_DELAY);
         VoutSense = Read_Analog(VOSEN) / 4;
-        if ((VoutTarget - VoutSense) < UNDERVOLT_1V5)
+        Serial.print("+");
+        Serial.println(VoutSense);
+        if ((VoutTarget - VoutSense) >= UNDERVOLT_1V8)
         {
-          OVCerror = false;
+          undervoltage_count++;
         }
-        Time = millis();
       }
+      if (undervoltage_count < ((OVC_UVOLT_MIN_TIME / OVC_UVOLT_DELAY) + 1))
+      {
+        OVCerror = false;
+        Serial.println("------------------------------------------------");
+      }
+      Time = millis();
+
       if (OVCerror == true)
       {
         Serial.println("UNDERVOLTAGE");
         OVCerrorsConsecutive++;
+        display.clearDisplay(); // clears the screen and buffer
+        display.drawBitmap(0, 0, OverCurrentLogo, 124, 63, WHITE);
+        display.display();
         Mitigate_OVChazard(&OVCerrorsConsecutive);
         PedalNow = PEDAL_OFF; // After mitigate_ovcHazard the pedal is OFF. It is updated to prevent the following
-                              // over current test to trigger double
+        // over current test to trigger double
 
         continuousMode = false; // To prevent re-entering continuously (same as PEDAL_OFF above)
         NitroForContinuousMode = false;
@@ -1455,48 +1466,36 @@ void loop()
   {
     if (IoutSense > OVC_SENSE_LIMIT_SUP)
     {
-      Time = millis();
       OVCsenseTime = Time;
-      digitalWrite(CHG_POL, HIGH);
-      delay(50);
-      digitalWrite(CHG_POL, LOW);
-      delay(50);
 
       boolean OVCerror = true;
       while ((OVCerror == true) && ((Time - OVCsenseTime) < OVC_SENSE_MAX_TIME))
       {
-        digitalWrite(CHG_POL, HIGH);
-        delay(50);
-        digitalWrite(CHG_POL, LOW);
-        delay(50);
-
         // Serial.print('-');
         IoutSense = Read_Analog(ISEN) / 4;
         if (IoutSense < OVC_SENSE_LIMIT_INF)
         {
           OVCerror = false;
-
-          digitalWrite(CHG_POL, LOW);
         }
         Time = millis();
       }
       if (OVCerror == true)
       {
-        // Serial.println("OVC SENSE");
+        Serial.println("OVC SENSE");
         OVCerrorsConsecutive++;
+        display.clearDisplay(); // clears the screen and buffer
+        display.drawBitmap(0, 0, OverCurrentLogo, 124, 63, WHITE);
+        display.display();
         Mitigate_OVChazard(&OVCerrorsConsecutive);
         updateDisplayVoltsFLAG = FLAG_ON; // To bring the normal display ON again
         PedalNow = PEDAL_OFF;             // After mitigate_ovcHazard the pedal is OFF. It is updated to prevent the following
                                           // over current test to trigger double
       }
     }
-    else
-      digitalWrite(CHG_POL, LOW);
   }
 
 } // End main
-
-//--------------------------------------------------------------------------------------
+  //--------------------------------------------------------------------------------------
 
 //***************************************************
 // ================  FUNCTIONS =====================*
@@ -1507,84 +1506,84 @@ void loop()
 //
 //==================================================================================================================
 
-// void Write_TPIC2810(byte address, byte data)
-// {
-//   int result;
-//   int loops;
-//   int danger;
+/*void Write_TPIC2810(byte address, byte data)
+{
+  int result;
+  int loops;
+  int danger;
 
-//   i2c_stop();
-//   delay(1);
-//   i2c_stop();
-//   delay(1);
+  i2c_stop();
+  delay(1);
+  i2c_stop();
+  delay(1);
 
-//   result = 0;
-//   loops = 0;
-//   danger = 1;
-//   while ((result == 0) && (loops < 10))
-//   {
-//     result = 1;
-//     loops++;
+  result = 0;
+  loops = 0;
+  danger = 1;
+  while ((result == 0) && (loops < 10))
+  {
+    result = 1;
+    loops++;
 
-//     if (!i2c_start(192 | I2C_WRITE))
-//     {
-//       //Serial.print("I2Cerr_1");
-//       result = 0;
-//       danger = 0;
-//     }
-//     if (!i2c_write(68))
-//     {
-//       //Serial.print("I2Cerr_2");
-//       result = 0;
-//       danger = 0;
-//     }
-//     if (!i2c_write(data))
-//     {
-//       //Serial.println("I2Cerr_3");
-//       result = 0;
-//     }
-//     i2c_stop();
-//     delay(1);
-//   }
+    if (!i2c_start(192 | I2C_WRITE))
+    {
+      // Serial.print("I2Cerr_1");
+      result = 0;
+      danger = 0;
+    }
+    if (!i2c_write(68))
+    {
+      // Serial.print("I2Cerr_2");
+      result = 0;
+      danger = 0;
+    }
+    if (!i2c_write(data))
+    {
+      // Serial.println("I2Cerr_3");
+      result = 0;
+    }
+    i2c_stop();
+    delay(1);
+  }
 
-//   if (danger == 0)
-//   {
-//     //Serial.println("Retry I2C");
+  if (danger == 0)
+  {
+    // Serial.println("Retry I2C");
 
-//     result = 0;
-//     loops = 0;
-//     while ((result == 0) && (loops < 10))
-//     {
-//       result = 1;
-//       danger = 1;
-//       loops++;
+    result = 0;
+    loops = 0;
+    while ((result == 0) && (loops < 10))
+    {
+      result = 1;
+      danger = 1;
+      loops++;
 
-//       if (!i2c_start(192 | I2C_WRITE))
-//       {
-//         //Serial.print("I2Cerr_1+");
-//         result = 0;
-//         danger = 0;
-//       }
-//       if (!i2c_write(68))
-//       {
-//         //Serial.print("I2Cerr_2+");
-//         result = 0;
-//         danger = 0;
-//       }
-//       if (!i2c_write(data))
-//       {
-//         //Serial.println("I2Cerr_3+");
-//         result = 0;
-//       }
-//       i2c_stop();
-//       delay(1);
-//     }
-//   }
-//   else
-//   {
-//     //Serial.println("------");
-//   }
-// }
+      if (!i2c_start(192 | I2C_WRITE))
+      {
+        // Serial.print("I2Cerr_1+");
+        result = 0;
+        danger = 0;
+      }
+      if (!i2c_write(68))
+      {
+        // Serial.print("I2Cerr_2+");
+        result = 0;
+        danger = 0;
+      }
+      if (!i2c_write(data))
+      {
+        // Serial.println("I2Cerr_3+");
+        result = 0;
+      }
+      i2c_stop();
+      delay(1);
+    }
+  }
+  else
+  {
+    // Serial.println("------");
+  }
+}*/
 void Write_TPIC2810(byte address, byte data)
 {
   Wire.beginTransmission(byte(96)); // transmit command to device TPIC2810
@@ -2172,9 +2171,6 @@ void Mitigate_OVChazard(byte *OVCerrorsConsecutive)
 
   // DISPLAY ERROR MESSAGE "OVERCURRENT!!) "STOP YOUR PEDAL NOW"
   // DisplayMessage(RunMode, WRITE_MESSG, "STOP PEDAL!",   INFO_MESSG, DisplayValue);
-  display.clearDisplay(); // clears the screen and buffer
-  display.drawBitmap(0, 0, OverCurrentLogo, 124, 63, WHITE);
-  display.display();
 
   BuzzerClick(HIGH_PITCH, 100);
   delay(50);
@@ -2289,27 +2285,27 @@ void RunTimer(unsigned long val, int *hours, int *minutes)
 //
 //===============================================================================================================
 
-void StartupFrontLEDs()
-{
-  byte i, j, k, m, n;
-  i = 1;
-  j = 20;
-  m = 0;
-  n = 10;
-
-  while (m < 19)
-  {
-    for (k = 0; k < n; k++)
-    {
-      digitalWrite(LED_FRONT, HIGH);
-      delay(i);
-      digitalWrite(LED_FRONT, LOW);
-      delay(j);
-    }
-    i++;
-    j--;
-    m++;
-    n--;
-    n = constrain(n, 5, 10);
-  }
-}
+// void StartupFrontLEDs()
+//{
+//   byte i, j, k, m, n;
+//   i = 1;
+//   j = 20;
+//   m = 0;
+//   n = 10;
+//
+//   while (m < 19)
+//   {
+//     for (k = 0; k < n; k++)
+//     {
+//       digitalWrite(LED_FRONT, HIGH);
+//       delay(i);
+//       digitalWrite(LED_FRONT, LOW);
+//       delay(j);
+//     }
+//     i++;
+//     j--;
+//     m++;
+//     n--;
+//     n = constrain(n, 5, 10);
+//   }
+// }
