@@ -1,2 +1,5 @@
 
 03.Firmware/MK1-RP2040/740/EDCPSU-TATTOO/.DS_Store
+
+*.b#*
+*.s#*
