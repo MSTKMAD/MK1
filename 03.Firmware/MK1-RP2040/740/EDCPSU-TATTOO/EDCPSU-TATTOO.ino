@@ -5,7 +5,7 @@
 #define VERSION 740
 /*********************************************************************
 EDCPSU Tattoo edition HW r15.0
-22 Marzo 2022
+10 AGO 2023
 IDE Version: 1.8.13
 VERSION: see above
 
