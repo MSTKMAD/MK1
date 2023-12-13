@@ -1700,127 +1700,125 @@ void DisplayMessage(byte RunMode, byte WriteORdelete, char Message[25], byte Typ
 void NitroStart(byte NGrade, int encoderPosition)
 {
   byte TPICvalue;
-  int  n;
+  int n;
 
   //------------------NEW NITRO------------------
 
-  if(NGrade != NITRO_CFG_NO) // Confirm that NITRO is ON
+  if (NGrade != NITRO_CFG_NO) // Confirm that NITRO is ON
   {
-  //---DISPLAY MESSAGE ONLY FOR VOLTAGES BELOW 10.0-----
-  if (encoderPosition < HIGH_THRESHOLD_NITRO)
+    //---DISPLAY MESSAGE ONLY FOR VOLTAGES BELOW 10.0-----
+    if (encoderPosition < HIGH_THRESHOLD_NITRO)
     {
       DisplayMessage(RunMode, WRITE_MESSG, "NITRO", NITRO_MESSG, DisplayValue);
     }
-    
-  //----(TD)=65ms------
+
+    //----(TD)=65ms------
     TPICvalue = 172; // const _4VOLTS =172; // Lowest value of output corresponds to just the start of the TPICLookupTable
     Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);
     digitalWrite(DCDC_EN, DCDC_ENABLED);
     delay(65);
 
-  //----(TC)=50ms------
+    //----(TC)=50ms------
     for (n = 0; n < LenNITROLookupTable; n++)
-      {
-        TPICvalue = pgm_read_byte_near(NitroLookupTable + n);      // Program the DCDC with the value in the nitrolookuptable
-        Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);                  
-      }
- 
-////------------ NITRO OUTPUT FALLING profile -----------------
-////If encoderPos is Lower than 12.3V
-////there is a fallout profile to arrive to the actual encoderPos
-////from the 12.3V
-//
-//n = _12_3V_INDEX; // This is the index for 12.3V in TPICLookupTable[]
-//while ((n - encoderPosition) > 0)
-//{
-//  n=n-3;
-//  TPICvalue = pgm_read_byte_near(TPICLookupTable + n);          // Go from the index position of 12.3V
-//  Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);                     // to the value corresponding to the encoderPos
-//}
-//// THE End value is ALWAYS  = encoderPos
-//// if encoderPos > 12.3V then the "while" is not executed and encoderPos value is 
-//// sent directly to the TPIC here withot the fallout profile
-TPICvalue = pgm_read_byte_near(TPICLookupTable + encoderPos);
-Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);
+    {
+      TPICvalue = pgm_read_byte_near(NitroLookupTable + n); // Program the DCDC with the value in the nitrolookuptable
+      Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);
+      delay(15);
+    }
 
+    ////------------ NITRO OUTPUT FALLING profile -----------------
+    ////If encoderPos is Lower than 12.3V
+    ////there is a fallout profile to arrive to the actual encoderPos
+    ////from the 12.3V
+    //
+    // n = _12_3V_INDEX; // This is the index for 12.3V in TPICLookupTable[]
+    // while ((n - encoderPosition) > 0)
+    //{
+    //  n=n-3;
+    //  TPICvalue = pgm_read_byte_near(TPICLookupTable + n);          // Go from the index position of 12.3V
+    //  Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);                     // to the value corresponding to the encoderPos
+    //}
+    //// THE End value is ALWAYS  = encoderPos
+    //// if encoderPos > 12.3V then the "while" is not executed and encoderPos value is
+    //// sent directly to the TPIC here withot the fallout profile
+    TPICvalue = pgm_read_byte_near(TPICLookupTable + encoderPos);
+    Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);
 
-  
-  //------------ DELETE THE NITRO TEXT ------------------------
+    //------------ DELETE THE NITRO TEXT ------------------------
     if (encoderPosition < HIGH_THRESHOLD_NITRO)
     {
       DisplayMessage(RunMode, DELETE_MESSG, "NITRO", NITRO_MESSG, DisplayValue);
     }
   }
   else
-       {}// NITRO is OFF--> do nothing
+  {
+  } // NITRO is OFF--> do nothing
 }
 
-  //---------------------------------------------
+//---------------------------------------------
 
-
-
-  //---------------------------------------------
-//void NitroStart(byte NGrade, int encoderPosition)
+//---------------------------------------------
+// void NitroStart(byte NGrade, int encoderPosition)
 //{
-//  int NitroStepDuration = 10; // Milliseconds
-//  byte NitroIndex;
-//  byte TPICvalue;
+//   int NitroStepDuration = 10; // Milliseconds
+//   byte NitroIndex;
+//   byte TPICvalue;
 //
-//  if ((encoderPosition < MAX_THRESHOLD_NITRO) && (NGrade != NITRO_CFG_NO)) // No NITRO for Vout > 11.5V or NITRO= OFF either
-//  {
+//   if ((encoderPosition < MAX_THRESHOLD_NITRO) && (NGrade != NITRO_CFG_NO)) // No NITRO for Vout > 11.5V or NITRO= OFF either
+//   {
 //
-//    //-------Brings the programmed output to the lowest value to avoid first output value bounce-----------
-//    TPICvalue = pgm_read_byte_near(TPICLookupTable); // Lowest value of output corresponds to just the start of the TPICLookupTable
-//    Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);
-//    digitalWrite(DCDC_EN, DCDC_ENABLED);
+//     //-------Brings the programmed output to the lowest value to avoid first output value bounce-----------
+//     TPICvalue = pgm_read_byte_near(TPICLookupTable); // Lowest value of output corresponds to just the start of the TPICLookupTable
+//     Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);
+//     digitalWrite(DCDC_EN, DCDC_ENABLED);
 //
-//    if (encoderPosition < HIGH_THRESHOLD_NITRO)
-//    {
-//      DisplayMessage(RunMode, WRITE_MESSG, "NITRO", NITRO_MESSG, DisplayValue);
+//     if (encoderPosition < HIGH_THRESHOLD_NITRO)
+//     {
+//       DisplayMessage(RunMode, WRITE_MESSG, "NITRO", NITRO_MESSG, DisplayValue);
 //
-//      //------------ NITRO LOW profile  -----------------
-//      for (int n = 0; n < LenNITROLookupTable; n++)
-//      {
-//        NitroIndex = pgm_read_byte_near(NitroLookupTableLow + n);     // Recover the index in the TPICLookupTable
-//        TPICvalue = pgm_read_byte_near(TPICLookupTable + NitroIndex); // Get the value corresponding to such index
-//        Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);                     // Program the DCDC with that value
-//        delay(NitroStepDuration);
-//      }
-//    }
-//    else // NITRO_HIGH
-//    {
-//      //------------ NITRO HIGH profile  -----------------
-//      for (int n = 0; n < LenNITROLookupTable; n++)
-//      {
-//        NitroIndex = pgm_read_byte_near(NitroLookupTableHigh + n);    // Recover the index in the TPICLookupTable
-//        TPICvalue = pgm_read_byte_near(TPICLookupTable + NitroIndex); // Get the value corresponding to such index
-//        Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);                     // Program the DCDC with that value
-//        delay(NitroStepDuration);
-//      }
-//    }
+//       //------------ NITRO LOW profile  -----------------
+//       for (int n = 0; n < LenNITROLookupTable; n++)
+//       {
+//         NitroIndex = pgm_read_byte_near(NitroLookupTableLow + n);     // Recover the index in the TPICLookupTable
+//         TPICvalue = pgm_read_byte_near(TPICLookupTable + NitroIndex); // Get the value corresponding to such index
+//         Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);                     // Program the DCDC with that value
+//         delay(NitroStepDuration);
+//       }
+//     }
+//     else // NITRO_HIGH
+//     {
+//       //------------ NITRO HIGH profile  -----------------
+//       for (int n = 0; n < LenNITROLookupTable; n++)
+//       {
+//         NitroIndex = pgm_read_byte_near(NitroLookupTableHigh + n);    // Recover the index in the TPICLookupTable
+//         TPICvalue = pgm_read_byte_near(TPICLookupTable + NitroIndex); // Get the value corresponding to such index
+//         Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);                     // Program the DCDC with that value
+//         delay(NitroStepDuration);
+//       }
+//     }
 //
-//    //------------ NITRO OUTPUT FALLING profile -----------------
+//     //------------ NITRO OUTPUT FALLING profile -----------------
 //
-//    //NitroIndex is now pointing to the maximum value
-//    //of the Nitro profile. Let's begin the fall profile
-//    //from this point.
+//     //NitroIndex is now pointing to the maximum value
+//     //of the Nitro profile. Let's begin the fall profile
+//     //from this point.
 //
-//    while ((NitroIndex - encoderPosition) > 0)
-//    {
-//      TPICvalue = pgm_read_byte_near(TPICLookupTable + NitroIndex); // Get the value corresponding to such index
-//      Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);                     // Program the DCDC with that value
+//     while ((NitroIndex - encoderPosition) > 0)
+//     {
+//       TPICvalue = pgm_read_byte_near(TPICLookupTable + NitroIndex); // Get the value corresponding to such index
+//       Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);                     // Program the DCDC with that value
 //
-//      delay(2);
-//      NitroIndex--;
-//    }
+//       delay(2);
+//       NitroIndex--;
+//     }
 //
-//    //------------ DELETE THE NITRO TEXT ------------------------
-//    if (encoderPosition < HIGH_THRESHOLD_NITRO)
-//    {
-//      DisplayMessage(RunMode, DELETE_MESSG, "NITRO", NITRO_MESSG, DisplayValue);
-//    }
-//  }
-//}
+//     //------------ DELETE THE NITRO TEXT ------------------------
+//     if (encoderPosition < HIGH_THRESHOLD_NITRO)
+//     {
+//       DisplayMessage(RunMode, DELETE_MESSG, "NITRO", NITRO_MESSG, DisplayValue);
+//     }
+//   }
+// }
 
 //==========================================ReadPushbutton=======================================================
 // PIN_IP: HW input
