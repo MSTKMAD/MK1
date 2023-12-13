@@ -1353,6 +1353,7 @@ void loop()
   {
     digitalWrite(DCDC_EN, DCDC_DISABLED);
   }
+  //============================= PROTECCTIONS======================================//
 
   //----------- OVC ALARM MANAGEMENT --------------
 
@@ -1414,20 +1415,30 @@ void loop()
       OVCsenseTime = Time;
 
       boolean OVCerror = true;
-      while ((OVCerror == true) && ((Time - OVCsenseTime) < OVC_UVOLT_MAX_TIME))
+      int undervoltage_count = 0;
+      for (int i = 0; i < (OVC_UVOLT_MAX_TIME / OVC_UVOLT_DELAY); i++)
       {
-        //Serial.print('.');
+        delay(OVC_UVOLT_DELAY);
         VoutSense = Read_Analog(VOSEN);
-        if ((VoutTarget - VoutSense) < UNDERVOLT_1V5)
+        if ((VoutTarget - VoutSense) >= UNDERVOLT_1V8)
         {
-          OVCerror = false;
+          undervoltage_count++;
         }
-        Time = millis();
       }
+      if (undervoltage_count < ((OVC_UVOLT_MIN_TIME / OVC_UVOLT_DELAY) + 1))
+      {
+        OVCerror = false;
+        Serial.println("------------------------------------------------");
+      }
+      Time = millis();
+
       if (OVCerror == true)
       {
-        //Serial.println("UNDERVOLTAGE");
+        Serial.println("UNDERVOLTAGE");
         OVCerrorsConsecutive++;
+        display.clearDisplay(); // clears the screen and buffer
+        display.drawBitmap(0, 0, OverCurrentLogo, 124, 63, WHITE);
+        display.display();
         Mitigate_OVChazard(&OVCerrorsConsecutive);
         PedalNow = PEDAL_OFF; // After mitigate_ovcHazard the pedal is OFF. It is updated to prevent the following
                               // over current test to trigger double
