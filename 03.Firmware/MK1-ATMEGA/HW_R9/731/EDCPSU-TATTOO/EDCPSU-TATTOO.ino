@@ -621,12 +621,12 @@ void setup()
                                 //  digitalWrite(ROTB,    HIGH);  // Pullup
 
   display.clearDisplay();
-  display.drawRect(29, 0, 71, 64, WHITE);
-  display.drawBitmap(36, 7, MusotokuLogo, 57, 50, WHITE);
+  // display.drawRect(29, 0, 71, 64, WHITE);
+  display.drawBitmap(29, 10, MusotokuLogo, 70, 48, WHITE);
   display.display();
-  StartupFrontLEDs();
-  digitalWrite(LED_FRONT, HIGH);
-  delay(1000);
+  // StartupFrontLEDs();
+  // digitalWrite(LED_FRONT, HIGH);
+  delay(2000);
 
   //------------- TEST MODE -------
   // Evaluate RX Data::::::::::::
