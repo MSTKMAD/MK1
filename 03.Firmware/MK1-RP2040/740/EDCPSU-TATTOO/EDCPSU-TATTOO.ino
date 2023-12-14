@@ -819,7 +819,7 @@ void setup()
     EEPROM[EEPROM_RECORD_STAT] = EEPROM_RECORDED_DONE; // Now signature is set to indicate that EEPROM is recorded
     EEPROM.commit();
   }
-
+  Serial.println("HI, DUMPED");
   //------- DUMP EEPROM VALUES INTO RAM ARRAY -------
 
   MachinesMemory[0] = EEPROM[(MACHINE1_OFFSET + MACHINE_EEPROM_POS0)];
@@ -841,7 +841,7 @@ void setup()
   PolarityStatus = EEPROM[EEPROM_POLARITY_STATUS];
 
   //------- VAR INITIALIZATION ------------
-  NitroStartGradePrev = NitroStartGrade;
+  // NitroStartGradePrev = NitroStartGrade;
 
   // Polarity configuration
   //  if (PolarityStatus == POL_NORMAL)
@@ -903,6 +903,7 @@ void loop()
 
   //----- DCDC ADJUSTMENT TO ENCODER POSITION -----
   // This section of code does not execute while on MENU CONFIGURATION mode
+
   if (updateDisplayVoltsFLAG == FLAG_ON)
   {
     updateDisplayVoltsFLAG = FLAG_OFF;
@@ -1416,7 +1417,6 @@ void loop()
     Time = millis();
     IoutSense = Read_Analog(ISEN) / 4;
     VoutSense = Read_Analog(VOSEN) / 4;
-    Serial.println(IoutSense);
   }
   //------SHORTCIRCUIT LIMIT----------
   if ((PedalNow == PEDAL_ON) || (OutLatchState == true))
@@ -1564,9 +1564,9 @@ void loop()
   int loops;
   int danger;
 
-  i2c_stop();
+  si.i2c_stop();
   delay(1);
-  i2c_stop();
+  si.i2c_stop();
   delay(1);
 
   result = 0;
@@ -1577,30 +1577,30 @@ void loop()
     result = 1;
     loops++;
 
-    if (!i2c_start(192 | I2C_WRITE))
+    if (!si.i2c_start(192 | I2C_WRITE))
     {
-      // Serial.print("I2Cerr_1");
+       Serial.print("I2Cerr_1");
       result = 0;
       danger = 0;
     }
-    if (!i2c_write(68))
+    if (!si.i2c_write(68))
     {
-      // Serial.print("I2Cerr_2");
+       Serial.print("I2Cerr_2");
       result = 0;
       danger = 0;
     }
-    if (!i2c_write(data))
+    if (!si.i2c_write(data))
     {
-      // Serial.println("I2Cerr_3");
+       Serial.println("I2Cerr_3");
       result = 0;
     }
-    i2c_stop();
+    si.i2c_stop();
     delay(1);
   }
 
   if (danger == 0)
   {
-    // Serial.println("Retry I2C");
+     Serial.println("Retry I2C");
 
     result = 0;
     loops = 0;
@@ -1610,24 +1610,24 @@ void loop()
       danger = 1;
       loops++;
 
-      if (!i2c_start(192 | I2C_WRITE))
+      if (!si.i2c_start(192 | I2C_WRITE))
       {
-        // Serial.print("I2Cerr_1+");
+         Serial.print("I2Cerr_1+");
         result = 0;
         danger = 0;
       }
-      if (!i2c_write(68))
+      if (!si.i2c_write(68))
       {
-        // Serial.print("I2Cerr_2+");
+         Serial.print("I2Cerr_2+");
         result = 0;
         danger = 0;
       }
-      if (!i2c_write(data))
+      if (!si.i2c_write(data))
       {
-        // Serial.println("I2Cerr_3+");
+         Serial.println("I2Cerr_3+");
         result = 0;
       }
-      i2c_stop();
+      si.i2c_stop();
       delay(1);
     }
   }
