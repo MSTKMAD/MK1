@@ -3,3 +3,6 @@
 
 *.b#*
 *.s#*
+03.Firmware/MK1-RP2040/740/EDCPSU-TATTOO/build/
+
+03.Firmware/TEST/TestMKx/build/
