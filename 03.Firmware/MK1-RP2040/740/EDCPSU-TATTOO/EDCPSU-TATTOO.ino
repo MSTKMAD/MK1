@@ -1759,6 +1759,47 @@ void NitroStart(byte NGrade, int encoderPosition)
       DisplayMessage(RunMode, WRITE_MESSG, "NITRO", NITRO_MESSG, DisplayValue);
     }
 
+    int encoder_5v = 30;   // Encoder pos for 5v.
+    int encoder_12v = 100; // Encoder pos for 5v.
+
+    // set voltage 5v
+    TPICvalue = pgm_read_byte_near(TPICLookupTable + encoder_5v);
+    Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);
+    digitalWrite(DCDC_EN, DCDC_ENABLED);
+    delay(50);
+    int tiempo_arrancado = 200; // ms
+    int tiempo_bajada = 60;     // ms
+    int steps_subida = 10;
+    int steps_bajada = 10;
+    int volt_step = 0;
+
+    // Rampa de subida
+    for (int i = 0; i < steps_subida; i++)
+    {
+      volt_step = (120 - 50) * i / steps_subida;
+      TPICvalue = pgm_read_byte_near(TPICLookupTable + encoder_5v + volt_step);
+      Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);
+      delay(tiempo_arrancado / steps_subida);
+    }
+
+    // Rampa de bajada
+    if (encoderPosition < encoder_12v)
+    {
+      for (int i = steps_bajada; i >= 0; i--)
+      {
+        volt_step = (encoder_12v - encoderPosition) / steps_subida * i;
+        TPICvalue = pgm_read_byte_near(TPICLookupTable + encoder_5v + volt_step);
+        Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);
+        delay(tiempo_bajada / steps_bajada);
+      }
+    }
+
+    // Voltaje Objetivo
+    TPICvalue = pgm_read_byte_near(TPICLookupTable + encoderPosition);
+    Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);
+
+    /*
+
     //----(TD)=65ms------
     TPICvalue = 172; // const _4VOLTS =172; // Lowest value of output corresponds to just the start of the TPICLookupTable
     Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);
@@ -1770,26 +1811,12 @@ void NitroStart(byte NGrade, int encoderPosition)
     {
       TPICvalue = pgm_read_byte_near(NitroLookupTable + n); // Program the DCDC with the value in the nitrolookuptable
       Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);
+      delay(5);
     }
-
-    ////------------ NITRO OUTPUT FALLING profile -----------------
-    ////If encoderPos is Lower than 12.3V
-    ////there is a fallout profile to arrive to the actual encoderPos
-    ////from the 12.3V
-    //
-    // n = _12_3V_INDEX; // This is the index for 12.3V in TPICLookupTable[]
-    // while ((n - encoderPosition) > 0)
-    //{
-    //  n=n-3;
-    //  TPICvalue = pgm_read_byte_near(TPICLookupTable + n);          // Go from the index position of 12.3V
-    //  Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);                     // to the value corresponding to the encoderPos
-    //}
-    //// THE End value is ALWAYS  = encoderPos
-    //// if encoderPos > 12.3V then the "while" is not executed and encoderPos value is
-    //// sent directly to the TPIC here withot the fallout profile
-    TPICvalue = pgm_read_byte_near(TPICLookupTable + encoderPos);
+ TPICvalue = pgm_read_byte_near(TPICLookupTable + encoderPos);
     Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);
 
+    */
     //------------ DELETE THE NITRO TEXT ------------------------
     if (encoderPosition < HIGH_THRESHOLD_NITRO)
     {
@@ -1800,71 +1827,6 @@ void NitroStart(byte NGrade, int encoderPosition)
   {
   } // NITRO is OFF--> do nothing
 }
-
-//---------------------------------------------
-
-//---------------------------------------------
-// void NitroStart(byte NGrade, int encoderPosition)
-//{
-//   int NitroStepDuration = 10; // Milliseconds
-//   byte NitroIndex;
-//   byte TPICvalue;
-//
-//   if ((encoderPosition < MAX_THRESHOLD_NITRO) && (NGrade != NITRO_CFG_NO)) // No NITRO for Vout > 11.5V or NITRO= OFF either
-//   {
-//
-//     //-------Brings the programmed output to the lowest value to avoid first output value bounce-----------
-//     TPICvalue = pgm_read_byte_near(TPICLookupTable); // Lowest value of output corresponds to just the start of the TPICLookupTable
-//     Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);
-//     digitalWrite(DCDC_EN, DCDC_ENABLED);
-//
-//     if (encoderPosition < HIGH_THRESHOLD_NITRO)
-//     {
-//       DisplayMessage(RunMode, WRITE_MESSG, "NITRO", NITRO_MESSG, DisplayValue);
-//
-//       //------------ NITRO LOW profile  -----------------
-//       for (int n = 0; n < LenNITROLookupTable; n++)
-//       {
-//         NitroIndex = pgm_read_byte_near(NitroLookupTableLow + n);     // Recover the index in the TPICLookupTable
-//         TPICvalue = pgm_read_byte_near(TPICLookupTable + NitroIndex); // Get the value corresponding to such index
-//         Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);                     // Program the DCDC with that value
-//         delay(NitroStepDuration);
-//       }
-//     }
-//     else // NITRO_HIGH
-//     {
-//       //------------ NITRO HIGH profile  -----------------
-//       for (int n = 0; n < LenNITROLookupTable; n++)
-//       {
-//         NitroIndex = pgm_read_byte_near(NitroLookupTableHigh + n);    // Recover the index in the TPICLookupTable
-//         TPICvalue = pgm_read_byte_near(TPICLookupTable + NitroIndex); // Get the value corresponding to such index
-//         Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);                     // Program the DCDC with that value
-//         delay(NitroStepDuration);
-//       }
-//     }
-//
-//     //------------ NITRO OUTPUT FALLING profile -----------------
-//
-//     //NitroIndex is now pointing to the maximum value
-//     //of the Nitro profile. Let's begin the fall profile
-//     //from this point.
-//
-//     while ((NitroIndex - encoderPosition) > 0)
-//     {
-//       TPICvalue = pgm_read_byte_near(TPICLookupTable + NitroIndex); // Get the value corresponding to such index
-//       Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);                     // Program the DCDC with that value
-//
-//       delay(2);
-//       NitroIndex--;
-//     }
-//
-//     //------------ DELETE THE NITRO TEXT ------------------------
-//     if (encoderPosition < HIGH_THRESHOLD_NITRO)
-//     {
-//       DisplayMessage(RunMode, DELETE_MESSG, "NITRO", NITRO_MESSG, DisplayValue);
-//     }
-//   }
-// }
 
 //==========================================ReadPushbutton=======================================================
 // PIN_IP: HW input
