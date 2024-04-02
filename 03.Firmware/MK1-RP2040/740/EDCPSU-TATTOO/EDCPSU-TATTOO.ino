@@ -897,7 +897,7 @@ void loop()
         display.display();
       }
     } // RuntimerEnable == STOP
-  }   // RunMode == RUNMODE_NORMAL
+  } // RunMode == RUNMODE_NORMAL
 
   Standby_Handler(&StandbyGlobalTimer); // Checks if go to STANDBY
 
@@ -1177,7 +1177,7 @@ void loop()
         // Error
       }
     } //--ShowLongpressInfo == NO_LONGPRESS_INFO
-  }   //-------------RotPushEvent == PUSHBUTTON_ON_EDGE
+  } //-------------RotPushEvent == PUSHBUTTON_ON_EDGE
 
   if (RotPushEvent == PUSHBUTTON_LONGPRESS)
   {
@@ -1465,53 +1465,52 @@ void loop()
       }
     }
   }
-  else
-    //------UNDERVOLTAGE LIMIT----------
-    if ((PedalNow == PEDAL_ON) || (OutLatchState == true))
+  //------UNDERVOLTAGE LIMIT----------
+  if ((PedalNow == PEDAL_ON) || (OutLatchState == true))
+  {
+    if ((VoutTarget - VoutSense) >= UNDERVOLT_1V8)
     {
-      if ((VoutTarget - VoutSense) >= UNDERVOLT_1V8)
+      OVCsenseTime = Time;
+
+      boolean OVCerror = true;
+      int undervoltage_count = 0;
+      for (int i = 0; i < (OVC_UVOLT_MAX_TIME / OVC_UVOLT_DELAY); i++)
       {
-        OVCsenseTime = Time;
-
-        boolean OVCerror = true;
-        int undervoltage_count = 0;
-        for (int i = 0; i < (OVC_UVOLT_MAX_TIME / OVC_UVOLT_DELAY); i++)
+        delay(OVC_UVOLT_DELAY);
+        VoutSense = Read_Analog(VOSEN) / 4;
+        Serial.print("+");
+        Serial.println(VoutSense);
+        if ((VoutTarget - VoutSense) >= UNDERVOLT_1V8)
         {
-          delay(OVC_UVOLT_DELAY);
-          VoutSense = Read_Analog(VOSEN) / 4;
-          Serial.print("+");
-          Serial.println(VoutSense);
-          if ((VoutTarget - VoutSense) >= UNDERVOLT_1V8)
-          {
-            undervoltage_count++;
-          }
-        }
-        if (undervoltage_count < ((OVC_UVOLT_MIN_TIME / OVC_UVOLT_DELAY) + 1))
-        {
-          OVCerror = false;
-          Serial.println("------------------------------------------------");
-        }
-        Time = millis();
-
-        if (OVCerror == true)
-        {
-          Serial.println("UNDERVOLTAGE");
-          OVCerrorsConsecutive++;
-          display.clearDisplay(); // clears the screen and buffer
-          display.drawBitmap(0, 0, OverCurrentLogo, 124, 63, WHITE);
-          display.display();
-          Mitigate_OVChazard(&OVCerrorsConsecutive);
-          PedalNow = PEDAL_OFF; // After mitigate_ovcHazard the pedal is OFF. It is updated to prevent the following
-          // over current test to trigger double
-
-          continuousMode = false; // To prevent re-entering continuously (same as PEDAL_OFF above)
-          NitroForContinuousMode = false;
-          OutLatchState = false;
-
-          updateDisplayVoltsFLAG = FLAG_ON; // To bring the normal display ON again
+          undervoltage_count++;
         }
       }
+      if (undervoltage_count < ((OVC_UVOLT_MIN_TIME / OVC_UVOLT_DELAY) + 1))
+      {
+        OVCerror = false;
+        Serial.println("------------------------------------------------");
+      }
+      Time = millis();
+
+      if (OVCerror == true)
+      {
+        Serial.println("UNDERVOLTAGE");
+        OVCerrorsConsecutive++;
+        display.clearDisplay(); // clears the screen and buffer
+        display.drawBitmap(0, 0, OverCurrentLogo, 124, 63, WHITE);
+        display.display();
+        Mitigate_OVChazard(&OVCerrorsConsecutive);
+        PedalNow = PEDAL_OFF; // After mitigate_ovcHazard the pedal is OFF. It is updated to prevent the following
+        // over current test to trigger double
+
+        continuousMode = false; // To prevent re-entering continuously (same as PEDAL_OFF above)
+        NitroForContinuousMode = false;
+        OutLatchState = false;
+
+        updateDisplayVoltsFLAG = FLAG_ON; // To bring the normal display ON again
+      }
     }
+  }
 
   //-------- OVER CURRENT LIMIT --------
   if ((PedalNow == PEDAL_ON) || (OutLatchState == true))
