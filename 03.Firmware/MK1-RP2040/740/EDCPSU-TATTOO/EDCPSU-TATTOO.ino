@@ -2,7 +2,7 @@
 //******************************
 //   VERSION r15.0-31
 //*****************************
-#define VERSION 740
+#define VERSION 750   // Version 750: Proviene de la version 805 de la MK2 debido al cambio de microcontrolador con respecto a la version 740.
 /*********************************************************************
 EDCPSU Tattoo edition HW r15.0
 10 AGO 2023
