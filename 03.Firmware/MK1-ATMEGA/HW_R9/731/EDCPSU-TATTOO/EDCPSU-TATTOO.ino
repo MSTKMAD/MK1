@@ -81,7 +81,7 @@ const int NUM_MEMORY = 4;
 const int SAVE_MEM_TIMER = 2000;       // Milliseconds
 const int EEPROM_RECORDED_DONE = 0xDA; // THis signature indicates if the EEPROM is recorded or if it is brand new and not recorded
 const int EEPROM_POLARITY_STATUS = 0x19;
-;                                     //Initial value for the polarity
+;                                     // Initial value for the polarity
 const int EEPROM_NITRO_STATUS = 0X20; // Position of EEPROM NITRO STATUS  --> INDICATES if NITRO is active or not
 const int EEPROM_RECORD_STAT = 0x21;  // Position of EEPROM RECORDED FLAG --> INDICATES if EEPROM is recorded (when value = EEPROM_RECORDED_DONE)
 const int EEPROM_MNF_YEAR = 0xF0;     // Position of EEPROM MANUFACTURED YEAR (Binary)
@@ -125,16 +125,16 @@ const int PUSHBUTTON_IDLE = 0;
 const int PUSHBUTTON_ON_EDGE = 1;
 const int PUSHBUTTON_FALL = 2;
 const int PUSHBUTTON_LONGPRESS = 3;
-const unsigned long LONG_PRESS_TIME =  300;   // Milliseconds
-const unsigned long OVC_ALARM_TIMER =  2000;  // Milliseconds
+const unsigned long LONG_PRESS_TIME = 300;   // Milliseconds
+const unsigned long OVC_ALARM_TIMER = 2000;  // Milliseconds
 const unsigned long MEM_DISPLAY_TIME = 2000; // Milliseconds
 const int LenNITROLookupTable = 11;
-const int _12_3V_INDEX = 181;                 // This is the index position in TPIClookuptable corresponding to 12.3V which is the peak value in NITRO mode
+const int _12_3V_INDEX = 181; // This is the index position in TPIClookuptable corresponding to 12.3V which is the peak value in NITRO mode
 
 const int OVC_SENSE_MAX_TIME = 2000;          // Maximum time that can last the overcurrent with SENSE method (in Milliseconds)
 const int OVC_UVOLT_MAX_TIME = 1000;          // Maximum time that can last the overcurrent with the UNDERVOLTAGE method (Milliseconds)
-const unsigned int OVC_SENSE_LIMIT_INF = 760; // Current limit above which it is still considered an overcurrent sense situation 2.6A
-const unsigned int OVC_SENSE_LIMIT_SUP = 800; // Current limit above which it is Triggered the overcurrent sense situation 2.7A real (in theory this value should trigger at 3.1A but Rsense is contaminated by a trace track to the amplifier)
+const unsigned int OVC_SENSE_LIMIT_INF = 800; // Current limit above which it is still considered an overcurrent sense situation 2.6A
+const unsigned int OVC_SENSE_LIMIT_SUP = 850; // Current limit above which it is Triggered the overcurrent sense situation 2.7A real (in theory this value should trigger at 3.1A but Rsense is contaminated by a trace track to the amplifier)
 const byte MAX_OVC_ERRORS = 5;                // Max number of OVC errors per session in order to request the release of the PEDAL to the user
 const int UNDERVOLT_1V5 = 100;                // Sensed voltage corresponding to 2V for undervoltage sensing
 const int UNDERVOLT_1V8 = 121;                // Sensed voltage corresponding to 1.8V for undervoltage sensing
@@ -148,7 +148,7 @@ const byte LONGPRESS_INFO_CONT = 1;
 const byte LONGPRESS_INFO_NO_CONT = 2;
 const byte LONGPRESS_INFO_TIMER_ON = 3;
 const byte LONGPRESS_INFO_TIMER_OFF = 4;
-const unsigned long SHOW_LONGPRESS_TIME = 1800; // Time that the longpress information is shown on display (Milliseconds)
+const unsigned long SHOW_LONGPRESS_TIME = 900; // Time that the longpress information is shown on display (Milliseconds)
 
 const unsigned long RX_CHAR_TIMEOUT = 10; // (ms) time allowed for an orphan char received via Serial
 const byte TLG_RX_BYTES = 3;              // Bytes compounding a Serial telegram of the Test mode
@@ -172,57 +172,56 @@ const int ANALOG_PEDAL = A0; // New in r8.0 (before LED)
 
 //-------------------------- PROGMEM DEFINITION -----------------------------------------------------------------
 
-const static unsigned char __attribute__((progmem)) MusotokuLogo[] = {
-    0xE0, 0x06, 0x30, 0x0C, 0x3F, 0x00, 0xFC, 0x00, // ###          ##   ##        ##    ######        ######
-    0xE0, 0x06, 0x30, 0x0C, 0x71, 0x81, 0xFE, 0x00, // ###          ##   ##        ##   ###   ##      ########
-    0xE0, 0x0E, 0x30, 0x0C, 0x60, 0xC3, 0x03, 0x00, // ###         ###   ##        ##   ##     ##    ##      ##
-    0xE0, 0x0E, 0x30, 0x0C, 0xC0, 0x62, 0x03, 0x00, // ###         ###   ##        ##  ##       ##   #       ##
-    0xA0, 0x0A, 0x30, 0x0C, 0xC0, 0x62, 0x01, 0x00, // # #         # #   ##        ##  ##       ##   #        #
-    0xB0, 0x0A, 0x30, 0x0C, 0xC0, 0x66, 0x01, 0x80, // # ##        # #   ##        ##  ##       ##  ##        ##
-    0xB0, 0x0A, 0x30, 0x0C, 0xC0, 0x66, 0x01, 0x80, // # ##        # #   ##        ##  ##       ##  ##        ##
-    0x90, 0x1A, 0x30, 0x0C, 0xC0, 0x06, 0x01, 0x80, // #  #       ## #   ##        ##  ##           ##        ##
-    0x90, 0x12, 0x30, 0x0C, 0xC0, 0x06, 0x01, 0x80, // #  #       #  #   ##        ##  ##           ##        ##
-    0x98, 0x12, 0x30, 0x0C, 0x60, 0x06, 0x01, 0x80, // #  ##      #  #   ##        ##   ##          ##        ##
-    0x98, 0x32, 0x30, 0x0C, 0x70, 0x06, 0x01, 0x80, // #  ##     ##  #   ##        ##   ###         ##        ##
-    0x98, 0x32, 0x30, 0x0C, 0x18, 0x06, 0x01, 0x80, // #  ##     ##  #   ##        ##     ##        ##        ##
-    0x88, 0x32, 0x30, 0x0C, 0x0E, 0x06, 0x01, 0x80, // #   #     ##  #   ##        ##      ###      ##        ##
-    0x8C, 0x22, 0x30, 0x0C, 0x07, 0x06, 0x01, 0x80, // #   ##    #   #   ##        ##       ###     ##        ##
-    0x8C, 0x62, 0x30, 0x0C, 0x03, 0x86, 0x01, 0x80, // #   ##   ##   #   ##        ##        ###    ##        ##
-    0x8C, 0x62, 0x30, 0x0C, 0x00, 0xC6, 0x01, 0x80, // #   ##   ##   #   ##        ##          ##   ##        ##
-    0x84, 0x62, 0x30, 0x0C, 0x00, 0xC6, 0x01, 0x80, // #    #   ##   #   ##        ##          ##   ##        ##
-    0x84, 0x42, 0x30, 0x0C, 0x00, 0x66, 0x01, 0x80, // #    #   #    #   ##        ##           ##  ##        ##
-    0x86, 0x42, 0x30, 0x0C, 0xC0, 0x66, 0x01, 0x80, // #    ##  #    #   ##        ##  ##       ##  ##        ##
-    0x86, 0xC2, 0x30, 0x0C, 0xC0, 0x66, 0x01, 0x80, // #    ## ##    #   ##        ##  ##       ##  ##        ##
-    0x82, 0xC2, 0x30, 0x1C, 0xC0, 0x66, 0x01, 0x00, // #     # ##    #   ##       ###  ##       ##  ##        #
-    0x82, 0x82, 0x30, 0x1C, 0xC0, 0x62, 0x01, 0x00, // #     # #     #   ##       ###  ##       ##   #        #
-    0x83, 0x82, 0x18, 0x18, 0xC0, 0xC3, 0x03, 0x00, // #     ###     #    ##      ##   ##      ##    ##      ##
-    0x83, 0x82, 0x1C, 0x30, 0x61, 0xC1, 0xFE, 0x00, // #     ###     #    ###    ##     ##    ###     ########
-    0x83, 0x82, 0x0F, 0xE0, 0x3F, 0x80, 0xFC, 0x00, // #     ###     #     #######       #######       ######
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, //
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, //
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, //
-    0x07, 0xFE, 0x0F, 0x84, 0x02, 0x20, 0x10, 0x00, //      ##########     #####    #        #   #        #
-    0x00, 0x20, 0x10, 0x84, 0x02, 0x20, 0x10, 0x00, //           #        #    #    #        #   #        #
-    0x00, 0x20, 0x20, 0x44, 0x04, 0x20, 0x10, 0x00, //           #       #      #   #       #    #        #
-    0x00, 0x20, 0x20, 0x44, 0x08, 0x20, 0x10, 0x00, //           #       #      #   #      #     #        #
-    0x00, 0x20, 0x40, 0x24, 0x00, 0x20, 0x10, 0x00, //           #      #        #  #            #        #
-    0x00, 0x20, 0x40, 0x24, 0x10, 0x20, 0x10, 0x00, //           #      #        #  #     #      #        #
-    0x00, 0x20, 0x40, 0x24, 0x20, 0x20, 0x10, 0x00, //           #      #        #  #    #       #        #
-    0x00, 0x20, 0x40, 0x24, 0x20, 0x20, 0x10, 0x00, //           #      #        #  #    #       #        #
-    0x00, 0x20, 0x40, 0x24, 0x40, 0x20, 0x10, 0x00, //           #      #        #  #   #        #        #
-    0x00, 0x20, 0x40, 0x24, 0x80, 0x20, 0x10, 0x00, //           #      #        #  #  #         #        #
-    0x00, 0x20, 0x40, 0x24, 0x80, 0x20, 0x10, 0x00, //           #      #        #  #  #         #        #
-    0x00, 0x20, 0x40, 0x25, 0x80, 0x20, 0x10, 0x00, //           #      #        #  # ##         #        #
-    0x00, 0x20, 0x40, 0x26, 0xC0, 0x20, 0x10, 0x00, //           #      #        #  ## ##        #        #
-    0x00, 0x20, 0x40, 0x26, 0x40, 0x20, 0x10, 0x00, //           #      #        #  ##  #        #        #
-    0x00, 0x20, 0x40, 0x24, 0x20, 0x20, 0x10, 0x00, //           #      #        #  #    #       #        #
-    0x00, 0x20, 0x40, 0x24, 0x10, 0x20, 0x10, 0x00, //           #      #        #  #     #      #        #
-    0x00, 0x20, 0x40, 0x24, 0x10, 0x20, 0x10, 0x00, //           #      #        #  #     #      #        #
-    0x00, 0x20, 0x40, 0x24, 0x08, 0x20, 0x10, 0x00, //           #      #        #  #      #     #        #
-    0x00, 0x20, 0x20, 0x44, 0x08, 0x30, 0x30, 0x00, //           #       #      #   #      #     ##      ##
-    0x00, 0x20, 0x20, 0x44, 0x04, 0x10, 0x20, 0x00, //           #       #      #   #       #     #      #
-    0x00, 0x20, 0x20, 0x44, 0x02, 0x10, 0x20, 0x00, //           #       #      #   #        #    #      #
-    0x00, 0x20, 0x1F, 0x84, 0x02, 0x0F, 0xC0, 0x00, //           #        ######    #        #     ######
+const static unsigned char __attribute__((progmem)) MusotokuLogo[] = { // NEW LOGO
+    0x03, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00,
+    0x06, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x80,
+    0x0c, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xc0,
+    0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x60,
+    0x30, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x30,
+    0x60, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x18,
+    0xc0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0c,
+    0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x04,
+    0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x04,
+    0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x04,
+    0x80, 0x00, 0x41, 0x10, 0x83, 0xc1, 0xe0, 0x00, 0x04,
+    0x80, 0x00, 0x63, 0x10, 0x84, 0x22, 0x10, 0x00, 0x04,
+    0x80, 0x00, 0x77, 0x10, 0x88, 0x12, 0x10, 0x00, 0x04,
+    0x80, 0x00, 0x5d, 0x10, 0x84, 0x02, 0x10, 0x00, 0x04,
+    0x80, 0x00, 0x49, 0x10, 0x83, 0xc2, 0x10, 0x00, 0x04,
+    0x80, 0x00, 0x41, 0x10, 0x80, 0x22, 0x10, 0x00, 0x04,
+    0x80, 0x00, 0x41, 0x10, 0x80, 0x12, 0x10, 0x00, 0x04,
+    0x80, 0x00, 0x41, 0x10, 0x88, 0x12, 0x10, 0x00, 0x04,
+    0x80, 0x00, 0x41, 0x10, 0x84, 0x22, 0x10, 0x00, 0x04,
+    0x80, 0x00, 0x41, 0x0f, 0x03, 0xc1, 0xa0, 0x00, 0x04,
+    0xe0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x1c,
+    0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10,
+    0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10,
+    0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10,
+    0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10,
+    0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10,
+    0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10,
+    0xe0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x1c,
+    0x80, 0x00, 0x7f, 0x0f, 0x04, 0x22, 0x10, 0x00, 0x04,
+    0x80, 0x00, 0x08, 0x10, 0x84, 0x42, 0x10, 0x00, 0x04,
+    0x80, 0x00, 0x08, 0x10, 0x84, 0x82, 0x10, 0x00, 0x04,
+    0x80, 0x00, 0x08, 0x10, 0x85, 0x02, 0x10, 0x00, 0x04,
+    0x80, 0x00, 0x08, 0x10, 0x86, 0x02, 0x10, 0x00, 0x04,
+    0x80, 0x00, 0x08, 0x10, 0x86, 0x02, 0x10, 0x00, 0x04,
+    0x80, 0x00, 0x08, 0x10, 0x85, 0x02, 0x10, 0x00, 0x04,
+    0x80, 0x00, 0x08, 0x10, 0x84, 0x82, 0x10, 0x00, 0x04,
+    0x80, 0x00, 0x08, 0x10, 0x84, 0x42, 0x10, 0x00, 0x04,
+    0x80, 0x00, 0x08, 0x0f, 0x04, 0x21, 0xe0, 0x00, 0x04,
+    0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x04,
+    0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x04,
+    0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x04,
+    0xc0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0c,
+    0x60, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x18,
+    0x30, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x30,
+    0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x60,
+    0x0c, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xc0,
+    0x06, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x80,
+    0x03, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00
+
 };
 
 const static unsigned char __attribute__((progmem)) NitroLogo[] = {
@@ -459,7 +458,7 @@ PROGMEM const byte TPICLookupTable[LenDCDCLookupTable] = {
     130, 194, 34, 98, 226, 146, 82, 50, 178, 242, 10, 74, 202, 170, 106, 26, 154, 218, 58, 122, 250, 134, 70, 38, 166, 230, 22, 86, 214,
     182, 118, 14, 142, 206, 46, 110, 238, 158, 94, 62, 190, 254, 129, 65, 193, 161, 97, 17, 145, 209, 49, 113, 241, 137, 73, 41, 169,
     233, 25, 89, 217, 185, 121, 5, 133, 197, 37, 101, 229, 149, 85, 53, 181, 245, 13, 77, 205, 173, 109, 29, 157, 221, 61, 125, 253,
-    131, 67, 35, 163, 227, 19, 147, 83, 211, 51, 179, 115, 243, 139, 75, 203, 43, 171, 107, 235, 155, 91, 219, 123, 251, 7, 135, 199}; //OVERDRIVE version (+0.4v)
+    131, 67, 35, 163, 227, 19, 147, 83, 211, 51, 179, 115, 243, 139, 75, 203, 43, 171, 107, 235, 155, 91, 219, 123, 251, 7, 135, 199}; // OVERDRIVE version (+0.4v)
 
 PROGMEM const byte DisplayValues[LenDCDCLookupTable] = {
     20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
@@ -469,11 +468,9 @@ PROGMEM const byte DisplayValues[LenDCDCLookupTable] = {
     134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157,
     158, 159, 160};
 
-
-
-PROGMEM const byte NitroLookupTable[LenNITROLookupTable] = { 
-     130, 170, 166, 46, 129, 209, 41, 217, 197, 149, 181}; //These are the I2C values for the TPIC (Thesee are NOT index positions in the tpiclookuptable)
-                                                              // Vpeak NITRO = 12.3V (Below the 12.5 of Cheyenne limit)
+PROGMEM const byte NitroLookupTable[LenNITROLookupTable] = {
+    130, 170, 166, 46, 129, 209, 41, 217, 197, 149, 181}; // These are the I2C values for the TPIC (Thesee are NOT index positions in the tpiclookuptable)
+                                                          //  Vpeak NITRO = 12.3V (Below the 12.5 of Cheyenne limit)
 
 // ------------------------------------------ FUNCTIONS --------------------------------------
 void Write_TPIC2810(byte address, byte data);
@@ -584,13 +581,13 @@ void setup()
   digitalWrite(LED_FRONT, LOW);
   pinMode(LED_FRONT, OUTPUT);
 
-  //Serial.begin(9600);
-  //Serial.print("Initializing version: ");
-  //Serial.println(VERSION);
+  // Serial.begin(9600);
+  // Serial.print("Initializing version: ");
+  // Serial.println(VERSION);
 
   // by default, we'll generate the high voltage from the 3.3v line internally! (neat!)
   display.begin(SSD1306_SWITCHCAPVCC);
-  //Wire.begin();
+  // Wire.begin();
   i2c_init();
 
   // ------ VAR INITIALIZATION ------
@@ -622,12 +619,12 @@ void setup()
                                 //  digitalWrite(ROTB,    HIGH);  // Pullup
 
   display.clearDisplay();
-  display.drawRect(29, 0, 71, 64, WHITE);
-  display.drawBitmap(36, 7, MusotokuLogo, 57, 50, WHITE);
+  // display.drawRect(29, 0, 71, 64, WHITE);
+  display.drawBitmap(29, 10, MusotokuLogo, 70, 48, WHITE);
   display.display();
-  StartupFrontLEDs();
-  digitalWrite(LED_FRONT, HIGH);
-  delay(1000);
+  // StartupFrontLEDs();
+  // digitalWrite(LED_FRONT, HIGH);
+  delay(2000);
 
   //------------- TEST MODE -------
   // Evaluate RX Data::::::::::::
@@ -852,7 +849,7 @@ void setup()
 
   StandbyGlobalTimer = Time; // Reset the standby timer
 
-  //Serial.print("Initialization done");
+  // Serial.print("Initialization done");
 }
 
 void loop()
@@ -861,7 +858,7 @@ void loop()
 
   if (RunMode == RUNMODE_NORMAL) // Only display if NOT in any configuration menu
   {
-    if (RuntimerEnable == true) //PLAY
+    if (RuntimerEnable == true) // PLAY
     {
       if ((Time - PartialRuntimer) > 10000)
       {
@@ -887,7 +884,7 @@ void loop()
         display.display();
       }
     } // RuntimerEnable == STOP
-  }   //RunMode == RUNMODE_NORMAL
+  }   // RunMode == RUNMODE_NORMAL
 
   Standby_Handler(&StandbyGlobalTimer); // Checks if go to STANDBY
 
@@ -967,7 +964,7 @@ void loop()
     {
       display.setCursor(26, 5);
       display.print("START");
-      //THE TIMER
+      // THE TIMER
       char arr_HHMM[8] = "01:44";
       sprintf(arr_HHMM, "%01d:%02d", runningHours, runningMinutes);
       display.setCursor(28, 35);
@@ -977,7 +974,7 @@ void loop()
     {
       display.setCursor(28, 5);
       display.print("STOP");
-      //THE TIMER
+      // THE TIMER
       char arr_HHMM[8] = "01:44";
       sprintf(arr_HHMM, "%01d:%02d", runningHours, runningMinutes);
       display.setTextSize(3);
@@ -991,17 +988,17 @@ void loop()
     if ((Time - ShowLongPressTimer) > SHOW_LONGPRESS_TIME)
     {
       ShowLongpressInfo = NO_LONGPRESS_INFO;
-//      Serial.println("timer");
+      //      Serial.println("timer");
       updateDisplayVoltsFLAG = FLAG_ON; // To refresh the display with the output value
     }
   }
-  else //NO_LONGPRESS_INFO
+  else // NO_LONGPRESS_INFO
   {
     ShowLongPressTimer = Time;
   }
 
   //---------------- PUSHBUTTON ACTION EXECUTION ----------------------
-  if ((PushbuttonAction == PUSHBUTTON_FALL) && (ShowLongpressInfo == NO_LONGPRESS_INFO)) //No  pushbutton available while longpress info is shown
+  if ((PushbuttonAction == PUSHBUTTON_FALL) && (ShowLongpressInfo == NO_LONGPRESS_INFO)) // No  pushbutton available while longpress info is shown
   {
     PushbuttonAction = PUSHBUTTON_IDLE;
 
@@ -1055,7 +1052,7 @@ void loop()
   }
 
   //--------------- ROTPUSH ACTION EXECUTION ------------------
-  if (RotPushEvent == PUSHBUTTON_FALL) //Important while in longpress action FALL event should not be attended
+  if (RotPushEvent == PUSHBUTTON_FALL) // Important while in longpress action FALL event should not be attended
   {
     RotPushEvent = PUSHBUTTON_IDLE;
 
@@ -1075,7 +1072,7 @@ void loop()
       {
         switch (NextRunMode)
         {
-        case RUNMODE_CONFIG_NITRO: //NITRO SELECTION
+        case RUNMODE_CONFIG_NITRO: // NITRO SELECTION
           RunMode = RUNMODE_CONFIG_NITRO;
           updateMenuDisplayFLAG = FLAG_ON;   // Enable the MENU display view
           updateDisplayVoltsFLAG = FLAG_OFF; // Disable the Normal display view
@@ -1091,21 +1088,21 @@ void loop()
           }
           break;
 
-        case RUNMODE_MENU_TIMER: //TIMER SELECTION
+        case RUNMODE_MENU_TIMER: // TIMER SELECTION
           RunMode = RUNMODE_MENU_TIMER;
           updateMenuDisplayFLAG = FLAG_ON;   // Enable the MENU display view
           updateDisplayVoltsFLAG = FLAG_OFF; // Disable the Normal display view
           MenuSelection = 1;                 // Forces the Config Menu to start indexing the 1st selected element
           break;
 
-        case RUNMODE_CHANGE_POL: //CHANGE POLARITY SELECTION
+        case RUNMODE_CHANGE_POL: // CHANGE POLARITY SELECTION
           RunMode = RUNMODE_CHANGE_POL;
           updateMenuDisplayFLAG = FLAG_ON;   // Enable the MENU display view
           updateDisplayVoltsFLAG = FLAG_OFF; // Disable the Normal display view
           MenuSelection = 1;                 // Forces the Config Menu to start indexing the 1st selected element
           break;
 
-        case RUNMODE_NORMAL: //EXIT SELECTION
+        case RUNMODE_NORMAL: // EXIT SELECTION
           RunMode = RUNMODE_NORMAL;
           updateMenuDisplayFLAG = FLAG_OFF; // Enable the MENU display view
           updateDisplayVoltsFLAG = FLAG_ON; // Disable the Normal display view
@@ -1128,7 +1125,7 @@ void loop()
         {
           ResetRunTimer = false;
           TotalRuntimer = 0;
-          RunTimer(TotalRuntimer, &runningHours, &runningMinutes); //Now updates the timer display to show 00:00
+          RunTimer(TotalRuntimer, &runningHours, &runningMinutes); // Now updates the timer display to show 00:00
           DisplayTimer(runningHours, runningMinutes);
         }
         updateDisplayVoltsFLAG = FLAG_ON; // For refreshing the Normal display view
@@ -1162,7 +1159,7 @@ void loop()
       }
       else
       {
-        //Error
+        // Error
       }
     } //--ShowLongpressInfo == NO_LONGPRESS_INFO
   }   //-------------RotPushEvent == PUSHBUTTON_ON_EDGE
@@ -1262,14 +1259,14 @@ void loop()
         BuzzerClick(LOW_PITCH, 2);
         updateMenuDisplayFLAG = FLAG_ON;
         MenuSelection = MenuSelection + EncoderChange;
-        MenuSelection = constrain(MenuSelection, 1, 3); //1.TIMER - 2.NITRO - 3.EXIT
+        MenuSelection = constrain(MenuSelection, 1, 3); // 1.TIMER - 2.NITRO - 3.EXIT
       }
       else if (RunMode == RUNMODE_CONFIG_NITRO)
       {
         BuzzerClick(LOW_PITCH, 2);
         updateMenuDisplayFLAG = FLAG_ON;
         MenuSelection = MenuSelection + EncoderChange;
-        MenuSelection = constrain(MenuSelection, 1, 2); //1.YES - 2.NO
+        MenuSelection = constrain(MenuSelection, 1, 2); // 1.YES - 2.NO
       }
 
       else if (RunMode == RUNMODE_MENU_TIMER)
@@ -1277,7 +1274,7 @@ void loop()
         BuzzerClick(LOW_PITCH, 2);
         updateMenuDisplayFLAG = FLAG_ON;
         MenuSelection = MenuSelection + EncoderChange;
-        MenuSelection = constrain(MenuSelection, 1, 3); //1.START - 2.STOP - 3.RESET
+        MenuSelection = constrain(MenuSelection, 1, 3); // 1.START - 2.STOP - 3.RESET
       }
 
       else if (RunMode == RUNMODE_CHANGE_POL)
@@ -1285,7 +1282,7 @@ void loop()
         BuzzerClick(LOW_PITCH, 2);
         updateMenuDisplayFLAG = FLAG_ON;
         MenuSelection = MenuSelection + EncoderChange;
-        MenuSelection = constrain(MenuSelection, 1, 2); //1.YES - 2.NO
+        MenuSelection = constrain(MenuSelection, 1, 2); // 1.YES - 2.NO
       }
       else
       {
@@ -1318,8 +1315,8 @@ void loop()
     {
       NitroStart(NitroStartGrade, encoderPos);
       digitalWrite(DCDC_EN, DCDC_ENABLED);
-      //updateDisplayVoltsFLAG = FLAG_ON;          // NOTE: ELIMINATED TO AVOID LOSS OF DISPLAY WHILE IN CONFIG MENU AND PEDAL IS PUSHED (On test...)
-      // Second Note: this line was initially added on version 24.
+      // updateDisplayVoltsFLAG = FLAG_ON;          // NOTE: ELIMINATED TO AVOID LOSS OF DISPLAY WHILE IN CONFIG MENU AND PEDAL IS PUSHED (On test...)
+      //  Second Note: this line was initially added on version 24.
     }
     else // (continuousMode==true)-->Pedal toggles latch output state
     {
@@ -1354,6 +1351,7 @@ void loop()
   {
     digitalWrite(DCDC_EN, DCDC_DISABLED);
   }
+  //============================= PROTECCTIONS======================================//
 
   //----------- OVC ALARM MANAGEMENT --------------
 
@@ -1404,7 +1402,7 @@ void loop()
     Time = millis();
     IoutSense = Read_Analog(ISEN);
     VoutSense = Read_Analog(VOSEN);
-    //Serial.println(VoutSense);
+    // Serial.println(VoutSense);
   }
 
   //------UNDERVOLTAGE LIMIT----------
@@ -1415,20 +1413,30 @@ void loop()
       OVCsenseTime = Time;
 
       boolean OVCerror = true;
-      while ((OVCerror == true) && ((Time - OVCsenseTime) < OVC_UVOLT_MAX_TIME))
+      int undervoltage_count = 0;
+      for (int i = 0; i < (OVC_UVOLT_MAX_TIME / OVC_UVOLT_DELAY); i++)
       {
-        //Serial.print('.');
+        delay(OVC_UVOLT_DELAY);
         VoutSense = Read_Analog(VOSEN);
-        if ((VoutTarget - VoutSense) < UNDERVOLT_1V5)
+        if ((VoutTarget - VoutSense) >= UNDERVOLT_1V8)
         {
-          OVCerror = false;
+          undervoltage_count++;
         }
-        Time = millis();
       }
+      if (undervoltage_count < ((OVC_UVOLT_MIN_TIME / OVC_UVOLT_DELAY) + 1))
+      {
+        OVCerror = false;
+        Serial.println("------------------------------------------------");
+      }
+      Time = millis();
+
       if (OVCerror == true)
       {
-        //Serial.println("UNDERVOLTAGE");
+        Serial.println("UNDERVOLTAGE");
         OVCerrorsConsecutive++;
+        display.clearDisplay(); // clears the screen and buffer
+        display.drawBitmap(0, 0, OverCurrentLogo, 124, 63, WHITE);
+        display.display();
         Mitigate_OVChazard(&OVCerrorsConsecutive);
         PedalNow = PEDAL_OFF; // After mitigate_ovcHazard the pedal is OFF. It is updated to prevent the following
                               // over current test to trigger double
@@ -1453,7 +1461,6 @@ void loop()
       delay(50);
       digitalWrite(CHG_POL, LOW);
       delay(50);
-      
 
       boolean OVCerror = true;
       while ((OVCerror == true) && ((Time - OVCsenseTime) < OVC_SENSE_MAX_TIME))
@@ -1462,21 +1469,20 @@ void loop()
         delay(50);
         digitalWrite(CHG_POL, LOW);
         delay(50);
-      
-        //Serial.print('-');
+
+        // Serial.print('-');
         IoutSense = Read_Analog(ISEN);
         if (IoutSense < OVC_SENSE_LIMIT_INF)
         {
           OVCerror = false;
-          
+
           digitalWrite(CHG_POL, LOW);
-      
         }
         Time = millis();
       }
       if (OVCerror == true)
       {
-        //Serial.println("OVC SENSE");
+        // Serial.println("OVC SENSE");
         OVCerrorsConsecutive++;
         Mitigate_OVChazard(&OVCerrorsConsecutive);
         updateDisplayVoltsFLAG = FLAG_ON; // To bring the normal display ON again
@@ -1522,19 +1528,19 @@ void Write_TPIC2810(byte address, byte data)
 
     if (!i2c_start(192 | I2C_WRITE))
     {
-      //Serial.print("I2Cerr_1");
+      // Serial.print("I2Cerr_1");
       result = 0;
       danger = 0;
     }
     if (!i2c_write(68))
     {
-      //Serial.print("I2Cerr_2");
+      // Serial.print("I2Cerr_2");
       result = 0;
       danger = 0;
     }
     if (!i2c_write(data))
     {
-      //Serial.println("I2Cerr_3");
+      // Serial.println("I2Cerr_3");
       result = 0;
     }
     i2c_stop();
@@ -1543,7 +1549,7 @@ void Write_TPIC2810(byte address, byte data)
 
   if (danger == 0)
   {
-    //Serial.println("Retry I2C");
+    // Serial.println("Retry I2C");
 
     result = 0;
     loops = 0;
@@ -1555,19 +1561,19 @@ void Write_TPIC2810(byte address, byte data)
 
       if (!i2c_start(192 | I2C_WRITE))
       {
-        //Serial.print("I2Cerr_1+");
+        // Serial.print("I2Cerr_1+");
         result = 0;
         danger = 0;
       }
       if (!i2c_write(68))
       {
-        //Serial.print("I2Cerr_2+");
+        // Serial.print("I2Cerr_2+");
         result = 0;
         danger = 0;
       }
       if (!i2c_write(data))
       {
-        //Serial.println("I2Cerr_3+");
+        // Serial.println("I2Cerr_3+");
         result = 0;
       }
       i2c_stop();
@@ -1576,16 +1582,16 @@ void Write_TPIC2810(byte address, byte data)
   }
   else
   {
-    //Serial.println("------");
+    // Serial.println("------");
   }
 }
-//void Write_TPIC2810(byte address, byte data)
+// void Write_TPIC2810(byte address, byte data)
 //{
-//  Wire.beginTransmission(byte(96)); // transmit command to device TPIC2810
-//  Wire.write(byte(68));             // Command to transfer next value to output register
-//  Wire.write(byte(data));
-//  Wire.endTransmission();     // stop transmitting
-//}
+//   Wire.beginTransmission(byte(96)); // transmit command to device TPIC2810
+//   Wire.write(byte(68));             // Command to transfer next value to output register
+//   Wire.write(byte(data));
+//   Wire.endTransmission();     // stop transmitting
+// }
 
 void ShowDisplayValue(int value)
 {
@@ -1603,13 +1609,13 @@ void ShowDisplayValue(int value)
 
   if (value >= 100)
   {
-    //fracPart = value - 100;
+    // fracPart = value - 100;
     display.fillCircle(83, 55, 4, WHITE); // Decimal point 2
     cursor = 89;
   }
   else
   {
-    //fracPart = value - 10*intPart;
+    // fracPart = value - 10*intPart;
     display.fillCircle(41, 55, 4, WHITE); // Decimal point 1
     cursor = 53;
   }
@@ -1658,7 +1664,7 @@ void DisplayMessage(byte RunMode, byte WriteORdelete, char Message[25], byte Typ
     case NITRO_MESSG:
       display.setTextSize(1);
       display.setCursor(95, 2);
-      //display.drawRect(91,0,33,11,WHITE);
+      // display.drawRect(91,0,33,11,WHITE);
       break;
     }
 
@@ -1677,9 +1683,9 @@ void DisplayMessage(byte RunMode, byte WriteORdelete, char Message[25], byte Typ
     }
     else
     {
-      //error
+      // error
     }
-  } //RunMode != CONFIG_MODE
+  } // RunMode != CONFIG_MODE
 }
 
 // ==============================================  NitroStart ======================================================
@@ -1690,127 +1696,125 @@ void DisplayMessage(byte RunMode, byte WriteORdelete, char Message[25], byte Typ
 void NitroStart(byte NGrade, int encoderPosition)
 {
   byte TPICvalue;
-  int  n;
+  int n;
 
   //------------------NEW NITRO------------------
 
-  if(NGrade != NITRO_CFG_NO) // Confirm that NITRO is ON
+  if (NGrade != NITRO_CFG_NO) // Confirm that NITRO is ON
   {
-  //---DISPLAY MESSAGE ONLY FOR VOLTAGES BELOW 10.0-----
-  if (encoderPosition < HIGH_THRESHOLD_NITRO)
+    //---DISPLAY MESSAGE ONLY FOR VOLTAGES BELOW 10.0-----
+    if (encoderPosition < HIGH_THRESHOLD_NITRO)
     {
       DisplayMessage(RunMode, WRITE_MESSG, "NITRO", NITRO_MESSG, DisplayValue);
     }
-    
-  //----(TD)=65ms------
+
+    //----(TD)=65ms------
     TPICvalue = 172; // const _4VOLTS =172; // Lowest value of output corresponds to just the start of the TPICLookupTable
     Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);
     digitalWrite(DCDC_EN, DCDC_ENABLED);
     delay(65);
 
-  //----(TC)=50ms------
+    //----(TC)=50ms------
     for (n = 0; n < LenNITROLookupTable; n++)
-      {
-        TPICvalue = pgm_read_byte_near(NitroLookupTable + n);      // Program the DCDC with the value in the nitrolookuptable
-        Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);                  
-      }
- 
-////------------ NITRO OUTPUT FALLING profile -----------------
-////If encoderPos is Lower than 12.3V
-////there is a fallout profile to arrive to the actual encoderPos
-////from the 12.3V
-//
-//n = _12_3V_INDEX; // This is the index for 12.3V in TPICLookupTable[]
-//while ((n - encoderPosition) > 0)
-//{
-//  n=n-3;
-//  TPICvalue = pgm_read_byte_near(TPICLookupTable + n);          // Go from the index position of 12.3V
-//  Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);                     // to the value corresponding to the encoderPos
-//}
-//// THE End value is ALWAYS  = encoderPos
-//// if encoderPos > 12.3V then the "while" is not executed and encoderPos value is 
-//// sent directly to the TPIC here withot the fallout profile
-TPICvalue = pgm_read_byte_near(TPICLookupTable + encoderPos);
-Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);
+    {
+      TPICvalue = pgm_read_byte_near(NitroLookupTable + n); // Program the DCDC with the value in the nitrolookuptable
+      Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);
+      delay(15);
+    }
 
+    ////------------ NITRO OUTPUT FALLING profile -----------------
+    ////If encoderPos is Lower than 12.3V
+    ////there is a fallout profile to arrive to the actual encoderPos
+    ////from the 12.3V
+    //
+    // n = _12_3V_INDEX; // This is the index for 12.3V in TPICLookupTable[]
+    // while ((n - encoderPosition) > 0)
+    //{
+    //  n=n-3;
+    //  TPICvalue = pgm_read_byte_near(TPICLookupTable + n);          // Go from the index position of 12.3V
+    //  Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);                     // to the value corresponding to the encoderPos
+    //}
+    //// THE End value is ALWAYS  = encoderPos
+    //// if encoderPos > 12.3V then the "while" is not executed and encoderPos value is
+    //// sent directly to the TPIC here withot the fallout profile
+    TPICvalue = pgm_read_byte_near(TPICLookupTable + encoderPos);
+    Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);
 
-  
-  //------------ DELETE THE NITRO TEXT ------------------------
+    //------------ DELETE THE NITRO TEXT ------------------------
     if (encoderPosition < HIGH_THRESHOLD_NITRO)
     {
       DisplayMessage(RunMode, DELETE_MESSG, "NITRO", NITRO_MESSG, DisplayValue);
     }
   }
   else
-       {}// NITRO is OFF--> do nothing
+  {
+  } // NITRO is OFF--> do nothing
 }
 
-  //---------------------------------------------
+//---------------------------------------------
 
-
-
-  //---------------------------------------------
-//void NitroStart(byte NGrade, int encoderPosition)
+//---------------------------------------------
+// void NitroStart(byte NGrade, int encoderPosition)
 //{
-//  int NitroStepDuration = 10; // Milliseconds
-//  byte NitroIndex;
-//  byte TPICvalue;
+//   int NitroStepDuration = 10; // Milliseconds
+//   byte NitroIndex;
+//   byte TPICvalue;
 //
-//  if ((encoderPosition < MAX_THRESHOLD_NITRO) && (NGrade != NITRO_CFG_NO)) // No NITRO for Vout > 11.5V or NITRO= OFF either
-//  {
+//   if ((encoderPosition < MAX_THRESHOLD_NITRO) && (NGrade != NITRO_CFG_NO)) // No NITRO for Vout > 11.5V or NITRO= OFF either
+//   {
 //
-//    //-------Brings the programmed output to the lowest value to avoid first output value bounce-----------
-//    TPICvalue = pgm_read_byte_near(TPICLookupTable); // Lowest value of output corresponds to just the start of the TPICLookupTable
-//    Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);
-//    digitalWrite(DCDC_EN, DCDC_ENABLED);
+//     //-------Brings the programmed output to the lowest value to avoid first output value bounce-----------
+//     TPICvalue = pgm_read_byte_near(TPICLookupTable); // Lowest value of output corresponds to just the start of the TPICLookupTable
+//     Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);
+//     digitalWrite(DCDC_EN, DCDC_ENABLED);
 //
-//    if (encoderPosition < HIGH_THRESHOLD_NITRO)
-//    {
-//      DisplayMessage(RunMode, WRITE_MESSG, "NITRO", NITRO_MESSG, DisplayValue);
+//     if (encoderPosition < HIGH_THRESHOLD_NITRO)
+//     {
+//       DisplayMessage(RunMode, WRITE_MESSG, "NITRO", NITRO_MESSG, DisplayValue);
 //
-//      //------------ NITRO LOW profile  -----------------
-//      for (int n = 0; n < LenNITROLookupTable; n++)
-//      {
-//        NitroIndex = pgm_read_byte_near(NitroLookupTableLow + n);     // Recover the index in the TPICLookupTable
-//        TPICvalue = pgm_read_byte_near(TPICLookupTable + NitroIndex); // Get the value corresponding to such index
-//        Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);                     // Program the DCDC with that value
-//        delay(NitroStepDuration);
-//      }
-//    }
-//    else // NITRO_HIGH
-//    {
-//      //------------ NITRO HIGH profile  -----------------
-//      for (int n = 0; n < LenNITROLookupTable; n++)
-//      {
-//        NitroIndex = pgm_read_byte_near(NitroLookupTableHigh + n);    // Recover the index in the TPICLookupTable
-//        TPICvalue = pgm_read_byte_near(TPICLookupTable + NitroIndex); // Get the value corresponding to such index
-//        Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);                     // Program the DCDC with that value
-//        delay(NitroStepDuration);
-//      }
-//    }
+//       //------------ NITRO LOW profile  -----------------
+//       for (int n = 0; n < LenNITROLookupTable; n++)
+//       {
+//         NitroIndex = pgm_read_byte_near(NitroLookupTableLow + n);     // Recover the index in the TPICLookupTable
+//         TPICvalue = pgm_read_byte_near(TPICLookupTable + NitroIndex); // Get the value corresponding to such index
+//         Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);                     // Program the DCDC with that value
+//         delay(NitroStepDuration);
+//       }
+//     }
+//     else // NITRO_HIGH
+//     {
+//       //------------ NITRO HIGH profile  -----------------
+//       for (int n = 0; n < LenNITROLookupTable; n++)
+//       {
+//         NitroIndex = pgm_read_byte_near(NitroLookupTableHigh + n);    // Recover the index in the TPICLookupTable
+//         TPICvalue = pgm_read_byte_near(TPICLookupTable + NitroIndex); // Get the value corresponding to such index
+//         Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);                     // Program the DCDC with that value
+//         delay(NitroStepDuration);
+//       }
+//     }
 //
-//    //------------ NITRO OUTPUT FALLING profile -----------------
+//     //------------ NITRO OUTPUT FALLING profile -----------------
 //
-//    //NitroIndex is now pointing to the maximum value
-//    //of the Nitro profile. Let's begin the fall profile
-//    //from this point.
+//     //NitroIndex is now pointing to the maximum value
+//     //of the Nitro profile. Let's begin the fall profile
+//     //from this point.
 //
-//    while ((NitroIndex - encoderPosition) > 0)
-//    {
-//      TPICvalue = pgm_read_byte_near(TPICLookupTable + NitroIndex); // Get the value corresponding to such index
-//      Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);                     // Program the DCDC with that value
+//     while ((NitroIndex - encoderPosition) > 0)
+//     {
+//       TPICvalue = pgm_read_byte_near(TPICLookupTable + NitroIndex); // Get the value corresponding to such index
+//       Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);                     // Program the DCDC with that value
 //
-//      delay(2);
-//      NitroIndex--;
-//    }
+//       delay(2);
+//       NitroIndex--;
+//     }
 //
-//    //------------ DELETE THE NITRO TEXT ------------------------
-//    if (encoderPosition < HIGH_THRESHOLD_NITRO)
-//    {
-//      DisplayMessage(RunMode, DELETE_MESSG, "NITRO", NITRO_MESSG, DisplayValue);
-//    }
-//  }
-//}
+//     //------------ DELETE THE NITRO TEXT ------------------------
+//     if (encoderPosition < HIGH_THRESHOLD_NITRO)
+//     {
+//       DisplayMessage(RunMode, DELETE_MESSG, "NITRO", NITRO_MESSG, DisplayValue);
+//     }
+//   }
+// }
 
 //==========================================ReadPushbutton=======================================================
 // PIN_IP: HW input
@@ -1890,7 +1894,7 @@ void Handle_ConfigMenus(byte RunMode, int index, byte *NextRunMode, byte *NitroS
     display.setCursor(35, 26);
     display.print("NITRO");
     display.setCursor(35, 47);
-    //display.print("FW/BW");
+    // display.print("FW/BW");
     display.print("EXIT");
 
     switch (index)
@@ -1961,26 +1965,26 @@ void Handle_ConfigMenus(byte RunMode, int index, byte *NextRunMode, byte *NitroS
 
     switch (index)
     {
-    case 1: //START
+    case 1: // START
       *ResetRunTimer = false;
       *RuntimerEnable = true;
       display.drawRoundRect(43, 40, 24, 23, 5, WHITE);
       break;
 
-    case 2: //STOP
+    case 2: // STOP
       *ResetRunTimer = false;
       *RuntimerEnable = false;
       display.drawRoundRect(65, 40, 25, 23, 5, WHITE);
       break;
 
-    case 3: //RESET
+    case 3: // RESET
       *ResetRunTimer = true;
       *RuntimerEnable = true;
       display.drawRoundRect(90, 40, 37, 23, 5, WHITE);
       break;
     }
 
-    //THE TIMER
+    // THE TIMER
     char arr_HHMM[8] = "01:44";
     sprintf(arr_HHMM, "%01d:%02d", runningHours, runningMinutes);
     display.setTextSize(3);
@@ -2106,7 +2110,7 @@ void Standby_Handler(unsigned long *StandbyTimer)
         wakeup = true;
       }
 
-    } //While_standby
+    } // While_standby
 
     //------WAKE UP ROUTINE------
     display.clearDisplay();
@@ -2152,9 +2156,9 @@ void Standby_Handler(unsigned long *StandbyTimer)
     *StandbyTimer = Time;             // Reset the timer before coming back to active
     updateDisplayVoltsFLAG = FLAG_ON; // To bring the normal display ON again
 
-  } //Standby_Mode
+  } // Standby_Mode
 
-} //END Standby_Handler
+} // END Standby_Handler
 
 //===============================================Mitigate_OVChazard=======================================================
 // Display OVERCURRENT message

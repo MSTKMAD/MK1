@@ -2,10 +2,10 @@
 //******************************
 //   VERSION r15.0-31
 //*****************************
-#define VERSION 740
+#define VERSION 750   // Version 750: Proviene de la version 805 de la MK2 debido al cambio de microcontrolador con respecto a la version 740.
 /*********************************************************************
 EDCPSU Tattoo edition HW r15.0
-22 Marzo 2022
+10 AGO 2023
 IDE Version: 1.8.13
 VERSION: see above
 
@@ -135,11 +135,16 @@ const int OVC_SENSE_MAX_TIME = 2000; // Maximum time that can last the overcurre
 const int OVC_UVOLT_MAX_TIME = 500;  // Maximum time that can last the overcurrent with the UNDERVOLTAGE method (Milliseconds)
 const int OVC_UVOLT_MIN_TIME = 200;  // Maximum time that can last the overcurrent with the UNDERVOLTAGE method (Milliseconds)
 const int OVC_UVOLT_DELAY = 5;
+const int OVC_SHTC_DELAY = 5;
+const int OVC_SHTC_MAX_TIME = 100;
+const int OVC_SHTC_MIN_TIME = 80;
 const unsigned int OVC_SENSE_LIMIT_INF = 554; // Current limit above which it is still considered an overcurrent sense situation 2.6A
 const unsigned int OVC_SENSE_LIMIT_SUP = 639; // Current limit above which it is Triggered the overcurrent sense situation 2.7A real (in theory this value should trigger at 3.1A but Rsense is contaminated by a trace track to the amplifier)
 const byte MAX_OVC_ERRORS = 5;                // Max number of OVC errors per session in order to request the release of the PEDAL to the user
 const int UNDERVOLT_1V5 = 93;                 // Sensed voltage corresponding to 2V for undervoltage sensing
 const int UNDERVOLT_1V8 = 104;                // Sensed voltage corresponding to 1.8V for undervoltage sensing
+const int SHORTCIRCUIT_UVLO_INF = 100;        // Sensed voltage corresponding to 1.8V for undervoltage sensing
+const int SHORTCIRCUIT_UVLO_SUPP = 104;       // Sensed voltage corresponding to 1.8V for undervoltage sensing
 const float DISP_TO_VTARGET_CONV = 5.2;       // Conversion factor to get display values into same scale as VoutSense values (1/19.6)*1023 = 52.2 --> to DISP 52/10=5.2
 const byte DISPLAY_MEM = 1;
 const byte NO_DISPLAY_MEM = 2;
@@ -814,7 +819,7 @@ void setup()
     EEPROM[EEPROM_RECORD_STAT] = EEPROM_RECORDED_DONE; // Now signature is set to indicate that EEPROM is recorded
     EEPROM.commit();
   }
-
+  Serial.println("HI, DUMPED");
   //------- DUMP EEPROM VALUES INTO RAM ARRAY -------
 
   MachinesMemory[0] = EEPROM[(MACHINE1_OFFSET + MACHINE_EEPROM_POS0)];
@@ -836,7 +841,7 @@ void setup()
   PolarityStatus = EEPROM[EEPROM_POLARITY_STATUS];
 
   //------- VAR INITIALIZATION ------------
-  NitroStartGradePrev = NitroStartGrade;
+  // NitroStartGradePrev = NitroStartGrade;
 
   // Polarity configuration
   //  if (PolarityStatus == POL_NORMAL)
@@ -892,12 +897,13 @@ void loop()
         display.display();
       }
     } // RuntimerEnable == STOP
-  }   // RunMode == RUNMODE_NORMAL
+  } // RunMode == RUNMODE_NORMAL
 
   Standby_Handler(&StandbyGlobalTimer); // Checks if go to STANDBY
 
   //----- DCDC ADJUSTMENT TO ENCODER POSITION -----
   // This section of code does not execute while on MENU CONFIGURATION mode
+
   if (updateDisplayVoltsFLAG == FLAG_ON)
   {
     updateDisplayVoltsFLAG = FLAG_OFF;
@@ -1171,7 +1177,7 @@ void loop()
         // Error
       }
     } //--ShowLongpressInfo == NO_LONGPRESS_INFO
-  }   //-------------RotPushEvent == PUSHBUTTON_ON_EDGE
+  } //-------------RotPushEvent == PUSHBUTTON_ON_EDGE
 
   if (RotPushEvent == PUSHBUTTON_LONGPRESS)
   {
@@ -1411,9 +1417,54 @@ void loop()
     Time = millis();
     IoutSense = Read_Analog(ISEN) / 4;
     VoutSense = Read_Analog(VOSEN) / 4;
-    Serial.println(IoutSense);
   }
+  //------SHORTCIRCUIT LIMIT----------
+  if ((PedalNow == PEDAL_ON) || (OutLatchState == true))
+  {
+    if (VoutSense <= SHORTCIRCUIT_UVLO_INF)
+    {
+      OVCsenseTime = Time;
 
+      boolean OVCerror = true;
+      int short_circuit_count = 0;
+      for (int i = 0; i < (OVC_SHTC_MAX_TIME / OVC_SHTC_DELAY); i++)
+      {
+        delay(OVC_SHTC_DELAY);
+        VoutSense = Read_Analog(VOSEN) / 4;
+        Serial.print("+");
+        Serial.println(VoutSense);
+        if (VoutSense <= SHORTCIRCUIT_UVLO_SUPP)
+        {
+          short_circuit_count++;
+        }
+      }
+      if (short_circuit_count < ((OVC_SHTC_MIN_TIME / OVC_SHTC_DELAY) + 1))
+      {
+        OVCerror = false;
+        Serial.println("------------------------------------------------");
+      }
+
+      Time = millis();
+
+      if (OVCerror == true)
+      {
+        Serial.println("SHORTCIRCUIT");
+        OVCerrorsConsecutive++;
+        display.clearDisplay(); // clears the screen and buffer
+        display.drawBitmap(0, 0, OverCurrentLogo, 124, 63, WHITE);
+        display.display();
+        Mitigate_OVChazard(&OVCerrorsConsecutive);
+        PedalNow = PEDAL_OFF; // After mitigate_ovcHazard the pedal is OFF. It is updated to prevent the following
+        // over current test to trigger double
+
+        continuousMode = false; // To prevent re-entering continuously (same as PEDAL_OFF above)
+        NitroForContinuousMode = false;
+        OutLatchState = false;
+
+        updateDisplayVoltsFLAG = FLAG_ON; // To bring the normal display ON again
+      }
+    }
+  }
   //------UNDERVOLTAGE LIMIT----------
   if ((PedalNow == PEDAL_ON) || (OutLatchState == true))
   {
@@ -1512,9 +1563,9 @@ void loop()
   int loops;
   int danger;
 
-  i2c_stop();
+  si.i2c_stop();
   delay(1);
-  i2c_stop();
+  si.i2c_stop();
   delay(1);
 
   result = 0;
@@ -1525,30 +1576,30 @@ void loop()
     result = 1;
     loops++;
 
-    if (!i2c_start(192 | I2C_WRITE))
+    if (!si.i2c_start(192 | I2C_WRITE))
     {
-      // Serial.print("I2Cerr_1");
+       Serial.print("I2Cerr_1");
       result = 0;
       danger = 0;
     }
-    if (!i2c_write(68))
+    if (!si.i2c_write(68))
     {
-      // Serial.print("I2Cerr_2");
+       Serial.print("I2Cerr_2");
       result = 0;
       danger = 0;
     }
-    if (!i2c_write(data))
+    if (!si.i2c_write(data))
     {
-      // Serial.println("I2Cerr_3");
+       Serial.println("I2Cerr_3");
       result = 0;
     }
-    i2c_stop();
+    si.i2c_stop();
     delay(1);
   }
 
   if (danger == 0)
   {
-    // Serial.println("Retry I2C");
+     Serial.println("Retry I2C");
 
     result = 0;
     loops = 0;
@@ -1558,24 +1609,24 @@ void loop()
       danger = 1;
       loops++;
 
-      if (!i2c_start(192 | I2C_WRITE))
+      if (!si.i2c_start(192 | I2C_WRITE))
       {
-        // Serial.print("I2Cerr_1+");
+         Serial.print("I2Cerr_1+");
         result = 0;
         danger = 0;
       }
-      if (!i2c_write(68))
+      if (!si.i2c_write(68))
       {
-        // Serial.print("I2Cerr_2+");
+         Serial.print("I2Cerr_2+");
         result = 0;
         danger = 0;
       }
-      if (!i2c_write(data))
+      if (!si.i2c_write(data))
       {
-        // Serial.println("I2Cerr_3+");
+         Serial.println("I2Cerr_3+");
         result = 0;
       }
-      i2c_stop();
+      si.i2c_stop();
       delay(1);
     }
   }
@@ -1707,6 +1758,47 @@ void NitroStart(byte NGrade, int encoderPosition)
       DisplayMessage(RunMode, WRITE_MESSG, "NITRO", NITRO_MESSG, DisplayValue);
     }
 
+    int encoder_5v = 30;   // Encoder pos for 5v.
+    int encoder_12v = 100; // Encoder pos for 5v.
+
+    // set voltage 5v
+    TPICvalue = pgm_read_byte_near(TPICLookupTable + encoder_5v);
+    Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);
+    digitalWrite(DCDC_EN, DCDC_ENABLED);
+    delay(50);
+    int tiempo_arrancado = 200; // ms
+    int tiempo_bajada = 60;     // ms
+    int steps_subida = 10;
+    int steps_bajada = 10;
+    int volt_step = 0;
+
+    // Rampa de subida
+    for (int i = 0; i < steps_subida; i++)
+    {
+      volt_step = (120 - 50) * i / steps_subida;
+      TPICvalue = pgm_read_byte_near(TPICLookupTable + encoder_5v + volt_step);
+      Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);
+      delay(tiempo_arrancado / steps_subida);
+    }
+
+    // Rampa de bajada
+    if (encoderPosition < encoder_12v)
+    {
+      for (int i = steps_bajada; i >= 0; i--)
+      {
+        volt_step = (encoder_12v - encoderPosition) / steps_subida * i;
+        TPICvalue = pgm_read_byte_near(TPICLookupTable + encoder_5v + volt_step);
+        Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);
+        delay(tiempo_bajada / steps_bajada);
+      }
+    }
+
+    // Voltaje Objetivo
+    TPICvalue = pgm_read_byte_near(TPICLookupTable + encoderPosition);
+    Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);
+
+    /*
+
     //----(TD)=65ms------
     TPICvalue = 172; // const _4VOLTS =172; // Lowest value of output corresponds to just the start of the TPICLookupTable
     Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);
@@ -1718,26 +1810,12 @@ void NitroStart(byte NGrade, int encoderPosition)
     {
       TPICvalue = pgm_read_byte_near(NitroLookupTable + n); // Program the DCDC with the value in the nitrolookuptable
       Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);
+      delay(5);
     }
-
-    ////------------ NITRO OUTPUT FALLING profile -----------------
-    ////If encoderPos is Lower than 12.3V
-    ////there is a fallout profile to arrive to the actual encoderPos
-    ////from the 12.3V
-    //
-    // n = _12_3V_INDEX; // This is the index for 12.3V in TPICLookupTable[]
-    // while ((n - encoderPosition) > 0)
-    //{
-    //  n=n-3;
-    //  TPICvalue = pgm_read_byte_near(TPICLookupTable + n);          // Go from the index position of 12.3V
-    //  Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);                     // to the value corresponding to the encoderPos
-    //}
-    //// THE End value is ALWAYS  = encoderPos
-    //// if encoderPos > 12.3V then the "while" is not executed and encoderPos value is
-    //// sent directly to the TPIC here withot the fallout profile
-    TPICvalue = pgm_read_byte_near(TPICLookupTable + encoderPos);
+ TPICvalue = pgm_read_byte_near(TPICLookupTable + encoderPos);
     Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);
 
+    */
     //------------ DELETE THE NITRO TEXT ------------------------
     if (encoderPosition < HIGH_THRESHOLD_NITRO)
     {
@@ -1748,71 +1826,6 @@ void NitroStart(byte NGrade, int encoderPosition)
   {
   } // NITRO is OFF--> do nothing
 }
-
-//---------------------------------------------
-
-//---------------------------------------------
-// void NitroStart(byte NGrade, int encoderPosition)
-//{
-//   int NitroStepDuration = 10; // Milliseconds
-//   byte NitroIndex;
-//   byte TPICvalue;
-//
-//   if ((encoderPosition < MAX_THRESHOLD_NITRO) && (NGrade != NITRO_CFG_NO)) // No NITRO for Vout > 11.5V or NITRO= OFF either
-//   {
-//
-//     //-------Brings the programmed output to the lowest value to avoid first output value bounce-----------
-//     TPICvalue = pgm_read_byte_near(TPICLookupTable); // Lowest value of output corresponds to just the start of the TPICLookupTable
-//     Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);
-//     digitalWrite(DCDC_EN, DCDC_ENABLED);
-//
-//     if (encoderPosition < HIGH_THRESHOLD_NITRO)
-//     {
-//       DisplayMessage(RunMode, WRITE_MESSG, "NITRO", NITRO_MESSG, DisplayValue);
-//
-//       //------------ NITRO LOW profile  -----------------
-//       for (int n = 0; n < LenNITROLookupTable; n++)
-//       {
-//         NitroIndex = pgm_read_byte_near(NitroLookupTableLow + n);     // Recover the index in the TPICLookupTable
-//         TPICvalue = pgm_read_byte_near(TPICLookupTable + NitroIndex); // Get the value corresponding to such index
-//         Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);                     // Program the DCDC with that value
-//         delay(NitroStepDuration);
-//       }
-//     }
-//     else // NITRO_HIGH
-//     {
-//       //------------ NITRO HIGH profile  -----------------
-//       for (int n = 0; n < LenNITROLookupTable; n++)
-//       {
-//         NitroIndex = pgm_read_byte_near(NitroLookupTableHigh + n);    // Recover the index in the TPICLookupTable
-//         TPICvalue = pgm_read_byte_near(TPICLookupTable + NitroIndex); // Get the value corresponding to such index
-//         Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);                     // Program the DCDC with that value
-//         delay(NitroStepDuration);
-//       }
-//     }
-//
-//     //------------ NITRO OUTPUT FALLING profile -----------------
-//
-//     //NitroIndex is now pointing to the maximum value
-//     //of the Nitro profile. Let's begin the fall profile
-//     //from this point.
-//
-//     while ((NitroIndex - encoderPosition) > 0)
-//     {
-//       TPICvalue = pgm_read_byte_near(TPICLookupTable + NitroIndex); // Get the value corresponding to such index
-//       Write_TPIC2810(ADDR_I2C_DCDC, TPICvalue);                     // Program the DCDC with that value
-//
-//       delay(2);
-//       NitroIndex--;
-//     }
-//
-//     //------------ DELETE THE NITRO TEXT ------------------------
-//     if (encoderPosition < HIGH_THRESHOLD_NITRO)
-//     {
-//       DisplayMessage(RunMode, DELETE_MESSG, "NITRO", NITRO_MESSG, DisplayValue);
-//     }
-//   }
-// }
 
 //==========================================ReadPushbutton=======================================================
 // PIN_IP: HW input
