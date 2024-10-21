@@ -13,6 +13,9 @@
 #include <Wire.h>
 #include "Adafruit_SSD1306.h"
 #include "MilliTimer.h"
+#include "Adafruit_ADS1X15.h"
+
+Adafruit_ADS1115 ads1015;
 
 const uint16_t C_PIN_USB_D_POS = 0;
 const uint16_t C_PIN_USB_D_NEG = 1;
@@ -23,7 +26,6 @@ const uint16_t C_PIN_R2A = 5;
 const uint16_t C_PIN_R3A = 6;
 const uint16_t C_PIN_OVC_ALARM = 7;
 const uint16_t C_PIN_PEDAL = 8;
-const uint16_t C_PIN_MUXSEL0 = 13;
 const uint16_t C_PIN_MUXSEL1 = 14;
 const uint16_t C_PIN_S3 = 15;
 const uint16_t C_PIN_S2 = 16;
@@ -35,18 +37,20 @@ const uint16_t C_PIN_SS = 21;
 const uint16_t C_PIN_S1 = 22;
 const uint16_t C_PIN_VOSEN = A0;
 const uint16_t C_PIN_ISENSE = A1;
-const uint16_t C_PIN_ANALOG_MUX = A2;
+const uint16_t C_PIN_I2C_SDA = 12;
+const uint16_t C_PIN_I2C_SCL = 13;
 
-const uint16_t C_ST_TEST_1 = 1;
-const uint16_t C_ST_TEST_2 = 2;
-const uint16_t C_ST_TEST_3 = 3;
-const uint16_t C_ST_TEST_4 = 4;
-const uint16_t C_ST_TEST_5 = 5;
-const uint16_t C_ST_TEST_6 = 6;
-const uint16_t C_ST_TEST_7 = 7;
+const uint16_t C_ST_TEST_0 = 1;
+const uint16_t C_ST_TEST_1 = 2;
+const uint16_t C_ST_TEST_2 = 3;
+const uint16_t C_ST_TEST_3 = 4;
+const uint16_t C_ST_TEST_4 = 5;
+const uint16_t C_ST_TEST_5 = 6;
+const uint16_t C_ST_TEST_6 = 7;
+const uint16_t C_ST_TEST_7 = 8;
 
 const uint32_t C_3v3 = 3300;
-const uint32_t C_V_PEDAL = 1370;
+const uint32_t C_V_PEDAL = 1230;
 const uint32_t C_V_EN_DCDC = 1400;
 const uint32_t C_IOUT_2A = 2000;
 const uint32_t C_IOUT_3A = 2000;
@@ -71,6 +75,8 @@ bool test_status = true;
 void setup()
 {
     Serial.begin(9600);
+    Wire.setSDA(C_PIN_I2C_SDA);
+    Wire.setSCL(C_PIN_I2C_SCL);
     Wire.begin();
     pinMode(C_PIN_VIN_17, OUTPUT);
     pinMode(C_PIN_VIN_20, OUTPUT);
@@ -79,14 +85,11 @@ void setup()
     pinMode(C_PIN_R3A, OUTPUT);
     pinMode(C_PIN_OVC_ALARM, OUTPUT);
     pinMode(C_PIN_PEDAL, OUTPUT);
-    pinMode(C_PIN_MUXSEL0, OUTPUT);
-    pinMode(C_PIN_MUXSEL1, OUTPUT);
 
     pinMode(C_PIN_S3, INPUT);
     pinMode(C_PIN_S2, INPUT);
     pinMode(C_PIN_S1, INPUT);
 
-    pinMode(C_PIN_ANALOG_MUX, INPUT);
     pinMode(C_PIN_ISENSE, INPUT);
     pinMode(C_PIN_VOSEN, INPUT);
 
@@ -103,8 +106,7 @@ void setup()
     digitalWrite(C_PIN_OVC_ALARM, LOW);
     digitalWrite(C_PIN_PEDAL, LOW);
 
-    digitalWrite(C_PIN_MUXSEL0, LOW);
-    digitalWrite(C_PIN_MUXSEL1, LOW);
+
 
     display.begin();
     display.clearDisplay();
@@ -114,6 +116,9 @@ void setup()
     display.print("HI");
     display.setCursor(0, 25);
     display.display();
+
+    ads1015.begin(0x48);
+    ads1015.setGain(GAIN_ONE);     // 1x gain   +/- 4.096V  1 bit = 2mV
 }
 
 void loop()
@@ -122,7 +127,7 @@ void loop()
     if (digitalRead(C_PIN_S3) == HIGH)
     {
         status++;
-        constrain(status, C_ST_TEST_1, C_ST_TEST_7);
+        constrain(status, C_ST_TEST_0, C_ST_TEST_7);
         test_status = true;
     }
     else if (digitalRead(C_PIN_S2) == HIGH)
@@ -133,6 +138,16 @@ void loop()
     {
         status = 0;
         test_status = false;
+        digitalWrite(C_PIN_VIN_17, LOW);
+        digitalWrite(C_PIN_VIN_20, LOW);
+
+        digitalWrite(C_PIN_R_3v3, LOW);
+
+        digitalWrite(C_PIN_R2A, LOW);
+        digitalWrite(C_PIN_R3A, LOW);
+
+        digitalWrite(C_PIN_OVC_ALARM, LOW);
+        digitalWrite(C_PIN_PEDAL, LOW);
         display.clearDisplay();
         display.setTextSize(2);
         display.setTextColor(WHITE);
@@ -143,6 +158,35 @@ void loop()
     }
 
     if (status == C_ST_TEST_1)
+    {
+        if (test_status)
+        {
+            display.clearDisplay();
+            display.setCursor(0, 0);
+            display.print("TEST 2:");
+            display.display();
+            display.setCursor(30, 25);
+            display.print("PROG.");
+            display.display();
+            // Esperar a que se libere el boton
+            while (digitalRead(C_PIN_S3) == HIGH)
+            {
+            }
+            // Esperar a la pulsacion
+            while (digitalRead(C_PIN_S3) == LOW)
+            {
+            }
+            // Esperar a que se libere el boton
+            while (digitalRead(C_PIN_S3) == HIGH)
+            {
+            }
+            display.setCursor(30, 50);
+            display.print("Done! ");
+            display.display();
+            test_status = false;
+        }
+    }
+    else if (status == C_ST_TEST_0)
     {
         if (test_status)
         {
@@ -163,22 +207,20 @@ void loop()
             digitalWrite(C_PIN_OVC_ALARM, LOW);
             digitalWrite(C_PIN_PEDAL, LOW);
 
-            digitalWrite(C_PIN_MUXSEL0, HIGH);
-            digitalWrite(C_PIN_MUXSEL1, HIGH);
 
             vcc_3v3 = 0;
 
             for (int i = 0; i < 8; i++)
             {
-                vcc_3v3 += analogRead(C_PIN_ANALOG_MUX);
+                vcc_3v3 += ads1015.readADC_SingleEnded(1);
                 delay(50);
             }
 
             vcc_3v3 = vcc_3v3 / 8;
 
-            vcc_3v3 = vcc_3v3 * 3300 / 4095;
+            vcc_3v3 = vcc_3v3 * 4096 / 32767;
             Serial.printf("3v3:\t%d\n", vcc_3v3);
-
+            display.print(vcc_3v3);
             if ((vcc_3v3 >= ((C_3v3 * (100 - C_TOLERANCE)) / 100)) && ((vcc_3v3 <= ((C_3v3 * (100 + C_TOLERANCE)) / 100))))
             {
                 digitalWrite(C_PIN_R_3v3, HIGH);
@@ -186,14 +228,13 @@ void loop()
 
                 for (int i = 0; i < 8; i++)
                 {
-                    vcc_3v3 += analogRead(C_PIN_ANALOG_MUX);
+                    vcc_3v3 += ads1015.readADC_SingleEnded(1);
                     delay(50);
                 }
 
                 vcc_3v3 = vcc_3v3 / 8;
 
-                vcc_3v3 = vcc_3v3 * 3300 / 4095;
-                display.print(vcc_3v3);
+                vcc_3v3 = vcc_3v3 * 4096 / 32767;
                 if ((vcc_3v3 >= ((C_3v3 * (100 - C_TOLERANCE)) / 100)) && ((vcc_3v3 <= ((C_3v3 * (100 + C_TOLERANCE)) / 100))))
                 {
                     display.setCursor(50, 50);
@@ -209,6 +250,7 @@ void loop()
             }
             else
             {
+                display.setCursor(50, 50);
                 display.print("ERROR");
                 // test_status = false;
             }
@@ -236,8 +278,6 @@ void loop()
         digitalWrite(C_PIN_OVC_ALARM, LOW);
         digitalWrite(C_PIN_PEDAL, LOW);
 
-        digitalWrite(C_PIN_MUXSEL0, LOW);
-        digitalWrite(C_PIN_MUXSEL1, LOW);
         delay(1000);
         display.print("20");
         display.display();
@@ -290,26 +330,40 @@ void loop()
     }
     else if (status == C_ST_TEST_3)
     {
-        // status++;
-        display.clearDisplay();
-        display.setCursor(0, 0);
-        display.print("TEST 3:");
-        display.setCursor(0, 25);
-        display.display();
-        // test_status = true;
-        /*
-                // Esperar a que se libere el boton
-                while (digitalRead(C_PIN_S1) == HIGH)
-                {
-                }
-                // Esperar a la pulsacion
-                while (digitalRead(C_PIN_S1) == LOW)
-                {
-                }
-                // Esperar a que se libere el boton
-                while (digitalRead(C_PIN_S1) == HIGH)
-                {
-                }*/
+        if (test_status)
+        {
+            display.clearDisplay();
+            display.setCursor(0, 0);
+            display.print("TEST 3:");
+            display.setCursor(0, 25);
+            display.display();
+            // test_status = true;
+
+            // Esperar a que se libere el boton
+            while (digitalRead(C_PIN_S3) == HIGH)
+            {
+            }
+            display.setCursor(0, 25);
+            display.print("Presiona ");
+            display.setCursor(0, 50);
+            display.print("Pulsador");
+            display.display();
+            // Esperar a la pulsacion
+            while (digitalRead(C_PIN_S3) == LOW)
+            {
+            }
+            // Esperar a que se libere el boton
+            while (digitalRead(C_PIN_S3) == HIGH)
+            {
+            }
+            display.clearDisplay();
+            display.setCursor(0, 0);
+            display.print("TEST 3:");
+            display.setCursor(0, 25);
+            display.print("Done! ");
+            display.display();
+            test_status = false;
+        }
     }
     else if (status == C_ST_TEST_4)
     {
@@ -318,8 +372,26 @@ void loop()
             display.clearDisplay();
             display.setCursor(0, 0);
             display.print("TEST 4:");
-            display.setCursor(0, 25);
             display.display();
+            // Esperar a que se libere el boton
+            while (digitalRead(C_PIN_S3) == HIGH)
+            {
+            }
+
+            display.setCursor(0, 25);
+            display.print("Sube a");
+            display.setCursor(0, 50);
+            display.print("7 Volt");
+            display.display();
+
+            // Esperar a la pulsacion
+            while (digitalRead(C_PIN_S3) == LOW)
+            {
+            }
+            // Esperar a que se libere el boton
+            while (digitalRead(C_PIN_S3) == HIGH)
+            {
+            }
             /*  Control de los actuadores */
             digitalWrite(C_PIN_VIN_17, LOW);
             digitalWrite(C_PIN_VIN_20, HIGH);
@@ -332,20 +404,23 @@ void loop()
             digitalWrite(C_PIN_OVC_ALARM, LOW);
             digitalWrite(C_PIN_PEDAL, HIGH);
 
-            digitalWrite(C_PIN_MUXSEL0, HIGH);
-            digitalWrite(C_PIN_MUXSEL1, LOW);
 
             pedal = 0;
 
             for (int i = 0; i < 8; i++)
             {
-                pedal += analogRead(C_PIN_ANALOG_MUX);
+                pedal += ads1015.readADC_SingleEnded(0);
             }
 
             pedal = pedal >> 3;
 
-            pedal = pedal * 3300 / 4095;
+            pedal = pedal * 4096 / 32767;
             Serial.printf("Pedal:\t%d\n", pedal);
+
+            display.clearDisplay();
+            display.setCursor(0, 0);
+            display.print("TEST 4:");
+            display.setCursor(0, 25);
             display.print(pedal);
             if ((pedal >= (C_V_PEDAL * (100 - C_TOLERANCE) / 100)) && ((pedal <= (C_V_PEDAL * (100 + C_TOLERANCE) / 100))))
             {
@@ -386,13 +461,16 @@ void loop()
                 else
                 {
                     cont_errores++;
-                    if (cont_errores == 100)
+                    Serial.println(cont_errores);
+                    if (cont_errores == 10)
                     {
                         set_7v = true;
                         display.setCursor(60, 25);
                         display.print(vout_sample);
                         display.setCursor(60, 50);
                         display.print("ERROR");
+                        cont_errores = 0;
+                        test_status = false;
                     }
                 }
             }
@@ -422,8 +500,6 @@ void loop()
             digitalWrite(C_PIN_OVC_ALARM, LOW);
             digitalWrite(C_PIN_PEDAL, LOW);
 
-            digitalWrite(C_PIN_MUXSEL0, LOW);
-            digitalWrite(C_PIN_MUXSEL1, LOW);
 
             display.display();
             // Esperar a que se libere el boton
@@ -485,21 +561,20 @@ void loop()
             digitalWrite(C_PIN_OVC_ALARM, LOW);
             digitalWrite(C_PIN_PEDAL, HIGH);
 
-            digitalWrite(C_PIN_MUXSEL0, LOW);
-            digitalWrite(C_PIN_MUXSEL1, LOW);
-
             // test_status = false;
 
             enable_dcdc = 0;
 
             for (int i = 0; i < 8; i++)
             {
-                enable_dcdc += analogRead(C_PIN_ANALOG_MUX);
+                enable_dcdc += ads1015.readADC_SingleEnded(3);
             }
             enable_dcdc = enable_dcdc >> 3;
 
-            enable_dcdc = enable_dcdc * 3300 / 4095;
+            enable_dcdc = enable_dcdc * 4096 / 32767;
             display.print(enable_dcdc);
+            Serial.println("V_Enable DCDC");
+            Serial.println(enable_dcdc);
             if ((enable_dcdc >= (C_V_EN_DCDC * (100 - C_TOLERANCE) / 100)) && ((enable_dcdc <= (C_V_EN_DCDC * (100 + C_TOLERANCE) / 100))))
             {
                 display.setCursor(50, 50);
@@ -510,7 +585,7 @@ void loop()
             {
                 display.setCursor(50, 50);
                 display.print("ERROR");
-                // test_status = false;
+                test_status = false;
             }
 
             display.display();
@@ -537,8 +612,6 @@ void loop()
 
             digitalWrite(C_PIN_OVC_ALARM, LOW);
 
-            digitalWrite(C_PIN_MUXSEL0, LOW);
-            digitalWrite(C_PIN_MUXSEL1, LOW);
 
             digitalWrite(C_PIN_PEDAL, HIGH);
             bool test_1 = false;
@@ -586,12 +659,14 @@ void loop()
                 else
                 {
                     cont_errores++;
+                    Serial.println(cont_errores);
                     if (cont_errores == 10)
                     {
                         display.setCursor(0, 30);
                         display.setTextSize(2);
                         display.print("ERROR");
                         test_1 = true;
+                        cont_errores = 0;
                     }
                 }
             }
@@ -604,8 +679,6 @@ void loop()
             bool test_2 = false;
             while (!test_2)
             {
-                /* code */
-
                 iout_sample = 0;
                 vout_sample = 0;
                 for (int i = 0; i < 16; i++)
@@ -648,13 +721,15 @@ void loop()
                 else
                 {
                     cont_errores++;
+                    Serial.println(cont_errores);
                     if (cont_errores == 10)
                     {
                         display.setCursor(70, 30);
                         display.setTextSize(2);
                         test_status = false;
                         display.print("ERROR");
-                        test_1 = true;
+                        test_2 = true;
+                        cont_errores = 0;
                     }
                 }
                 display.display();
