@@ -54,10 +54,10 @@ const uint32_t C_V_PEDAL = 1230;
 const uint32_t C_V_EN_DCDC = 1400;
 const uint32_t C_IOUT_2A = 2000;
 const uint32_t C_IOUT_3A = 2000;
-const uint32_t C_VOUT_2A = 6200;
-const uint32_t C_VOUT_3A = 6200;
+const uint32_t C_VOUT_2A = 7000;
+const uint32_t C_VOUT_3A = 7000;
 
-const uint32_t C_TOLERANCE = 5;
+const uint32_t C_TOLERANCE = 10;
 
 Adafruit_SSD1306 display(128, 64, C_PIN_MOSI, C_PIN_DSP_SCK, C_PIN_MISO, C_PIN_DSP_RST, C_PIN_SS);
 
@@ -106,8 +106,6 @@ void setup()
     digitalWrite(C_PIN_OVC_ALARM, LOW);
     digitalWrite(C_PIN_PEDAL, LOW);
 
-
-
     display.begin();
     display.clearDisplay();
     display.setTextSize(2);
@@ -118,7 +116,7 @@ void setup()
     display.display();
 
     ads1015.begin(0x48);
-    ads1015.setGain(GAIN_ONE);     // 1x gain   +/- 4.096V  1 bit = 2mV
+    ads1015.setGain(GAIN_ONE); // 1x gain   +/- 4.096V  1 bit = 2mV
 }
 
 void loop()
@@ -147,7 +145,7 @@ void loop()
         digitalWrite(C_PIN_R3A, LOW);
 
         digitalWrite(C_PIN_OVC_ALARM, LOW);
-        digitalWrite(C_PIN_PEDAL, LOW);
+        digitalWrite(C_PIN_PEDAL, HIGH);
         display.clearDisplay();
         display.setTextSize(2);
         display.setTextColor(WHITE);
@@ -207,12 +205,11 @@ void loop()
             digitalWrite(C_PIN_OVC_ALARM, LOW);
             digitalWrite(C_PIN_PEDAL, LOW);
 
-
             vcc_3v3 = 0;
 
             for (int i = 0; i < 8; i++)
             {
-                vcc_3v3 += ads1015.readADC_SingleEnded(1);
+                vcc_3v3 += ads1015.readADC_SingleEnded(3);
                 delay(50);
             }
 
@@ -228,7 +225,7 @@ void loop()
 
                 for (int i = 0; i < 8; i++)
                 {
-                    vcc_3v3 += ads1015.readADC_SingleEnded(1);
+                    vcc_3v3 += ads1015.readADC_SingleEnded(3);
                     delay(50);
                 }
 
@@ -254,6 +251,7 @@ void loop()
                 display.print("ERROR");
                 // test_status = false;
             }
+            digitalWrite(C_PIN_R_3v3, LOW);
             display.display();
         }
     }
@@ -402,14 +400,13 @@ void loop()
             digitalWrite(C_PIN_R3A, LOW);
 
             digitalWrite(C_PIN_OVC_ALARM, LOW);
-            digitalWrite(C_PIN_PEDAL, HIGH);
-
+            digitalWrite(C_PIN_PEDAL, LOW);
 
             pedal = 0;
 
             for (int i = 0; i < 8; i++)
             {
-                pedal += ads1015.readADC_SingleEnded(0);
+                pedal += ads1015.readADC_SingleEnded(2);
             }
 
             pedal = pedal >> 3;
@@ -559,7 +556,7 @@ void loop()
             digitalWrite(C_PIN_R3A, LOW);
 
             digitalWrite(C_PIN_OVC_ALARM, LOW);
-            digitalWrite(C_PIN_PEDAL, HIGH);
+            digitalWrite(C_PIN_PEDAL, LOW);
 
             // test_status = false;
 
@@ -567,7 +564,7 @@ void loop()
 
             for (int i = 0; i < 8; i++)
             {
-                enable_dcdc += ads1015.readADC_SingleEnded(3);
+                enable_dcdc += ads1015.readADC_SingleEnded(0);
             }
             enable_dcdc = enable_dcdc >> 3;
 
@@ -612,8 +609,7 @@ void loop()
 
             digitalWrite(C_PIN_OVC_ALARM, LOW);
 
-
-            digitalWrite(C_PIN_PEDAL, HIGH);
+            digitalWrite(C_PIN_PEDAL, LOW);
             bool test_1 = false;
             while (!test_1)
             {
@@ -713,6 +709,8 @@ void loop()
                         display.print("OK");
                         test_status = false;
                         test_2 = true;
+                        digitalWrite(C_PIN_R2A, LOW);
+                        digitalWrite(C_PIN_R3A, LOW);
                     }
                     else
                     {
@@ -728,6 +726,8 @@ void loop()
                         display.setTextSize(2);
                         test_status = false;
                         display.print("ERROR");
+                        digitalWrite(C_PIN_R2A, LOW);
+                        digitalWrite(C_PIN_R3A, LOW);
                         test_2 = true;
                         cont_errores = 0;
                     }

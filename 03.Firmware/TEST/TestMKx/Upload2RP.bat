@@ -2,7 +2,7 @@
 @echo off
 :: Board a usar en la compilacion
 set board=rp2040:rp2040:rpipico
-set port=COM19
+set port=COM10
 set sketch=.\TestMKx.ino
 set libraries="C:/Users/javie/Team Dropbox/JRODRIGUEZ/Repositorios/11.MK1/03.Firmware/Libraries"
 
