@@ -7063,7 +7063,7 @@ Source: &lt;a href="http://au.rs-online.com/web/p/products/8231502P"&gt; Datashe
 <part name="R29" library="SparkFun-Resistors" library_urn="urn:adsk.eagle:library:532" deviceset="RESISTOR" device="0805" package3d_urn="urn:adsk.eagle:package:39651/1" value="33R"/>
 <part name="L2" library="EDCPSU - Rev3" deviceset="L*" device="74437368047" value="4.7uH"/>
 <part name="R18" library="SparkFun-Resistors" library_urn="urn:adsk.eagle:library:532" deviceset="RESISTOR" device="0805" package3d_urn="urn:adsk.eagle:package:39651/1" value="N.C"/>
-<part name="R19" library="SparkFun-Resistors" library_urn="urn:adsk.eagle:library:532" deviceset="RESISTOR" device="0805" package3d_urn="urn:adsk.eagle:package:39651/1" value="1K"/>
+<part name="R19" library="SparkFun-Resistors" library_urn="urn:adsk.eagle:library:532" deviceset="RESISTOR" device="0805" package3d_urn="urn:adsk.eagle:package:39651/1" value="1k"/>
 <part name="GND17" library="SparkFun" deviceset="GND" device=""/>
 <part name="GND18" library="SparkFun" deviceset="GND" device=""/>
 <part name="P+2" library="microbuilder" deviceset="VCC" device=""/>
@@ -7358,7 +7358,6 @@ v1-Abr'25</text>
 <text x="60.96" y="132.08" size="6.4516" layer="94">BUZZER</text>
 <text x="71.12" y="30.48" size="6.4516" layer="94">ROTARY + SWITCH</text>
 <text x="231.14" y="50.8" size="6.4516" layer="94">DISPLAY</text>
-<wire x1="-86.36" y1="45.72" x2="-83.82" y2="43.18" width="0.1524" layer="98" style="longdash" curve="90"/>
 <text x="210.82" y="-106.68" size="1.778" layer="95">FIDUCIALS</text>
 <text x="469.9" y="177.8" size="1.778" layer="91">OJO!!
 Es el de G=25 (TEUK version)</text>
@@ -7383,7 +7382,7 @@ TLRP3A30CR050FTE</text>
 <text x="-27.94" y="261.62" size="1.778" layer="91">3v3-3v = 0.3 /330R = 900uA</text>
 <text x="-210.82" y="86.36" size="1.778" layer="91">TVS
 ESD Protection Data</text>
-<text x="-200.66" y="-48.26" size="1.778" layer="91">GND_IN es la masa original de entrada
+<text x="-198.12" y="-50.8" size="1.778" layer="91">GND_IN es la masa original de entrada
 que se une al GND interno a traves de
 RSENSE DE 0.1R
 Toda la corriente de la EDCPSU pasa 
@@ -7398,7 +7397,6 @@ poder sensar la caida en RSENSE.</text>
 <text x="30.48" y="-157.48" size="1.778" layer="91">
 proteccion del bus de 3v3
 con zener de 3v9</text>
-<text x="-48.26" y="99.06" size="1.778" layer="91">Linea de corte en PCB</text>
 <text x="530.86" y="-101.6" size="1.778" layer="91">3V @ Vi=20V</text>
 </plain>
 <instances>
@@ -7618,8 +7616,8 @@ con zener de 3v9</text>
 <attribute name="VALUE" x="430.022" y="3.81" size="1.778" layer="96" rot="R90"/>
 </instance>
 <instance part="R19" gate="G$1" x="459.74" y="30.48" smashed="yes" rot="R90">
-<attribute name="NAME" x="458.2414" y="26.67" size="1.778" layer="95" rot="R90"/>
-<attribute name="VALUE" x="463.042" y="26.67" size="1.778" layer="96" rot="R90"/>
+<attribute name="NAME" x="468.63" y="31.5214" size="1.778" layer="95" rot="R180"/>
+<attribute name="VALUE" x="468.63" y="28.702" size="1.778" layer="96" rot="R180"/>
 </instance>
 <instance part="GND17" gate="1" x="426.72" y="-2.54" smashed="yes">
 <attribute name="VALUE" x="424.18" y="-5.08" size="1.778" layer="96"/>
@@ -7646,7 +7644,7 @@ con zener de 3v9</text>
 <attribute name="VALUE" x="435.864" y="5.461" size="1.778" layer="96"/>
 </instance>
 <instance part="R26" gate="G$1" x="505.46" y="2.54" smashed="yes" rot="R180">
-<attribute name="NAME" x="509.27" y="1.0414" size="1.778" layer="95" rot="R180"/>
+<attribute name="NAME" x="509.27" y="8.6614" size="1.778" layer="95" rot="R180"/>
 <attribute name="VALUE" x="509.27" y="5.842" size="1.778" layer="96" rot="R180"/>
 </instance>
 <instance part="R33" gate="G$1" x="111.76" y="203.2" smashed="yes" rot="R180">
@@ -7974,12 +7972,12 @@ con zener de 3v9</text>
 <attribute name="VALUE" x="492.125" y="-2.54" size="1.778" layer="96" rot="MR0"/>
 </instance>
 <instance part="L3" gate="G$1" x="518.16" y="2.54" smashed="yes" rot="R180">
-<attribute name="NAME" x="521.97" y="6.1214" size="1.778" layer="95" rot="R180"/>
-<attribute name="VALUE" x="532.13" y="0.762" size="1.778" layer="96" rot="R180"/>
+<attribute name="NAME" x="521.97" y="11.2014" size="1.778" layer="95" rot="R180"/>
+<attribute name="VALUE" x="542.29" y="8.382" size="1.778" layer="96" rot="R180"/>
 </instance>
 <instance part="L4" gate="G$1" x="518.16" y="-10.16" smashed="yes" rot="R180">
-<attribute name="NAME" x="521.97" y="-6.5786" size="1.778" layer="95" rot="R180"/>
-<attribute name="VALUE" x="532.13" y="-11.938" size="1.778" layer="96" rot="R180"/>
+<attribute name="NAME" x="521.97" y="-11.6586" size="1.778" layer="95" rot="R180"/>
+<attribute name="VALUE" x="542.29" y="-14.478" size="1.778" layer="96" rot="R180"/>
 </instance>
 <instance part="U3" gate="P" x="137.16" y="177.8" smashed="yes">
 <attribute name="NAME" x="136.525" y="177.165" size="1.778" layer="95"/>
@@ -8019,7 +8017,7 @@ con zener de 3v9</text>
 <attribute name="VALUE" x="102.616" y="259.461" size="1.778" layer="91"/>
 </instance>
 <instance part="R22" gate="G$1" x="505.46" y="-10.16" smashed="yes" rot="R180">
-<attribute name="NAME" x="509.27" y="-11.6586" size="1.778" layer="95" rot="R180"/>
+<attribute name="NAME" x="509.27" y="-4.0386" size="1.778" layer="95" rot="R180"/>
 <attribute name="VALUE" x="509.27" y="-6.858" size="1.778" layer="96" rot="R180"/>
 </instance>
 <instance part="GND64" gate="1" x="467.36" y="2.54" smashed="yes">
@@ -8094,9 +8092,9 @@ con zener de 3v9</text>
 <attribute name="NAME" x="-53.34" y="15.24" size="1.778" layer="95" rot="R180"/>
 <attribute name="VALUE" x="-56.896" y="4.572" size="1.778" layer="96"/>
 </instance>
-<instance part="RSENSE" gate="G$1" x="-190.5" y="10.16" smashed="yes">
-<attribute name="NAME" x="-190.5" y="11.684" size="1.778" layer="95" font="vector" align="bottom-center"/>
-<attribute name="VALUE" x="-190.5" y="8.636" size="1.778" layer="96" font="vector" align="top-center"/>
+<instance part="RSENSE" gate="G$1" x="-193.04" y="-2.54" smashed="yes" rot="R90">
+<attribute name="NAME" x="-200.66" y="1.016" size="1.778" layer="95" font="vector" rot="R180" align="bottom-center"/>
+<attribute name="VALUE" x="-200.66" y="-3.556" size="1.778" layer="96" font="vector" rot="R180" align="top-center"/>
 </instance>
 <instance part="GND77" gate="1" x="-60.96" y="-12.7" smashed="yes">
 <attribute name="VALUE" x="-63.5" y="-15.24" size="1.778" layer="96"/>
@@ -8239,8 +8237,8 @@ con zener de 3v9</text>
 <instance part="GND62" gate="1" x="0" y="-149.86" smashed="yes">
 <attribute name="VALUE" x="-2.54" y="-152.4" size="1.778" layer="96"/>
 </instance>
-<instance part="U$1" gate="G$1" x="17.78" y="-101.6" smashed="yes" rot="MR0">
-<attribute name="VALUE" x="18.796" y="-98.044" size="1.778" layer="96" rot="MR0"/>
+<instance part="U$1" gate="G$1" x="45.72" y="-99.06" smashed="yes" rot="MR0">
+<attribute name="VALUE" x="46.736" y="-95.504" size="1.778" layer="96" rot="MR0"/>
 </instance>
 <instance part="L1" gate="G$1" x="-50.8" y="-111.76" smashed="yes">
 <attribute name="NAME" x="-49.53" y="-105.41" size="1.778" layer="95" align="center-left"/>
@@ -8531,8 +8529,8 @@ con zener de 3v9</text>
 <attribute name="NAME" x="273.043240625" y="-154.296209375" size="1.779890625" layer="95"/>
 <attribute name="VALUE" x="273.04195" y="-172.7329" size="1.780259375" layer="96"/>
 </instance>
-<instance part="GND5" gate="1" x="-160.02" y="25.4" smashed="yes" rot="R180">
-<attribute name="VALUE" x="-157.48" y="27.94" size="1.778" layer="96" rot="R180"/>
+<instance part="GND5" gate="1" x="-182.88" y="-2.54" smashed="yes">
+<attribute name="VALUE" x="-185.42" y="-5.08" size="1.778" layer="96"/>
 </instance>
 <instance part="GND15" gate="1" x="-40.64" y="43.18" smashed="yes">
 <attribute name="VALUE" x="-43.18" y="40.64" size="1.778" layer="96"/>
@@ -8940,12 +8938,12 @@ con zener de 3v9</text>
 <segment>
 <pinref part="RSENSE" gate="G$1" pin="2"/>
 <pinref part="R59" gate="G$1" pin="1"/>
-<wire x1="-185.42" y1="10.16" x2="-180.34" y2="10.16" width="0.1524" layer="91"/>
-<wire x1="-180.34" y1="10.16" x2="-180.34" y2="5.08" width="0.1524" layer="91"/>
-<junction x="-180.34" y="10.16"/>
-<wire x1="-180.34" y1="10.16" x2="-160.02" y2="10.16" width="0.1524" layer="91"/>
-<wire x1="-160.02" y1="10.16" x2="-160.02" y2="22.86" width="0.1524" layer="91"/>
 <pinref part="GND5" gate="1" pin="GND"/>
+<wire x1="-193.04" y1="2.54" x2="-193.04" y2="5.08" width="0.1524" layer="91"/>
+<wire x1="-193.04" y1="5.08" x2="-182.88" y2="5.08" width="0.1524" layer="91"/>
+<wire x1="-182.88" y1="5.08" x2="-180.34" y2="5.08" width="0.1524" layer="91"/>
+<wire x1="-182.88" y1="0" x2="-182.88" y2="5.08" width="0.1524" layer="91"/>
+<junction x="-182.88" y="5.08"/>
 </segment>
 <segment>
 <pinref part="GND60" gate="1" pin="GND"/>
@@ -8989,11 +8987,9 @@ con zener de 3v9</text>
 <wire x1="0" y1="-147.32" x2="0" y2="-144.78" width="0.1524" layer="91"/>
 <junction x="0" y="-144.78"/>
 <pinref part="C62" gate="G$1" pin="1"/>
-<wire x1="20.32" y1="-144.78" x2="30.48" y2="-144.78" width="0.1524" layer="91"/>
 <pinref part="DZ1" gate="G$1" pin="A"/>
-<wire x1="30.48" y1="-144.78" x2="30.48" y2="-149.86" width="0.1524" layer="91"/>
-<wire x1="30.48" y1="-149.86" x2="45.72" y2="-149.86" width="0.1524" layer="91"/>
-<wire x1="45.72" y1="-149.86" x2="45.72" y2="-137.16" width="0.1524" layer="91"/>
+<wire x1="20.32" y1="-144.78" x2="45.72" y2="-144.78" width="0.1524" layer="91"/>
+<wire x1="45.72" y1="-144.78" x2="45.72" y2="-137.16" width="0.1524" layer="91"/>
 <wire x1="5.08" y1="-134.62" x2="5.08" y2="-144.78" width="0.1524" layer="91"/>
 <junction x="5.08" y="-144.78"/>
 <wire x1="20.32" y1="-134.62" x2="20.32" y2="-144.78" width="0.1524" layer="91"/>
@@ -9727,28 +9723,25 @@ con zener de 3v9</text>
 <wire x1="-10.16" y1="-116.84" x2="-10.16" y2="-111.76" width="0.1524" layer="91"/>
 <pinref part="C3" gate="G$1" pin="2"/>
 <pinref part="C52" gate="G$1" pin="2"/>
-<wire x1="17.78" y1="-111.76" x2="5.08" y2="-111.76" width="0.1524" layer="91"/>
+<wire x1="20.32" y1="-111.76" x2="5.08" y2="-111.76" width="0.1524" layer="91"/>
 <wire x1="5.08" y1="-111.76" x2="-10.16" y2="-111.76" width="0.1524" layer="91"/>
 <wire x1="-22.86" y1="-116.84" x2="-22.86" y2="-111.76" width="0.1524" layer="91"/>
 <wire x1="-22.86" y1="-111.76" x2="-10.16" y2="-111.76" width="0.1524" layer="91"/>
 <junction x="-10.16" y="-111.76"/>
-<wire x1="17.78" y1="-111.76" x2="17.78" y2="-101.6" width="0.1524" layer="91"/>
-<junction x="17.78" y="-111.76"/>
 <pinref part="U$1" gate="G$1" pin="VCC-ISO"/>
 <wire x1="-22.86" y1="-111.76" x2="-30.48" y2="-111.76" width="0.1524" layer="91"/>
 <junction x="-22.86" y="-111.76"/>
 <pinref part="L1" gate="G$1" pin="2"/>
-<wire x1="17.78" y1="-111.76" x2="20.32" y2="-111.76" width="0.1524" layer="91"/>
 <pinref part="C62" gate="G$1" pin="2"/>
-<wire x1="20.32" y1="-111.76" x2="30.48" y2="-111.76" width="0.1524" layer="91"/>
 <pinref part="DZ1" gate="G$1" pin="K"/>
-<wire x1="30.48" y1="-111.76" x2="30.48" y2="-106.68" width="0.1524" layer="91"/>
-<wire x1="30.48" y1="-106.68" x2="45.72" y2="-106.68" width="0.1524" layer="91"/>
-<wire x1="45.72" y1="-106.68" x2="45.72" y2="-121.92" width="0.1524" layer="91"/>
+<wire x1="20.32" y1="-111.76" x2="45.72" y2="-111.76" width="0.1524" layer="91"/>
+<wire x1="45.72" y1="-111.76" x2="45.72" y2="-121.92" width="0.1524" layer="91"/>
 <wire x1="5.08" y1="-127" x2="5.08" y2="-111.76" width="0.1524" layer="91"/>
 <junction x="5.08" y="-111.76"/>
 <wire x1="20.32" y1="-127" x2="20.32" y2="-111.76" width="0.1524" layer="91"/>
 <junction x="20.32" y="-111.76"/>
+<wire x1="45.72" y1="-99.06" x2="45.72" y2="-111.76" width="0.1524" layer="91"/>
+<junction x="45.72" y="-111.76"/>
 </segment>
 <segment>
 <pinref part="U$18" gate="G$1" pin="VCC-ISO"/>
@@ -10418,9 +10411,8 @@ con zener de 3v9</text>
 </segment>
 <segment>
 <pinref part="RSENSE" gate="G$1" pin="1"/>
-<wire x1="-195.58" y1="10.16" x2="-200.66" y2="10.16" width="0.1524" layer="91"/>
-<wire x1="-200.66" y1="10.16" x2="-200.66" y2="-15.24" width="0.1524" layer="91"/>
-<wire x1="-200.66" y1="-15.24" x2="-157.48" y2="-15.24" width="0.1524" layer="91"/>
+<wire x1="-193.04" y1="-7.62" x2="-193.04" y2="-15.24" width="0.1524" layer="91"/>
+<wire x1="-193.04" y1="-15.24" x2="-157.48" y2="-15.24" width="0.1524" layer="91"/>
 <pinref part="U9" gate="A" pin="GND"/>
 <wire x1="-157.48" y1="-15.24" x2="-144.78" y2="-15.24" width="0.1524" layer="91"/>
 <wire x1="-144.78" y1="-15.24" x2="-129.54" y2="-15.24" width="0.1524" layer="91"/>
@@ -10433,9 +10425,9 @@ con zener de 3v9</text>
 <pinref part="R34" gate="G$1" pin="1"/>
 <wire x1="-157.48" y1="-7.62" x2="-157.48" y2="-15.24" width="0.1524" layer="91"/>
 <junction x="-157.48" y="-15.24"/>
-<wire x1="-200.66" y1="10.16" x2="-215.9" y2="10.16" width="0.1524" layer="91"/>
-<junction x="-200.66" y="10.16"/>
-<label x="-215.9" y="10.16" size="1.778" layer="95" rot="R180" xref="yes"/>
+<wire x1="-193.04" y1="-15.24" x2="-208.28" y2="-15.24" width="0.1524" layer="91"/>
+<junction x="-193.04" y="-15.24"/>
+<label x="-208.28" y="-15.24" size="1.778" layer="95" rot="R180" xref="yes"/>
 </segment>
 <segment>
 <pinref part="D4" gate="G$1" pin="COMMON_CATHODE"/>
@@ -11257,13 +11249,6 @@ con zener de 3v9</text>
 <label x="284.48" y="-93.98" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="N$24" class="0">
-<segment>
-<wire x1="-43.18" y1="96.52" x2="-55.88" y2="96.52" width="0.1524" layer="91" style="shortdash"/>
-<wire x1="-55.88" y1="96.52" x2="-55.88" y2="33.02" width="0.1524" layer="91" style="shortdash"/>
-<wire x1="-55.88" y1="33.02" x2="-38.1" y2="33.02" width="0.1524" layer="91" style="shortdash"/>
-</segment>
-</net>
 <net name="N$57" class="0">
 <segment>
 <wire x1="200.66" y1="302.26" x2="200.66" y2="73.66" width="0.1524" layer="91" style="shortdash"/>
@@ -11403,7 +11388,7 @@ con zener de 3v9</text>
 <approved hash="102,1,-243.84,20.32,VCC-ISO,3V3MCU,,,,"/>
 <approved hash="102,1,429.26,-78.74,VCC-ISO,3V3MCU,,,,"/>
 <approved hash="102,1,88.9,121.92,VCC-ISO,3V3MCU,,,,"/>
-<approved hash="102,1,17.78,-101.6,VCC-ISO,3V3MCU,,,,"/>
+<approved hash="102,1,45.72,-99.06,VCC-ISO,3V3MCU,,,,"/>
 <approved hash="102,1,551.18,-142.24,VCC-ISO,3V3MCU,,,,"/>
 <approved hash="102,1,416.56,-162.56,VCC-ISO,3V3MCU,,,,"/>
 <approved hash="102,1,-35.56,172.72,VCCA,1V1MCU,,,,"/>
@@ -11430,7 +11415,6 @@ con zener de 3v9</text>
 <approved hash="104,1,-129.54,-15.24,U9,GND,GND_IN,,,"/>
 <approved hash="104,1,-175.26,40.64,J1,GND,GND_IN,,,"/>
 <approved hash="104,1,-175.26,58.42,J1,VBUS,IN+,,,"/>
-<approved hash="105,1,-49.53,96.52,N$24,,,,,"/>
 <approved hash="105,1,312.42,12.7,N$27,,,,,"/>
 <approved hash="105,1,78.74,-83.82,N$30,,,,,"/>
 <approved hash="105,1,205.74,19.05,N$33,,,,,"/>
@@ -11458,6 +11442,8 @@ con zener de 3v9</text>
 <approved hash="106,1,284.48,-165.1,TDI,,,,,"/>
 <approved hash="113,1,152.695,-7.62,S2,,,,,"/>
 <approved hash="113,1,284.802,128.27,LED1,,,,,"/>
+<approved hash="115,1,497.84,2.54,N$41,,,,,"/>
+<approved hash="115,1,307.34,247.65,N$51,,,,,"/>
 </errors>
 </schematic>
 </drawing>
