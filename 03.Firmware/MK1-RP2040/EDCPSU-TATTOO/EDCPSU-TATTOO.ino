@@ -3,7 +3,7 @@
 //   VERSION r15.0-31
 //*****************************
 // Version 750: Proviene de la version 805 de la MK2 debido al cambio de microcontrolador con respecto a la version 740.
-#define VERSION 760 // Version 760: Inclusion del Test Mode y el registro de horas.
+#define VERSION 761 // Version 761: Adaptacion para USB-C. Chequeo de tension de entrada VBUS
 /*********************************************************************
 EDCPSU Tattoo edition HW r15.0
 13 NOV 2024
@@ -631,10 +631,10 @@ void setup()
 
   // by default, we'll generate the high voltage from the 3.3v line internally! (neat!)
   Wire.begin();
-  EEPROM.begin();
+  EEPROM.begin(512);
   display.begin(SSD1306_SWITCHCAPVCC);
   // si.i2c_init();
- // analogReadResolution(12);
+  analogReadResolution(12);
   // ------ VAR INITIALIZATION ------
 
   RunMode = RUNMODE_NORMAL;
@@ -672,6 +672,33 @@ void setup()
   // digitalWrite(LED_FRONT, HIGH);
   delay(2000);
 
+  int32_t vbus = 0;
+  int32_t vbus_raw = 0;
+  for (int i = 0; i < 8; i++)
+  {
+    vbus_raw += analogRead(VBUS_SENSE);
+  }
+  vbus_raw = vbus_raw >> 3;
+  vbus = (vbus_raw * 3000 / 4095) * 446 / 56;
+  Serial.printf("%d - %d \n", vbus_raw, vbus);
+  delay(1000);
+
+  if (vbus < 17500)
+  {
+    display.clearDisplay();
+    display.setTextSize(2);
+    display.setTextColor(WHITE);
+    display.setCursor(35, 5);
+    display.print("USB-C");
+    display.setCursor(45, 26);
+    display.print("NOT");
+    display.setCursor(5, 47);
+    display.print("COMPATIBLE");
+    display.display();
+
+    while (1)
+      ;
+  }
   //------------- TEST MODE -------
   timer_waiting_test_mode.set(1000);
   while (flag_waiting_test_mode == true)
@@ -1277,7 +1304,7 @@ void setup()
     EEPROM[EEPROM_HOURS] = 0;                          // START HOURS
     EEPROM[EEPROM_POLARITY_STATUS] = POL_NORMAL;       // Polarity set to normal by default (relay in resting mode)
     EEPROM[EEPROM_RECORD_STAT] = EEPROM_RECORDED_DONE; // Now signature is set to indicate that EEPROM is recorded
-    //EEPROM.commit();
+    EEPROM.commit();
   }
   Serial.println("HI, DUMPED");
   //------- DUMP EEPROM VALUES INTO RAM ARRAY -------
@@ -1370,7 +1397,7 @@ void loop()
       mins = 0;
       HourTimer = Time;
       EEPROM[EEPROM_HOURS] = hours;
-      //EEPROM.commit();
+      EEPROM.commit();
     }
   }
 
@@ -1405,7 +1432,7 @@ void loop()
       MachinesMemory[(MachineOffset + MachineMemPos)] = encoderPos;
       EEPROMaux = MachineMemPos + MACHINE1_OFFSET;
       EEPROM[EEPROMaux] = (byte)encoderPos;
-     // EEPROM.commit();
+      EEPROM.commit();
       RotaryChangedFlag = FLAG_OFF;
       DisplayMessage(RunMode, WRITE_MESSG, "REC", INFO_MESSG, DisplayValue);
       delay(300);
@@ -1602,7 +1629,7 @@ void loop()
         updateDisplayVoltsFLAG = FLAG_ON; // For refreshing the Normal display view
         updateMenuDisplayFLAG = FLAG_OFF; // Disable the Menu display view
         EEPROM[EEPROM_NITRO_STATUS] = NitroStartGrade;
-       // EEPROM.commit();
+        EEPROM.commit();
       }
 
       else if (RunMode == RUNMODE_MENU_TIMER)
@@ -1618,7 +1645,7 @@ void loop()
         updateDisplayVoltsFLAG = FLAG_ON; // For refreshing the Normal display view
         updateMenuDisplayFLAG = FLAG_OFF; // Disable the Menu display view
         EEPROM[EEPROM_NITRO_STATUS] = NitroStartGrade;
-        //EEPROM.commit();
+        EEPROM.commit();
       }
 
       else if (RunMode == RUNMODE_CHANGE_POL)
