@@ -631,9 +631,10 @@ void setup()
 
   // by default, we'll generate the high voltage from the 3.3v line internally! (neat!)
   Wire.begin();
-  EEPROM.begin(512);
+
   display.begin(SSD1306_SWITCHCAPVCC);
   // si.i2c_init();
+  analogReadResolution(12);
   analogReadResolution(12);
   // ------ VAR INITIALIZATION ------
 
@@ -1278,6 +1279,7 @@ void setup()
   display.setTextColor(WHITE);
 
   //------------ EEPROM RECORDED?? --------
+  EEPROM.begin(512);
   EEPROMaux = EEPROM[EEPROM_RECORD_STAT];
   Serial.println(EEPROMaux);
   if (EEPROMaux != EEPROM_RECORDED_DONE)
