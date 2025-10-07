@@ -3,7 +3,7 @@
 //   VERSION r15.0-31
 //*****************************
 // Version 750: Proviene de la version 805 de la MK2 debido al cambio de microcontrolador con respecto a la version 740.
-#define VERSION 761 // Version 761: Adaptacion para USB-C. Chequeo de tension de entrada VBUS
+#define VERSION 762 // Version 762: Cambios en la libreria del SSD1306 para que funcione correctamente
 /*********************************************************************
 EDCPSU Tattoo edition HW r15.0
 13 NOV 2024
@@ -18,7 +18,7 @@ VERSION: see above
 #include <Wire.h>
 #include <avr/pgmspace.h>
 #include <Adafruit_GFX.h>
-#include <Adafruit_SSD1306.h>
+#include <Adafruit_SSD1306_096.h>
 #include <MilliTimer.h>
 
 //----------------------------------------------  MACROS DEFINITION --------------------------------------------
