@@ -6334,7 +6334,6 @@ v2-May-2023</text>
 <text x="469.9" y="177.8" size="1.778" layer="91">OJO!!
 Es el de G=25 (TEUK version)</text>
 <text x="469.9" y="172.72" size="1.778" layer="91">ISENSE = Iout * 0.025 * 25 = Iout *0.625</text>
-<text x="-447.04" y="284.48" size="6.4516" layer="94">FLEX Connectors</text>
 <text x="-431.8" y="-60.96" size="1.778" layer="91">3V @ Vi=25V</text>
 <text x="-477.52" y="-60.96" size="1.778" layer="91">LOW PASS FILTER
 Fc= 7Hz</text>
@@ -7416,8 +7415,8 @@ con zener de 3v9</text>
 <instance part="IN+" gate="G$1" x="-442.51" y="347.9788" smashed="yes" rot="R270">
 <attribute name="TP_SIGNAL_NAME" x="-443.78" y="345.4388" size="1.778" layer="97" rot="R270"/>
 </instance>
-<instance part="3V3MCU" gate="G$1" x="-442.51" y="337.8188" smashed="yes" rot="R270">
-<attribute name="TP_SIGNAL_NAME" x="-443.78" y="335.2788" size="1.778" layer="97" rot="R270"/>
+<instance part="3V3MCU" gate="G$1" x="-442.51" y="358.1388" smashed="yes" rot="R270">
+<attribute name="TP_SIGNAL_NAME" x="-443.78" y="355.5988" size="1.778" layer="97" rot="R270"/>
 </instance>
 <instance part="GND" gate="G$1" x="-381.55" y="337.8188" smashed="yes" rot="R270">
 <attribute name="TP_SIGNAL_NAME" x="-382.82" y="335.2788" size="1.778" layer="97" rot="R270"/>
@@ -7455,11 +7454,11 @@ con zener de 3v9</text>
 <instance part="VOSEN" gate="G$1" x="-381.55" y="358.1388" smashed="yes" rot="R270">
 <attribute name="TP_SIGNAL_NAME" x="-382.82" y="355.5988" size="1.778" layer="97" rot="R270"/>
 </instance>
-<instance part="SCL" gate="G$1" x="-353.61" y="347.9788" smashed="yes" rot="R270">
-<attribute name="TP_SIGNAL_NAME" x="-354.88" y="345.4388" size="1.778" layer="97" rot="R270"/>
+<instance part="SCL" gate="G$1" x="-442.51" y="337.8188" smashed="yes" rot="R270">
+<attribute name="TP_SIGNAL_NAME" x="-443.78" y="335.2788" size="1.778" layer="97" rot="R270"/>
 </instance>
-<instance part="SDA" gate="G$1" x="-353.61" y="353.0588" smashed="yes" rot="R270">
-<attribute name="TP_SIGNAL_NAME" x="-354.88" y="350.5188" size="1.778" layer="97" rot="R270"/>
+<instance part="SDA" gate="G$1" x="-442.51" y="342.8988" smashed="yes" rot="R270">
+<attribute name="TP_SIGNAL_NAME" x="-443.78" y="340.3588" size="1.778" layer="97" rot="R270"/>
 </instance>
 <instance part="R64" gate="G$1" x="-241.3" y="226.06" smashed="yes" rot="R90">
 <attribute name="NAME" x="-242.7986" y="222.25" size="1.778" layer="95" rot="R90"/>
@@ -8358,9 +8357,9 @@ con zener de 3v9</text>
 </segment>
 <segment>
 <pinref part="SCL" gate="G$1" pin="TP"/>
-<wire x1="-351.07" y1="347.9788" x2="-332.74" y2="347.9788" width="0.1524" layer="91"/>
-<wire x1="-332.74" y1="347.9788" x2="-332.74" y2="347.98" width="0.1524" layer="91"/>
-<label x="-345.44" y="347.98" size="1.778" layer="95"/>
+<wire x1="-439.97" y1="337.8188" x2="-421.64" y2="337.8188" width="0.1524" layer="91"/>
+<wire x1="-421.64" y1="337.8188" x2="-421.64" y2="337.82" width="0.1524" layer="91"/>
+<label x="-434.34" y="337.82" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="SDA" class="0">
@@ -8385,9 +8384,9 @@ con zener de 3v9</text>
 </segment>
 <segment>
 <pinref part="SDA" gate="G$1" pin="TP"/>
-<wire x1="-351.07" y1="353.0588" x2="-351.07" y2="353.06" width="0.1524" layer="91"/>
-<wire x1="-351.07" y1="353.06" x2="-332.74" y2="353.06" width="0.1524" layer="91"/>
-<label x="-345.44" y="353.06" size="1.778" layer="95"/>
+<wire x1="-439.97" y1="342.8988" x2="-439.97" y2="342.9" width="0.1524" layer="91"/>
+<wire x1="-439.97" y1="342.9" x2="-421.64" y2="342.9" width="0.1524" layer="91"/>
+<label x="-434.34" y="342.9" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="DSP_RST" class="0">
@@ -8670,9 +8669,9 @@ con zener de 3v9</text>
 </segment>
 <segment>
 <pinref part="3V3MCU" gate="G$1" pin="TP"/>
-<wire x1="-439.97" y1="337.8188" x2="-439.97" y2="337.82" width="0.1524" layer="91"/>
-<wire x1="-439.97" y1="337.82" x2="-421.64" y2="337.82" width="0.1524" layer="91"/>
-<label x="-436.88" y="337.82" size="1.778" layer="95"/>
+<wire x1="-439.97" y1="358.1388" x2="-439.97" y2="358.14" width="0.1524" layer="91"/>
+<wire x1="-439.97" y1="358.14" x2="-421.64" y2="358.14" width="0.1524" layer="91"/>
+<label x="-436.88" y="358.14" size="1.778" layer="95"/>
 </segment>
 <segment>
 <pinref part="U5" gate="G$1" pin="VCC"/>

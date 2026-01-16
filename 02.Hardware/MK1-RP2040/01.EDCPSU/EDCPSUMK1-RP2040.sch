@@ -6327,6 +6327,8 @@ Source: &lt;a href="https://www.bourns.com/docs/Product-Datasheets/PEC12R.pdf"&g
 <part name="S3" library="PEC12R-3220F-S0024" deviceset="PEC12R-3220F-S0024" device=""/>
 <part name="C1" library="SparkFun-Passives" deviceset="CAP" device="0805" value="100n 50v X7R/X5R"/>
 <part name="IN_OVC" library="BeagleBone_Blue_R3" deviceset="TESTPAD_TPSQ" device="B1,27"/>
+<part name="RX" library="BeagleBone_Blue_R3" deviceset="TESTPAD_TPSQ" device="B1,27"/>
+<part name="TX" library="BeagleBone_Blue_R3" deviceset="TESTPAD_TPSQ" device="B1,27"/>
 </parts>
 <sheets>
 <sheet>
@@ -6335,7 +6337,7 @@ Source: &lt;a href="https://www.bourns.com/docs/Product-Datasheets/PEC12R.pdf"&g
 <text x="25.4" y="-99.06" size="6.4516" layer="94">SENSING CONDITIONING</text>
 <text x="-622.3" y="43.18" size="6.4516" layer="94">TEST PADS</text>
 <text x="-320.04" y="429.26" size="11.5316" layer="94">MK1-RP2040
-v1-Jan-2023</text>
+v2-Abr-2024</text>
 <text x="50.8" y="335.28" size="1.778" layer="94">(DATA/COMMAND)</text>
 <text x="-66.04" y="383.54" size="1.778" layer="91">Overlap buzzer assy concentric</text>
 <text x="256.54" y="284.48" size="5.08" layer="91">ICSP</text>
@@ -7483,6 +7485,12 @@ que sea Ajustable</text>
 </instance>
 <instance part="IN_OVC" gate="G$1" x="-559.35" y="-10.1612" smashed="yes" rot="R270">
 <attribute name="TP_SIGNAL_NAME" x="-560.62" y="-12.7012" size="1.778" layer="97" rot="R270"/>
+</instance>
+<instance part="RX" gate="G$1" x="-620.31" y="-15.2412" smashed="yes" rot="R270">
+<attribute name="TP_SIGNAL_NAME" x="-621.58" y="-17.7812" size="1.778" layer="97" rot="R270"/>
+</instance>
+<instance part="TX" gate="G$1" x="-620.31" y="-10.1612" smashed="yes" rot="R270">
+<attribute name="TP_SIGNAL_NAME" x="-621.58" y="-12.7012" size="1.778" layer="97" rot="R270"/>
 </instance>
 </instances>
 <busses>
@@ -9610,12 +9618,25 @@ que sea Ajustable</text>
 <wire x1="-248.92" y1="200.66" x2="-269.24" y2="200.66" width="0.1524" layer="91"/>
 <label x="-266.7" y="200.66" size="1.778" layer="95"/>
 </segment>
+<segment>
+<wire x1="-617.22" y1="-10.16" x2="-599.44" y2="-10.16" width="0.1524" layer="91"/>
+<pinref part="TX" gate="G$1" pin="TP"/>
+<wire x1="-617.77" y1="-10.1612" x2="-617.22" y2="-10.1612" width="0.1524" layer="91"/>
+<wire x1="-617.22" y1="-10.1612" x2="-617.22" y2="-10.16" width="0.1524" layer="91"/>
+<label x="-612.14" y="-10.16" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="RX" class="0">
 <segment>
 <pinref part="U1" gate="G$1" pin="GPIO1"/>
 <wire x1="-248.92" y1="198.12" x2="-269.24" y2="198.12" width="0.1524" layer="91"/>
 <label x="-266.7" y="198.12" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="RX" gate="G$1" pin="TP"/>
+<wire x1="-617.77" y1="-15.2412" x2="-617.77" y2="-15.24" width="0.1524" layer="91"/>
+<wire x1="-617.77" y1="-15.24" x2="-599.44" y2="-15.24" width="0.1524" layer="91"/>
+<label x="-612.14" y="-15.24" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="N$82" class="0">
@@ -9898,10 +9919,10 @@ que sea Ajustable</text>
 </net>
 <net name="N$50" class="0">
 <segment>
-<wire x1="228.6" y1="152.4" x2="228.6" y2="50.8" width="0.1524" layer="91" style="shortdash"/>
-<wire x1="228.6" y1="50.8" x2="520.7" y2="50.8" width="0.1524" layer="91" style="shortdash"/>
+<wire x1="228.6" y1="149.86" x2="228.6" y2="48.26" width="0.1524" layer="91" style="shortdash"/>
+<wire x1="228.6" y1="48.26" x2="520.7" y2="50.8" width="0.1524" layer="91" style="shortdash"/>
 <wire x1="520.7" y1="50.8" x2="520.7" y2="152.4" width="0.1524" layer="91" style="shortdash"/>
-<wire x1="520.7" y1="152.4" x2="228.6" y2="152.4" width="0.1524" layer="91" style="shortdash"/>
+<wire x1="520.7" y1="152.4" x2="228.6" y2="149.86" width="0.1524" layer="91" style="shortdash"/>
 </segment>
 </net>
 <net name="N$57" class="0">

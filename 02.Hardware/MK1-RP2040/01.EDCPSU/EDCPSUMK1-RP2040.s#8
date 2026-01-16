@@ -4935,71 +4935,6 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <vertex x="-0.1905" y="-0.127"/>
 </polygon>
 </package>
-<package name="SMT-JUMPER_2_NO_NO-SILK" urn="urn:adsk.eagle:footprint:39252/1" library_version="1">
-<text x="0" y="1.143" size="0.6096" layer="25" font="vector" ratio="20" align="bottom-center">&gt;NAME</text>
-<text x="0" y="-1.143" size="0.6096" layer="27" font="vector" ratio="20" align="top-center">&gt;VALUE</text>
-<smd name="1" x="-0.4064" y="0" dx="0.635" dy="1.27" layer="1" cream="no"/>
-<smd name="2" x="0.4064" y="0" dx="0.635" dy="1.27" layer="1" cream="no"/>
-</package>
-<package name="SMT-JUMPER_2_NO_NO-SILK_ROUND" urn="urn:adsk.eagle:footprint:39253/1" library_version="1">
-<smd name="1" x="-1.27" y="0" dx="0.3048" dy="0.1524" layer="1" roundness="20" rot="R270" stop="no" thermals="no" cream="no"/>
-<smd name="2" x="1.27" y="0" dx="0.3048" dy="0.1524" layer="1" roundness="20" rot="R90" stop="no" thermals="no" cream="no"/>
-<text x="0" y="1.9685" size="0.6096" layer="25" font="vector" ratio="20" align="bottom-center">&gt;NAME</text>
-<text x="0" y="-1.9685" size="0.6096" layer="27" font="vector" ratio="20" align="top-center">&gt;VALUE</text>
-<polygon width="0.00508125" layer="1">
-<vertex x="0.111125" y="-1.42875" curve="85"/>
-<vertex x="1.381125" y="0" curve="85"/>
-<vertex x="0.111125" y="1.42875"/>
-</polygon>
-<polygon width="0.00508125" layer="1">
-<vertex x="-0.111125" y="1.42875"/>
-<vertex x="-0.111125" y="-1.42875" curve="-85"/>
-<vertex x="-1.381125" y="0" curve="-85"/>
-</polygon>
-<polygon width="0.2032" layer="29">
-<vertex x="0" y="1.42875" curve="-90"/>
-<vertex x="1.42875" y="0" curve="-90"/>
-<vertex x="0" y="-1.42875" curve="-90"/>
-<vertex x="-1.42875" y="0" curve="-90"/>
-</polygon>
-</package>
-<package name="SMT-JUMPER_2_NO_SILK" urn="urn:adsk.eagle:footprint:39254/1" library_version="1">
-<text x="0" y="1.143" size="0.6096" layer="25" font="vector" ratio="20" align="bottom-center">&gt;NAME</text>
-<text x="0" y="-1.143" size="0.6096" layer="27" font="vector" ratio="20" align="top-center">&gt;VALUE</text>
-<wire x1="0.8636" y1="-1.016" x2="-0.8636" y2="-1.016" width="0.1524" layer="21"/>
-<wire x1="0.8636" y1="1.016" x2="1.1176" y2="0.762" width="0.1524" layer="21" curve="-90"/>
-<wire x1="-1.1176" y1="0.762" x2="-0.8636" y2="1.016" width="0.1524" layer="21" curve="-90"/>
-<wire x1="-1.1176" y1="-0.762" x2="-0.8636" y2="-1.016" width="0.1524" layer="21" curve="90"/>
-<wire x1="0.8636" y1="-1.016" x2="1.1176" y2="-0.762" width="0.1524" layer="21" curve="90"/>
-<wire x1="1.1176" y1="-0.762" x2="1.1176" y2="0.762" width="0.1524" layer="21"/>
-<wire x1="-1.1176" y1="-0.762" x2="-1.1176" y2="0.762" width="0.1524" layer="21"/>
-<wire x1="-0.8636" y1="1.016" x2="0.8636" y2="1.016" width="0.1524" layer="21"/>
-<smd name="1" x="-0.4064" y="0" dx="0.635" dy="1.27" layer="1" cream="no"/>
-<smd name="2" x="0.4064" y="0" dx="0.635" dy="1.27" layer="1" cream="no"/>
-</package>
-<package name="SMT-JUMPER_2_NO_SILK_ROUND" urn="urn:adsk.eagle:footprint:39255/1" library_version="1">
-<smd name="1" x="-1.27" y="0" dx="0.3048" dy="0.1524" layer="1" roundness="20" rot="R270" stop="no" thermals="no" cream="no"/>
-<smd name="2" x="1.27" y="0" dx="0.3048" dy="0.1524" layer="1" roundness="20" rot="R90" stop="no" thermals="no" cream="no"/>
-<text x="0" y="1.9685" size="0.6096" layer="25" font="vector" ratio="20" align="bottom-center">&gt;NAME</text>
-<text x="0" y="-1.9685" size="0.6096" layer="27" font="vector" ratio="20" align="top-center">&gt;VALUE</text>
-<polygon width="0.00508125" layer="1">
-<vertex x="0.111125" y="-1.42875" curve="85"/>
-<vertex x="1.381125" y="0" curve="85"/>
-<vertex x="0.111125" y="1.42875"/>
-</polygon>
-<polygon width="0.00508125" layer="1">
-<vertex x="-0.111125" y="1.42875"/>
-<vertex x="-0.111125" y="-1.42875" curve="-85"/>
-<vertex x="-1.381125" y="0" curve="-85"/>
-</polygon>
-<polygon width="0.2032" layer="29">
-<vertex x="0" y="1.42875" curve="-90"/>
-<vertex x="1.42875" y="0" curve="-90"/>
-<vertex x="0" y="-1.42875" curve="-90"/>
-<vertex x="-1.42875" y="0" curve="-90"/>
-</polygon>
-<circle x="0" y="0" radius="1.74625" width="0.2032" layer="21"/>
-</package>
 <package name="SMT-JUMPER_2_NC_TRACE_SILK" urn="urn:adsk.eagle:footprint:39258/1" library_version="1">
 <wire x1="0.762" y1="-1.016" x2="-0.762" y2="-1.016" width="0.1524" layer="21"/>
 <wire x1="0.762" y1="1.016" x2="1.2192" y2="0.5588" width="0.1524" layer="21" curve="-90"/>
@@ -5028,26 +4963,6 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <packageinstance name="SMT-JUMPER_2_NC_TRACE_NO-SILK"/>
 </packageinstances>
 </package3d>
-<package3d name="SMT-JUMPER_2_NO_NO-SILK" urn="urn:adsk.eagle:package:39277/1" type="box" library_version="1">
-<packageinstances>
-<packageinstance name="SMT-JUMPER_2_NO_NO-SILK"/>
-</packageinstances>
-</package3d>
-<package3d name="SMT-JUMPER_2_NO_NO-SILK_ROUND" urn="urn:adsk.eagle:package:39278/1" type="box" library_version="1">
-<packageinstances>
-<packageinstance name="SMT-JUMPER_2_NO_NO-SILK_ROUND"/>
-</packageinstances>
-</package3d>
-<package3d name="SMT-JUMPER_2_NO_SILK" urn="urn:adsk.eagle:package:39279/1" type="box" library_version="1">
-<packageinstances>
-<packageinstance name="SMT-JUMPER_2_NO_SILK"/>
-</packageinstances>
-</package3d>
-<package3d name="SMT-JUMPER_2_NO_SILK_ROUND" urn="urn:adsk.eagle:package:39280/1" type="box" library_version="1">
-<packageinstances>
-<packageinstance name="SMT-JUMPER_2_NO_SILK_ROUND"/>
-</packageinstances>
-</package3d>
 <package3d name="SMT-JUMPER_2_NC_TRACE_SILK" urn="urn:adsk.eagle:package:39281/1" type="box" library_version="1">
 <packageinstances>
 <packageinstance name="SMT-JUMPER_2_NC_TRACE_SILK"/>
@@ -5062,16 +4977,6 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <wire x1="2.54" y1="0" x2="1.651" y2="0" width="0.1524" layer="94"/>
 <wire x1="-2.54" y1="0" x2="-1.651" y2="0" width="0.1524" layer="94"/>
 <wire x1="-0.762" y1="0" x2="1.016" y2="0" width="0.254" layer="94"/>
-<text x="-2.54" y="2.54" size="1.778" layer="95" font="vector">&gt;NAME</text>
-<text x="-2.54" y="-2.54" size="1.778" layer="96" font="vector" align="top-left">&gt;VALUE</text>
-<pin name="2" x="5.08" y="0" visible="off" length="short" direction="pas" swaplevel="1" rot="R180"/>
-<pin name="1" x="-5.08" y="0" visible="off" length="short" direction="pas" swaplevel="1"/>
-</symbol>
-<symbol name="SMT-JUMPER_2_NO" urn="urn:adsk.eagle:symbol:39251/1" library_version="1">
-<wire x1="0.381" y1="0.635" x2="0.381" y2="-0.635" width="1.27" layer="94" curve="-180" cap="flat"/>
-<wire x1="-0.381" y1="-0.635" x2="-0.381" y2="0.635" width="1.27" layer="94" curve="-180" cap="flat"/>
-<wire x1="2.54" y1="0" x2="1.651" y2="0" width="0.1524" layer="94"/>
-<wire x1="-2.54" y1="0" x2="-1.651" y2="0" width="0.1524" layer="94"/>
 <text x="-2.54" y="2.54" size="1.778" layer="95" font="vector">&gt;NAME</text>
 <text x="-2.54" y="-2.54" size="1.778" layer="96" font="vector" align="top-left">&gt;VALUE</text>
 <pin name="2" x="5.08" y="0" visible="off" length="short" direction="pas" swaplevel="1" rot="R180"/>
@@ -5111,68 +5016,6 @@ You are welcome to use this library for commercial purposes. For attribution, we
 </connects>
 <package3dinstances>
 <package3dinstance package3d_urn="urn:adsk.eagle:package:39281/1"/>
-</package3dinstances>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
-<deviceset name="JUMPER-SMT_2_NO" urn="urn:adsk.eagle:component:39297/1" prefix="JP" library_version="1">
-<description>&lt;h3&gt;Normally open jumper&lt;/h3&gt;
-&lt;p&gt;This jumper has two pads in close proximity to each other. Apply solder to close the connection.&lt;/p&gt;
-
-&lt;p&gt;Round pads are easier to solder for beginners, but are a lot larger.&lt;/p&gt;
-&lt;p&gt;SparkFun Product that uses the round pads:
-&lt;ul&gt;&lt;li&gt;&lt;a href="https://www.sparkfun.com/products/12781"&gt;SparkFun EL Sequencer&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/p&gt;</description>
-<gates>
-<gate name="G$1" symbol="SMT-JUMPER_2_NO" x="0" y="0"/>
-</gates>
-<devices>
-<device name="_NO-SILK" package="SMT-JUMPER_2_NO_NO-SILK">
-<connects>
-<connect gate="G$1" pin="1" pad="1"/>
-<connect gate="G$1" pin="2" pad="2"/>
-</connects>
-<package3dinstances>
-<package3dinstance package3d_urn="urn:adsk.eagle:package:39277/1"/>
-</package3dinstances>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-<device name="_NO-SILK_ROUND" package="SMT-JUMPER_2_NO_NO-SILK_ROUND">
-<connects>
-<connect gate="G$1" pin="1" pad="1"/>
-<connect gate="G$1" pin="2" pad="2"/>
-</connects>
-<package3dinstances>
-<package3dinstance package3d_urn="urn:adsk.eagle:package:39278/1"/>
-</package3dinstances>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-<device name="_SILK" package="SMT-JUMPER_2_NO_SILK">
-<connects>
-<connect gate="G$1" pin="1" pad="1"/>
-<connect gate="G$1" pin="2" pad="2"/>
-</connects>
-<package3dinstances>
-<package3dinstance package3d_urn="urn:adsk.eagle:package:39279/1"/>
-</package3dinstances>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-<device name="_SILK_ROUND" package="SMT-JUMPER_2_NO_SILK_ROUND">
-<connects>
-<connect gate="G$1" pin="1" pad="1"/>
-<connect gate="G$1" pin="2" pad="2"/>
-</connects>
-<package3dinstances>
-<package3dinstance package3d_urn="urn:adsk.eagle:package:39280/1"/>
 </package3dinstances>
 <technologies>
 <technology name=""/>
@@ -6441,22 +6284,17 @@ Source: &lt;a href="http://au.rs-online.com/web/p/products/8231502P"&gt; Datashe
 <part name="R58" library="SparkFun-Resistors" library_urn="urn:adsk.eagle:library:532" deviceset="RESISTOR" device="0805" package3d_urn="urn:adsk.eagle:package:39651/1" value="N.C"/>
 <part name="R60" library="SparkFun-Resistors" library_urn="urn:adsk.eagle:library:532" deviceset="RESISTOR" device="0805" package3d_urn="urn:adsk.eagle:package:39651/1" value="N.C"/>
 <part name="X1" library="ABM3C-12.000MHZ-D4Y-T" deviceset="ABM3C-12.000MHZ-D4Y-T" device=""/>
-<part name="USB_D+" library="SparkFun-Jumpers" library_urn="urn:adsk.eagle:library:528" deviceset="JUMPER-SMT_2_NO" device="_NO-SILK" package3d_urn="urn:adsk.eagle:package:39277/1"/>
-<part name="USB_D-" library="SparkFun-Jumpers" library_urn="urn:adsk.eagle:library:528" deviceset="JUMPER-SMT_2_NO" device="_NO-SILK" package3d_urn="urn:adsk.eagle:package:39277/1"/>
 <part name="FB_ADJ" library="SparkFun-Jumpers" library_urn="urn:adsk.eagle:library:528" deviceset="JUMPER-SMT_2_NC_TRACE" device="_NO-SILK" package3d_urn="urn:adsk.eagle:package:39286/1"/>
 <part name="C66" library="SparkFun-Passives" deviceset="CAP" device="0805" value="100n 50v X7R/X5R"/>
 <part name="GND75" library="SparkFun" deviceset="GND" device=""/>
 <part name="U$15" library="SparkFun-Aesthetics" deviceset="VCC-ISO" device="" value="3V3MCU"/>
 <part name="U$41" library="SparkFun-Aesthetics" deviceset="VCC-ISO" device="" value="3V3MCU"/>
-<part name="R38" library="SparkFun-Resistors" library_urn="urn:adsk.eagle:library:532" deviceset="RESISTOR" device="0805" package3d_urn="urn:adsk.eagle:package:39651/1" value="27R"/>
-<part name="R63" library="SparkFun-Resistors" library_urn="urn:adsk.eagle:library:532" deviceset="RESISTOR" device="0805" package3d_urn="urn:adsk.eagle:package:39651/1" value="27R"/>
 <part name="U$7" library="SparkFun-Aesthetics" deviceset="VCC-ISO" device="" value="3V3MCU"/>
 <part name="JP1" library="20021521-00010T1LF" deviceset="20021521-00010T1LF" device=""/>
 <part name="GND15" library="SparkFun" deviceset="GND" device=""/>
 <part name="VOUT" library="BeagleBone_Blue_R3" deviceset="TESTPAD_TPSQ" device="B1,27"/>
 <part name="OVC_ALARM" library="BeagleBone_Blue_R3" deviceset="TESTPAD_TPSQ" device="B1,27"/>
 <part name="IN+" library="BeagleBone_Blue_R3" deviceset="TESTPAD_TPSQ" device="B1,27"/>
-<part name="GND_IN" library="BeagleBone_Blue_R3" deviceset="TESTPAD_TPSQ" device="B1,27"/>
 <part name="3V3MCU" library="BeagleBone_Blue_R3" deviceset="TESTPAD_TPSQ" device="B1,27"/>
 <part name="GND" library="BeagleBone_Blue_R3" deviceset="TESTPAD_TPSQ" device="B1,27"/>
 <part name="SWDIO" library="BeagleBone_Blue_R3" deviceset="TESTPAD_TPSQ" device="B1,27"/>
@@ -6472,7 +6310,6 @@ Source: &lt;a href="http://au.rs-online.com/web/p/products/8231502P"&gt; Datashe
 <part name="VOSEN" library="BeagleBone_Blue_R3" deviceset="TESTPAD_TPSQ" device="B1,27"/>
 <part name="SCL" library="BeagleBone_Blue_R3" deviceset="TESTPAD_TPSQ" device="B1,27"/>
 <part name="SDA" library="BeagleBone_Blue_R3" deviceset="TESTPAD_TPSQ" device="B1,27"/>
-<part name="SEL" library="BeagleBone_Blue_R3" deviceset="TESTPAD_TPSQ" device="B1,27"/>
 <part name="R64" library="SparkFun-Resistors" library_urn="urn:adsk.eagle:library:532" deviceset="RESISTOR" device="0805" package3d_urn="urn:adsk.eagle:package:39651/1" value="2K2"/>
 <part name="R67" library="SparkFun-Resistors" library_urn="urn:adsk.eagle:library:532" deviceset="RESISTOR" device="0805" package3d_urn="urn:adsk.eagle:package:39651/1" value="2K2"/>
 <part name="U$42" library="SparkFun-Aesthetics" deviceset="VCC-ISO" device="" value="3V3MCU"/>
@@ -7544,12 +7381,6 @@ con zener de 3v9</text>
 <attribute name="NAME" x="-298.45" y="175.26" size="1.778" layer="95" align="center-left"/>
 <attribute name="VALUE" x="-298.45" y="172.72" size="1.778" layer="96" align="center-left"/>
 </instance>
-<instance part="USB_D+" gate="G$1" x="-177.8" y="289.56" smashed="yes" rot="R90">
-<attribute name="NAME" x="-180.34" y="287.02" size="1.778" layer="95" font="vector" rot="R90"/>
-</instance>
-<instance part="USB_D-" gate="G$1" x="-175.26" y="289.56" smashed="yes" rot="R90">
-<attribute name="NAME" x="-177.8" y="287.02" size="1.778" layer="95" font="vector" rot="R90"/>
-</instance>
 <instance part="FB_ADJ" gate="G$1" x="-378.46" y="55.88" smashed="yes" rot="R180">
 <attribute name="NAME" x="-375.92" y="53.34" size="1.778" layer="95" font="vector" rot="R180"/>
 </instance>
@@ -7565,14 +7396,6 @@ con zener de 3v9</text>
 </instance>
 <instance part="U$41" gate="G$1" x="-96.52" y="208.28" smashed="yes">
 <attribute name="VALUE" x="-97.536" y="211.836" size="1.778" layer="96"/>
-</instance>
-<instance part="R38" gate="G$1" x="-177.8" y="276.86" smashed="yes" rot="R270">
-<attribute name="NAME" x="-179.2986" y="280.67" size="1.778" layer="95" rot="R90"/>
-<attribute name="VALUE" x="-181.102" y="278.13" size="1.778" layer="96" rot="R270"/>
-</instance>
-<instance part="R63" gate="G$1" x="-175.26" y="276.86" smashed="yes" rot="R270">
-<attribute name="NAME" x="-171.6786" y="280.67" size="1.778" layer="95" rot="R90"/>
-<attribute name="VALUE" x="-173.482" y="278.13" size="1.778" layer="96" rot="R270"/>
 </instance>
 <instance part="U$7" gate="G$1" x="-142.24" y="83.82" smashed="yes">
 <attribute name="VALUE" x="-143.256" y="87.376" size="1.778" layer="96"/>
@@ -7592,9 +7415,6 @@ con zener de 3v9</text>
 </instance>
 <instance part="IN+" gate="G$1" x="-442.51" y="347.9788" smashed="yes" rot="R270">
 <attribute name="TP_SIGNAL_NAME" x="-443.78" y="345.4388" size="1.778" layer="97" rot="R270"/>
-</instance>
-<instance part="GND_IN" gate="G$1" x="-442.51" y="342.8988" smashed="yes" rot="R270">
-<attribute name="TP_SIGNAL_NAME" x="-443.78" y="340.3588" size="1.778" layer="97" rot="R270"/>
 </instance>
 <instance part="3V3MCU" gate="G$1" x="-442.51" y="337.8188" smashed="yes" rot="R270">
 <attribute name="TP_SIGNAL_NAME" x="-443.78" y="335.2788" size="1.778" layer="97" rot="R270"/>
@@ -7640,9 +7460,6 @@ con zener de 3v9</text>
 </instance>
 <instance part="SDA" gate="G$1" x="-353.61" y="353.0588" smashed="yes" rot="R270">
 <attribute name="TP_SIGNAL_NAME" x="-354.88" y="350.5188" size="1.778" layer="97" rot="R270"/>
-</instance>
-<instance part="SEL" gate="G$1" x="-353.61" y="358.1388" smashed="yes" rot="R270">
-<attribute name="TP_SIGNAL_NAME" x="-354.88" y="355.5988" size="1.778" layer="97" rot="R270"/>
 </instance>
 <instance part="R64" gate="G$1" x="-241.3" y="226.06" smashed="yes" rot="R90">
 <attribute name="NAME" x="-242.7986" y="222.25" size="1.778" layer="95" rot="R90"/>
@@ -9391,14 +9208,6 @@ con zener de 3v9</text>
 <wire x1="-421.64" y1="358.1388" x2="-421.64" y2="358.14" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="GND_IN" class="0">
-<segment>
-<pinref part="GND_IN" gate="G$1" pin="TP"/>
-<wire x1="-439.97" y1="342.8988" x2="-421.64" y2="342.8988" width="0.1524" layer="91"/>
-<wire x1="-421.64" y1="342.8988" x2="-421.64" y2="342.9" width="0.1524" layer="91"/>
-<label x="-436.88" y="342.9" size="1.778" layer="95"/>
-</segment>
-</net>
 <net name="IN+" class="0">
 <segment>
 <pinref part="R51" gate="G$1" pin="1"/>
@@ -9485,12 +9294,6 @@ con zener de 3v9</text>
 <pinref part="U1" gate="G$1" pin="GPIO25"/>
 <wire x1="-160.02" y1="215.9" x2="-139.7" y2="215.9" width="0.1524" layer="91"/>
 <label x="-154.94" y="215.9" size="1.778" layer="95"/>
-</segment>
-<segment>
-<pinref part="SEL" gate="G$1" pin="TP"/>
-<wire x1="-351.07" y1="358.1388" x2="-351.07" y2="358.14" width="0.1524" layer="91"/>
-<wire x1="-351.07" y1="358.14" x2="-332.74" y2="358.14" width="0.1524" layer="91"/>
-<label x="-345.44" y="358.14" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="PEDAL-" class="0">
@@ -9688,20 +9491,6 @@ con zener de 3v9</text>
 <wire x1="220.98" y1="-2.54" x2="220.98" y2="5.08" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="USB_D-" class="0">
-<segment>
-<wire x1="-175.26" y1="304.8" x2="-175.26" y2="294.64" width="0.1524" layer="91"/>
-<pinref part="USB_D-" gate="G$1" pin="2"/>
-<label x="-175.26" y="294.64" size="1.778" layer="95" rot="R90"/>
-</segment>
-</net>
-<net name="USB_D+" class="0">
-<segment>
-<wire x1="-177.8" y1="304.8" x2="-177.8" y2="294.64" width="0.1524" layer="91"/>
-<pinref part="USB_D+" gate="G$1" pin="2"/>
-<label x="-177.8" y="294.64" size="1.778" layer="95" rot="R90"/>
-</segment>
-</net>
 <net name="N$19" class="0">
 <segment>
 <pinref part="R30" gate="G$1" pin="2"/>
@@ -9794,7 +9583,6 @@ con zener de 3v9</text>
 <pinref part="U1" gate="G$1" pin="USB_DP"/>
 <wire x1="-177.8" y1="251.46" x2="-177.8" y2="271.78" width="0.1524" layer="91"/>
 <label x="-177.8" y="254" size="1.778" layer="95" rot="R90"/>
-<pinref part="R38" gate="G$1" pin="2"/>
 </segment>
 </net>
 <net name="USB_DM" class="0">
@@ -9802,7 +9590,6 @@ con zener de 3v9</text>
 <pinref part="U1" gate="G$1" pin="USB_DM"/>
 <wire x1="-175.26" y1="251.46" x2="-175.26" y2="271.78" width="0.1524" layer="91"/>
 <label x="-175.26" y="254" size="1.778" layer="95" rot="R90"/>
-<pinref part="R63" gate="G$1" pin="2"/>
 </segment>
 </net>
 <net name="TX" class="0">
@@ -10007,20 +9794,6 @@ con zener de 3v9</text>
 <pinref part="R15" gate="G$1" pin="2"/>
 <wire x1="-358.14" y1="55.88" x2="-358.14" y2="58.42" width="0.1524" layer="91"/>
 <junction x="-358.14" y="55.88"/>
-</segment>
-</net>
-<net name="N$64" class="0">
-<segment>
-<pinref part="USB_D+" gate="G$1" pin="1"/>
-<pinref part="R38" gate="G$1" pin="1"/>
-<wire x1="-177.8" y1="281.94" x2="-177.8" y2="284.48" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$65" class="0">
-<segment>
-<pinref part="USB_D-" gate="G$1" pin="1"/>
-<pinref part="R63" gate="G$1" pin="1"/>
-<wire x1="-175.26" y1="281.94" x2="-175.26" y2="284.48" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="SWO" class="0">
